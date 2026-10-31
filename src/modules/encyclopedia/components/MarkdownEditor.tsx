@@ -1,5 +1,5 @@
 import { autocompletion, closeBrackets, type CompletionContext, type CompletionResult } from '@codemirror/autocomplete'
-import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands'
+import { defaultKeymap, history, historyKeymap } from '@codemirror/commands'
 import { markdown } from '@codemirror/lang-markdown'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { EditorState } from '@codemirror/state'
@@ -27,7 +27,7 @@ const highlight = HighlightStyle.define([
   { tag: tags.heading, fontWeight: '800', color: 'var(--ink)' },
   { tag: tags.strong, fontWeight: '700' },
   { tag: tags.emphasis, fontStyle: 'italic' },
-  { tag: tags.link, color: 'var(--chapter, var(--focus))' },
+  { tag: tags.link, color: 'var(--ink-2)', textDecoration: 'underline' },
   { tag: tags.url, color: 'var(--ink-3)' },
   { tag: tags.quote, color: 'var(--ink-2)', fontStyle: 'italic' },
   { tag: tags.monospace, fontFamily: 'ui-monospace, Menlo, Consolas, monospace' },
@@ -70,15 +70,22 @@ function wikiCompletion(getTitles: () => TitleOption[]) {
     const before = ctx.matchBefore(/\[\[[^[\]|\n]*$/)
     if (!before) return null
     const from = before.from + 2
-    const after = ctx.state.sliceDoc(ctx.pos, ctx.pos + 2)
-    const closing = after === ']]' ? '' : ']]'
     return {
       from,
       options: getTitles().map((t) => ({
         label: t.title,
         detail: t.detail,
         type: 'text',
-        apply: t.title + closing,
+        // Insert the title, close the link if needed, and put the caret after "]]".
+        apply: (view: EditorView, _completion: unknown, applyFrom: number, applyTo: number) => {
+          const hasClosing = view.state.sliceDoc(applyTo, applyTo + 2) === ']]'
+          const insert = t.title + (hasClosing ? '' : ']]')
+          view.dispatch({
+            changes: { from: applyFrom, to: applyTo, insert },
+            selection: { anchor: applyFrom + t.title.length + 2 },
+            userEvent: 'input.complete',
+          })
+        },
       })),
       validFor: /^[^[\]|\n]*$/,
     }
@@ -118,7 +125,6 @@ export function MarkdownEditor({ value, onChange, titles, lang, label, placehold
             },
             ...defaultKeymap,
             ...historyKeymap,
-            indentWithTab,
           ]),
           EditorView.contentAttributes.of({ lang, spellcheck: 'true', 'aria-label': label, 'aria-multiline': 'true' }),
           EditorView.updateListener.of((u) => {

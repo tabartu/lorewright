@@ -30,12 +30,12 @@ export function WorldHome() {
   return (
     <div className={styles.page}>
       <header className={styles.titlePage}>
-        <p className={styles.meta}>
-          {[world.genre, world.tone, fmt.languageName(world.contentLanguage)].filter(Boolean).join(' · ')}
-        </p>
         <h1 className={styles.title} lang={world.contentLanguage}>
           {world.name}
         </h1>
+        <p className={styles.meta} lang={world.contentLanguage}>
+          {[world.genre, world.tone, fmt.languageName(world.contentLanguage)].filter(Boolean).join(' · ')}
+        </p>
         {world.summary ? (
           <p className={styles.summary} lang={world.contentLanguage}>
             {world.summary}

@@ -33,7 +33,7 @@ h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol {
   margin: 0;
 }
 
-ul[role='list'], ol[role='list'] {
+:where(ul[role='list'], ol[role='list']) {
   list-style: none;
   padding: 0;
 }

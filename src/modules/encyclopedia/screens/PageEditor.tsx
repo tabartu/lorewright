@@ -70,7 +70,9 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
   const dirty = useMemo(() => JSON.stringify(draft) !== JSON.stringify(initial), [draft, initial])
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) =>
-      dirty && !allowLeave.current && currentLocation.pathname !== nextLocation.pathname,
+      dirty &&
+      !allowLeave.current &&
+      currentLocation.pathname + currentLocation.search !== nextLocation.pathname + nextLocation.search,
   )
 
   useEffect(() => {
@@ -157,7 +159,18 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
   ]
 
   return (
-    <form className={styles.editor} data-ink={category?.ink} onSubmit={onSubmit} noValidate>
+    <form
+      className={styles.editor}
+      data-ink={category?.ink}
+      onSubmit={onSubmit}
+      noValidate
+      onKeyDown={(e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+          e.preventDefault()
+          void save()
+        }
+      }}
+    >
       <div className={styles.toolbar}>
         <div className={styles.toolbarInner}>
           <p className={styles.toolbarTitle}>

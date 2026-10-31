@@ -1,5 +1,6 @@
 .field {
   display: grid;
+  align-content: start;
   gap: var(--s-1);
   min-inline-size: 0;
 }
@@ -13,8 +14,9 @@
 }
 .input {
   inline-size: 100%;
-  min-block-size: 2.625rem;
+  min-block-size: 2.75rem;
   padding-block: var(--s-2);
+  line-height: 1.4;
   padding-inline: var(--s-3);
   border: 1px solid var(--rule-strong);
   border-radius: var(--radius);

@@ -90,7 +90,7 @@ export function WorldsShelf() {
               {worlds.map((w) => (
                 <li key={w.id}>
                   <Link to={`/w/${w.id}`} className={styles.cover} data-cover={w.cover}>
-                    <span className={styles.coverTop}>
+                    <span className={styles.coverTop} lang={w.contentLanguage}>
                       {[w.genre, fmt.languageName(w.contentLanguage)].filter(Boolean).join(' · ')}
                     </span>
                     <span className={styles.coverTitle} lang={w.contentLanguage}>

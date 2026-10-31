@@ -13,7 +13,7 @@ interface BuiltInSpec {
  */
 export const BUILT_IN_SPECS: Record<BuiltInCategory, BuiltInSpec> = {
   character: {
-    ink: 'vermilion',
+    ink: 'cyan',
     icon: 'user-round',
     fields: [
       ['born', 'worldDate'],

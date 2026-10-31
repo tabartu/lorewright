@@ -9,15 +9,12 @@
   border-block-end: 6px double var(--cover);
 }
 .meta {
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  font-stretch: var(--stretch-semi);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink-2);
 }
 .title {
-  margin-block-start: var(--s-2);
   font-size: clamp(2.5rem, 7vw, 5.5rem);
   font-weight: 850;
   font-stretch: var(--stretch-condensed);
