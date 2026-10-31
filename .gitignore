@@ -33,3 +33,6 @@ coverage/
 Thumbs.db
 *.suo
 *.sw?
+
+# Impeccable engine binaries (launcher downloads a checksum-verified copy on demand)
+.claude/skills/impeccable/scripts/bin/
