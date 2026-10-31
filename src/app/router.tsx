@@ -18,6 +18,8 @@ function moduleRoutes(): RouteObject[] {
 export const router = createHashRouter([
   {
     element: <AppFrame />,
+    // Lazy routes (editor, timeline, graph) render nothing while their code loads.
+    HydrateFallback: () => null,
     children: [
       { index: true, element: <WorldsShelf /> },
       { path: 'worlds/new', element: <WorldCreate /> },
