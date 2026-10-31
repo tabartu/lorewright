@@ -6,7 +6,7 @@ Lorewright is a local-first wiki for game developers to write and manage the lor
 
 Its first module, the **Lore Encyclopedia**, keeps a world as a sourcebook. Categories are chapters, pages are entries, and every entry can link to any other. Everything is stored in your browser: no server and no account.
 
-> **Status:** in development. Stage 1 of 6 is done (worlds, pages, chapters, internal links, EN/TR interface). See [docs/PLAN.md](docs/PLAN.md) for the roadmap.
+> **Status:** in development. Stages 1–2 of 6 are done (worlds, pages, chapters, internal links, search, backlinks, stat blocks, EN/TR interface). See [docs/PLAN.md](docs/PLAN.md) for the roadmap.
 
 ## Features
 
@@ -20,6 +20,15 @@ Available now:
   - Renaming a page updates every link that points to it.
   - Aliases ("also known as") resolve links too.
 - **Wanted pages.** The world home lists red links, ranked by how often they're used.
+- **Search.** Press Ctrl/⌘+K anywhere in a world to search titles, aliases and text.
+  - Case and accents don't matter, Turkish dotted/dotless i included: `istanbul` finds *İstanbul*, `isikli` finds *Işıklı*.
+  - The same palette jumps to chapters and settings, and creates a page from what you typed.
+- **Backlinks.** Every page lists the pages that link to it, from their text or their stat block.
+- **Stat blocks (infoboxes).** Each chapter has fields, such as born, species, affiliation and home for characters.
+  - Field types: short and long text, number, world date, link(s) to pages, choice list, tags, yes/no.
+  - Page-link fields count as links, so they show in backlinks and red links.
+  - Add your own fields to any chapter under **Edit chapters**.
+  - Event pages have a date range in the world's calendar.
 - **Editor.** CodeMirror with `[[` autocomplete, live preview or side-by-side view, Ctrl/⌘+S to save, and a guard against losing unsaved changes.
 - **Multilingual interface.** English and Turkish are included.
   - The browser language is detected on first visit, and your choice is remembered.
@@ -30,7 +39,6 @@ Available now:
 
 Planned, see [docs/PLAN.md](docs/PLAN.md):
 
-- search (Ctrl/⌘+K), backlinks and infobox editing
 - timeline and relationship graph
 - maps
 - AI assistance with multiple providers

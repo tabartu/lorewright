@@ -6,7 +6,7 @@ Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönetti
 
 İlk modül **Lore Ansiklopedisi**, dünyayı bir kaynak kitap gibi tutar: kategoriler bölüm, sayfalar maddedir ve her madde diğerlerine bağlantı verebilir. Her şey tarayıcında saklanır; sunucu yok, hesap gerekmez.
 
-> **Durum:** geliştiriliyor. 6 aşamadan 1. aşama tamam: dünyalar, sayfalar, bölümler, iç bağlantılar, EN/TR arayüz. Yol haritası için [docs/PLAN.md](docs/PLAN.md) dosyasına bak.
+> **Durum:** geliştiriliyor. 6 aşamadan ilk 2'si tamam: dünyalar, sayfalar, bölümler, iç bağlantılar, arama, geri bağlantılar, bilgi kutuları, EN/TR arayüz. Yol haritası için [docs/PLAN.md](docs/PLAN.md) dosyasına bak.
 
 ## Özellikler
 
@@ -20,6 +20,15 @@ Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönetti
   - Bir sayfanın adı değişince ona giden tüm bağlantılar güncellenir.
   - Takma adlar ("diğer adları") da bağlantıları çözer.
 - **Aranan sayfalar.** Dünya ana sayfası kırmızı bağlantıları, en çok kullanılandan başlayarak listeler.
+- **Arama.** Bir dünyanın içindeyken Ctrl/⌘+K ile başlıklarda, takma adlarda ve metinde ara.
+  - Büyük-küçük harf ve aksanlar fark etmez, Türkçe noktalı/noktasız i dahil: `istanbul` *İstanbul*'u, `isikli` *Işıklı*'yı bulur.
+  - Aynı pencereden bölümlere ve ayarlara gidebilir, yazdığın adla yeni sayfa oluşturabilirsin.
+- **Geri bağlantılar.** Her sayfa, metninde ya da bilgi kutusunda ona bağlantı veren sayfaları listeler.
+- **Bilgi kutuları (infobox).** Her bölümün alanları vardır; örneğin karakterler için doğum, tür, bağlılık ve yurdu.
+  - Alan türleri: kısa ve uzun metin, sayı, dünya tarihi, sayfa bağlantısı (tek ya da çok), seçim listesi, etiketler, evet/hayır.
+  - Sayfa bağlantısı alanları bağlantı sayılır; geri bağlantılarda ve kırmızı bağlantılarda görünür.
+  - **Bölümleri düzenle** ekranından herhangi bir bölüme kendi alanlarını ekleyebilirsin.
+  - Olay sayfalarının dünyanın takviminde bir tarih aralığı vardır.
 - **Düzenleyici.** CodeMirror; `[[` otomatik tamamlama, önizleme ya da yan yana görünüm, Ctrl/⌘+S ile kaydetme ve kaydedilmemiş değişikliklerin kaybolmasına karşı uyarı.
 - **Çok dilli arayüz.** İngilizce ve Türkçe hazır.
   - İlk açılışta tarayıcı dili algılanır, seçimin hatırlanır.
@@ -30,7 +39,6 @@ Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönetti
 
 Planlananlar ([docs/PLAN.md](docs/PLAN.md)):
 
-- arama (Ctrl/⌘+K), geri bağlantılar ve bilgi kutusu (infobox) düzenleme
 - zaman çizelgesi ve ilişki ağı
 - harita
 - birden fazla sağlayıcıyla yapay zekâ desteği
