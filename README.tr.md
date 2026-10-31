@@ -59,6 +59,15 @@ Vite'ın verdiği adresi aç (genellikle http://localhost:5173). İlk açılış
 | `npm run css:check` | Fiziksel CSS özelliği varsa hata verir (RTL uyumluluğunu korur) |
 | `npm run check` | Yukarıdakilerin hepsi ve lint |
 
+## GitHub Pages'e yayınlama
+
+`.github/workflows/deploy.yml`, `main` dalına yapılan her push'ta tüm denetimleri çalıştırır, uygulamayı derler ve yayınlar. Vite `base` ayarı depo adından alınır, bu yüzden uygulama `https://<kullanıcı>.github.io/<depo>/` adresinde açılır. Hash yönlendirme sayesinde doğrudan bağlantılar sunucu ayarı gerekmeden çalışır.
+
+Bir kerelik ayar:
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+2. Ücretsiz GitHub planında Pages'in çalışması için deponun public olması gerekir.
+
 ## Verilerin
 
 Tüm dünyalar tarayıcının IndexedDB'sinde, `lorewright` adlı veritabanında durur. Hiçbir şey bilgisayarından çıkmaz. Uygulamanın site verilerini silersen dünyaların da silinir. JSON yedekleme ve geri yükleme 6. aşamada geliyor.

@@ -59,6 +59,15 @@ Open the URL Vite prints (usually http://localhost:5173). On first run, pick **O
 | `npm run css:check` | Fail on physical CSS properties (keeps layouts RTL-ready) |
 | `npm run check` | All of the above plus lint |
 
+## Deploying to GitHub Pages
+
+`.github/workflows/deploy.yml` runs every check, builds, and publishes the app on each push to `main`. The Vite `base` comes from the repository name, so the app is served at `https://<user>.github.io/<repo>/`. Hash routing means deep links work without server rewrites.
+
+One-time setup:
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+2. On a free GitHub plan, the repository must be public for Pages to work.
+
 ## Your data
 
 All worlds live in your browser's IndexedDB, in a database named `lorewright`. Nothing leaves your machine. Clearing site data for the app deletes your worlds. JSON backup and restore arrive in stage 6.
