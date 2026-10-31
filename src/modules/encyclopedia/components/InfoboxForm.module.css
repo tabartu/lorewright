@@ -172,3 +172,6 @@ select.input {
 :dir(rtl) select.input {
   background-position: 1.1rem 55%, 0.8rem 55%;
 }
+.chipInput::placeholder {
+  color: var(--ink-3);
+}

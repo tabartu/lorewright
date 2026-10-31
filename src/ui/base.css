@@ -66,7 +66,9 @@ h1, h2, h3 {
   hyphens: auto;
 }
 
-p {
+p,
+li,
+dd {
   text-wrap: pretty;
 }
 
