@@ -1,6 +1,6 @@
 import { Command } from 'cmdk'
 import { BookOpen, FilePlus2, Home, Library, Settings, Settings2 } from 'lucide-react'
-import { useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { useRecentPages } from '../../core/lore/api'
@@ -24,7 +24,9 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
-  const index = useWorldSearchIndex(world.id, open)
+  // Kept warm while the world is open, so typing right after Ctrl+K never races the index.
+  const index = useWorldSearchIndex(world.id)
+  const [selected, setSelected] = useState('')
   const recent = useRecentPages(open ? world.id : undefined, 6)
   const byId = useMemo(() => new Map(categories.map((c) => [c.id, c])), [categories])
   const base = `/w/${world.id}`
@@ -35,6 +37,14 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
     ? categories.filter((c) => foldKey(categoryName(c, t, true)).includes(folded) || foldKey(categoryName(c, t)).includes(folded))
     : []
   const exact = hits.some((h) => foldKey(h.title) === folded)
+  const firstValue = hits[0] ? `page:${hits[0].id}` : chapterHits[0] ? `chapter:${chapterHits[0].id}` : query.trim() ? 'create' : ''
+  // Whenever results change, the best match is selected, never a stale action.
+  useEffect(() => setSelected(firstValue), [firstValue])
+  const status = !query.trim()
+    ? ''
+    : !index
+      ? t('encyclopedia:search.loading')
+      : t('encyclopedia:search.status', { count: hits.length + chapterHits.length })
 
   function go(to: string) {
     onOpenChange(false)
@@ -58,6 +68,8 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
       }}
       label={t('encyclopedia:search.label', { world: world.name })}
       shouldFilter={false}
+      value={selected}
+      onValueChange={setSelected}
       loop
       overlayClassName={styles.overlay}
       contentClassName={styles.content}
@@ -72,6 +84,9 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
           lang={world.contentLanguage}
         />
         <kbd className={styles.esc}>{t('encyclopedia:search.escKey')}</kbd>
+        <button type="button" className={styles.close} onClick={() => onOpenChange(false)}>
+          {t('common:action.close')}
+        </button>
       </div>
       <Command.List className={styles.list}>
         {query.trim() && index && hits.length === 0 && chapterHits.length === 0 && (
@@ -115,7 +130,7 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
           </Command.Group>
         )}
 
-        {query.trim() && !exact && (
+        {query.trim() && index && !exact && (
           <Command.Group heading={t('encyclopedia:search.actions')} className={styles.group}>
             <Command.Item
               value="create"
@@ -159,6 +174,9 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
           </>
         )}
       </Command.List>
+      <p className="visually-hidden" role="status" aria-live="polite">
+        {status}
+      </p>
       <p className={styles.footer}>{t('encyclopedia:search.hint')}</p>
     </Command.Dialog>
   )

@@ -109,10 +109,11 @@
     "graphite": "Grafit"
   },
   "date": {
-    "year": "{{year}} {{era}}",
+    "year": "{{year}}. yıl",
     "monthYear": "{{month}} {{year}} {{era}}",
     "dayMonthYear": "{{day}} {{month}} {{year}} {{era}}",
-    "approximate": "yak. {{date}}"
+    "approximate": "yak. {{date}}",
+    "yearEra": "{{year}} {{era}}"
   },
   "world": {
     "name": "Dünyanın adı",
@@ -240,7 +241,10 @@
     "create": "“{{title}}” adında bir sayfa oluştur",
     "goTo": "Git",
     "worldHome": "Dünya ana sayfası",
-    "hint": "↑ ↓ ile gezin · Enter ile aç · Esc ile kapat"
+    "hint": "↑ ↓ ile gezin · Enter ile aç · Esc ile kapat",
+    "loading": "Dizin yükleniyor…",
+    "status_one": "{{count}} sonuç",
+    "status_other": "{{count}} sonuç"
   },
   "backlinks": {
     "title": "Bu sayfaya bağlantı verenler",
@@ -257,7 +261,8 @@
     "year": "Yıl",
     "month": "Ay",
     "day": "Gün",
-    "approximate": "Yaklaşık"
+    "approximate": "Yaklaşık",
+    "endBeforeStart": "Bitiş tarihi başlangıç tarihinden önce."
   },
   "fieldType": {
     "text": "Kısa metin",
@@ -285,9 +290,8 @@
     "title": "{{chapter}}: alanlar",
     "lede": "Bu alanlar, bu bölümdeki her sayfanın bilgi kutusunu oluşturur. Hazır alanların sırası değiştirilebilir; kendi eklediğin alanlar kaldırılabilir de.",
     "empty": "Bu bölümün henüz alanı yok. Aşağıdan ekle.",
-    "moveUp": "Yukarı taşı",
-    "moveDown": "Aşağı taşı",
-    "deleteHint": "Bu alanı kaldır. Girilmiş değerler saklanır ama artık gösterilmez.",
+    "moveUp": "{{field}} alanını yukarı taşı",
+    "moveDown": "{{field}} alanını aşağı taşı",
     "addTitle": "Alan ekle",
     "label": "Alan adı",
     "labelPlaceholder": "ör. Unvan, Bağlılık, Zayıflık",
@@ -295,6 +299,10 @@
     "options": "Seçenekler",
     "optionsHint": "Seçenekleri virgülle ayır.",
     "optionsRequired": "Seçim alanı için en az bir seçenek gerekir.",
-    "add": "Alanı ekle"
+    "add": "Alanı ekle",
+    "delete": "{{field}} alanını kaldır",
+    "deleteConfirm": "“{{field}}” alanı kaldırılsın mı?",
+    "deleteBody_one": "{{count}} sayfada bu alanda bir değer var. Değer saklanır ama artık gösterilmez.",
+    "deleteBody_other": "{{count}} sayfada bu alanda bir değer var. Değerler saklanır ama artık gösterilmez."
   }
 }

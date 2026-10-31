@@ -68,7 +68,12 @@ export function PageReader() {
           <div className={styles.headMeta}>
             <p className={styles.metaLine}>
               <span className={styles.metaCategory}>{singular}</span>
-              {page.date && <span lang={world.contentLanguage}>{fmt.worldDate(page.date, world.calendar)}</span>}
+              {page.date && (
+                <span lang={world.contentLanguage}>
+                  {fmt.worldDate(page.date, world.calendar)}
+                  {page.endDate && ` – ${fmt.worldDate(page.endDate, world.calendar)}`}
+                </span>
+              )}
               {page.aliases.length > 0 && (
                 <span lang={world.contentLanguage}>
                   {t('encyclopedia:page.alsoKnownAs', { names: page.aliases.join(', ') })}

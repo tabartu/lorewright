@@ -30,8 +30,12 @@
   overflow-wrap: anywhere;
 }
 .type {
-  font-size: var(--fs-sm);
-  color: var(--chapter, var(--ink-2));
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  font-stretch: var(--stretch-semi);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
 }
 .options {
   font-size: var(--fs-xs);
@@ -62,4 +66,14 @@
 }
 .typeHelp {
   font-size: var(--fs-sm);
+}
+.renameForm {
+  display: grid;
+  gap: var(--s-3);
+  inline-size: 100%;
+  padding-block: var(--s-2);
+}
+.renameActions {
+  display: flex;
+  gap: var(--s-2);
 }

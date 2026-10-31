@@ -109,10 +109,11 @@
     "graphite": "Graphite"
   },
   "date": {
-    "year": "Year {{year}} {{era}}",
+    "year": "Year {{year}}",
     "monthYear": "{{month}}, year {{year}} {{era}}",
     "dayMonthYear": "{{day}} {{month}}, year {{year}} {{era}}",
-    "approximate": "c. {{date}}"
+    "approximate": "c. {{date}}",
+    "yearEra": "{{year}} {{era}}"
   },
   "world": {
     "name": "World name",
@@ -240,7 +241,10 @@
     "create": "Create a page called “{{title}}”",
     "goTo": "Go to",
     "worldHome": "World home",
-    "hint": "↑ ↓ to move · Enter to open · Esc to close"
+    "hint": "↑ ↓ to move · Enter to open · Esc to close",
+    "loading": "Loading the index…",
+    "status_one": "{{count}} result",
+    "status_other": "{{count}} results"
   },
   "backlinks": {
     "title": "Pages that link here",
@@ -257,7 +261,8 @@
     "year": "Year",
     "month": "Month",
     "day": "Day",
-    "approximate": "Approximate"
+    "approximate": "Approximate",
+    "endBeforeStart": "The end date is earlier than the start date."
   },
   "fieldType": {
     "text": "Short text",
@@ -285,9 +290,8 @@
     "title": "{{chapter}}: fields",
     "lede": "These fields make up the stat block of every page in this chapter. Built-in fields can be reordered; your own can also be removed.",
     "empty": "This chapter has no fields yet. Add one below.",
-    "moveUp": "Move up",
-    "moveDown": "Move down",
-    "deleteHint": "Remove this field. Values already entered stay stored but are no longer shown.",
+    "moveUp": "Move {{field}} up",
+    "moveDown": "Move {{field}} down",
     "addTitle": "Add a field",
     "label": "Field name",
     "labelPlaceholder": "e.g. Title, Allegiance, Weakness",
@@ -295,6 +299,10 @@
     "options": "Options",
     "optionsHint": "Separate options with commas.",
     "optionsRequired": "A choice field needs at least one option.",
-    "add": "Add field"
+    "add": "Add field",
+    "delete": "Remove {{field}}",
+    "deleteConfirm": "Remove the field “{{field}}”?",
+    "deleteBody_one": "{{count}} page has a value in this field. The value stays stored but is no longer shown.",
+    "deleteBody_other": "{{count}} pages have a value in this field. The values stay stored but are no longer shown."
   }
 }

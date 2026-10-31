@@ -2,6 +2,7 @@ import { X } from 'lucide-react'
 import { useId, useState, type KeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { fieldLabel, isPageRef, isWorldDate, optionLabel, type PageRefValue } from '../../../core/lore/fields'
+import { foldKey } from '../../../core/lore/normalize'
 import type { Calendar, FieldDef, WorldDate } from '../../../core/lore/types'
 import styles from './InfoboxForm.module.css'
 
@@ -13,7 +14,7 @@ interface InfoboxFormProps {
   calendar: Calendar
   lang: string
   /** Event chapters also edit the page's own date range. */
-  dates?: { date?: WorldDate; endDate?: WorldDate; onDate: (d?: WorldDate) => void; onEndDate: (d?: WorldDate) => void }
+  dates?: { date?: WorldDate; endDate?: WorldDate; error?: string; onDate: (d?: WorldDate) => void; onEndDate: (d?: WorldDate) => void }
 }
 
 /** Edits a page's stat block. Empty fields are dropped on save. */
@@ -33,11 +34,12 @@ export function InfoboxForm({ fields, values, onChange, titles, calendar, lang, 
         {dates && (
           <>
             <DateField label={t('encyclopedia:field.date')} value={dates.date} onChange={dates.onDate} calendar={calendar} />
-            <DateField label={t('encyclopedia:field.endDate')} value={dates.endDate} onChange={dates.onEndDate} calendar={calendar} />
+            <DateField label={t('encyclopedia:field.endDate')} value={dates.endDate} onChange={dates.onEndDate} calendar={calendar}
+              disabled={!dates.date} error={dates.error} />
           </>
         )}
         {fields.map((f) => (
-          <FieldInput key={f.id} field={f} value={values[f.id]} onChange={(v) => onChange(f.id, v)} listId={listId} calendar={calendar} lang={lang} />
+          <FieldInput key={f.id} field={f} value={values[f.id]} onChange={(v) => onChange(f.id, v)} listId={listId} calendar={calendar} lang={lang} titles={titles} />
         ))}
       </div>
     </fieldset>
@@ -51,7 +53,9 @@ function FieldInput({
   listId,
   calendar,
   lang,
+  titles,
 }: {
+  titles: string[]
   field: FieldDef
   value: unknown
   onChange: (v: unknown) => void
@@ -75,6 +79,7 @@ function FieldInput({
           onChange={(v) => onChange(v.length ? v : undefined)}
           listId={listId}
           lang={lang}
+          suggestions={titles}
         />
       )
     case 'boolean':
@@ -153,7 +158,7 @@ function TagsInput({ id, value, onChange, lang }: { id: string; value: string[];
 }
 
 /** Year (required), optional month and day, and an "approximate" flag. */
-function DateField({ label, value, onChange, calendar }: { label: string; value?: WorldDate; onChange: (v?: WorldDate) => void; calendar: Calendar }) {
+function DateField({ label, value, onChange, calendar, disabled, error }: { label: string; value?: WorldDate; onChange: (v?: WorldDate) => void; calendar: Calendar; disabled?: boolean; error?: string }) {
   const { t } = useTranslation()
   const id = useId()
   const set = (patch: Partial<WorldDate>) => {
@@ -168,7 +173,8 @@ function DateField({ label, value, onChange, calendar }: { label: string; value?
       <div className={styles.dateRow}>
         <label className={styles.datePart}>
           <span className={styles.subLabel}>{t('encyclopedia:infobox.year')}</span>
-          <input id={id} type="number" inputMode="numeric" className={styles.input}
+          <input id={id} type="number" inputMode="numeric" className={styles.input} disabled={disabled}
+            aria-invalid={error ? true : undefined}
             value={value && Number.isFinite(value.year) ? value.year : ''}
             onChange={(e) => (e.target.value === '' ? onChange(undefined) : set({ year: Math.trunc(Number(e.target.value)) }))} />
         </label>
@@ -198,17 +204,26 @@ function DateField({ label, value, onChange, calendar }: { label: string; value?
         <input type="checkbox" checked={!!value?.approximate} disabled={!value} onChange={(e) => set({ approximate: e.target.checked || undefined })} />
         <span>{t('encyclopedia:infobox.approximate')}</span>
       </label>
+      {error && (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      )}
     </fieldset>
   )
 }
 
 /** Several page references as removable chips plus an input with title suggestions. */
-function RefsField({ label, value, onChange, listId, lang }: { label: string; value: PageRefValue[]; onChange: (v: PageRefValue[]) => void; listId: string; lang: string }) {
+function RefsField({ label, value, onChange, listId, lang, suggestions }: { label: string; value: PageRefValue[]; onChange: (v: PageRefValue[]) => void; listId: string; lang: string; suggestions: string[] }) {
   const { t } = useTranslation()
   const id = useId()
   const [text, setText] = useState('')
   const add = () => {
-    const title = text.trim()
+    const typed = text.trim()
+    const folded = foldKey(typed)
+    const exact = suggestions.find((s) => foldKey(s) === folded)
+    const prefixed = suggestions.filter((s) => foldKey(s).startsWith(folded))
+    const title = exact ?? (typed && prefixed.length === 1 ? prefixed[0] : typed)
     if (!title || value.some((v) => v.ref === title)) return setText('')
     onChange([...value, { ref: title }])
     setText('')

@@ -8,7 +8,8 @@
     "save": "Save",
     "edit": "Edit",
     "delete": "Delete",
-    "rename": "Rename"
+    "rename": "Rename",
+    "close": "Close"
   },
   "nav": {
     "shelf": "Your worlds",

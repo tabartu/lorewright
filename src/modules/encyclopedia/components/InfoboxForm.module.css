@@ -175,3 +175,8 @@ select.input {
 .chipInput::placeholder {
   color: var(--ink-3);
 }
+.error {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--danger);
+}

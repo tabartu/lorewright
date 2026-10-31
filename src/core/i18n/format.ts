@@ -38,7 +38,9 @@ export function useFormat() {
           ? p.day
             ? t('encyclopedia:date.dayMonthYear', { day: p.day, month: p.month, year: p.year, era: p.era })
             : t('encyclopedia:date.monthYear', { month: p.month, year: p.year, era: p.era })
-          : t('encyclopedia:date.year', { year: p.year, era: p.era })
+          : p.era
+            ? t('encyclopedia:date.yearEra', { year: p.year, era: p.era })
+            : t('encyclopedia:date.year', { year: p.year })
         return (p.approximate ? t('encyclopedia:date.approximate', { date: core }) : core).trim()
       },
       /** Display name of a language tag in the interface language, e.g. "tr" → "Turkish". */

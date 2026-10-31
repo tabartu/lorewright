@@ -87,6 +87,9 @@
     grid-template-columns: minmax(0, 1fr);
     gap: var(--s-5);
   }
+  .spread > aside {
+    order: -1;
+  }
 }
 .column {
   min-inline-size: 0;

@@ -64,7 +64,7 @@ export function searchPages(index: MiniSearch<SearchDoc>, query: string, limit =
         id: String(r.id),
         title: String(r.title),
         categoryId: String(r.categoryId),
-        score: r.score + (foldKey(String(r.title)) === folded ? 100 : 0),
+        score: r.score + (foldKey(String(r.title)) === folded ? 100 : foldKey(String(r.title)).startsWith(folded) ? 20 : 0),
         snippet: makeSnippet(body, r.terms),
       }
     })

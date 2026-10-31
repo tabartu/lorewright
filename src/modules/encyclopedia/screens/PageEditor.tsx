@@ -9,6 +9,7 @@ import { usePage, usePageTitles } from '../../../core/lore/api'
 import { categoryName } from '../../../core/lore/categories'
 import { LoreError } from '../../../core/lore/errors'
 import { createPage, deletePage, updatePage } from '../../../core/lore/pages'
+import { dateSortKey } from '../../../core/lore/calendar'
 import { cleanFields } from '../../../core/lore/fields'
 import type { ID, Page, PageStatus, WorldDate } from '../../../core/lore/types'
 import { Button } from '../../../ui/Button'
@@ -69,6 +70,7 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
   const [draft, setDraft] = useState<Draft>(initial)
   const [view, setView] = useState<View>('write')
   const [titleError, setTitleError] = useState<string>()
+  const [dateError, setDateError] = useState<string>()
   const [saving, setSaving] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const allowLeave = useRef(false)
@@ -82,6 +84,19 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
       !allowLeave.current &&
       currentLocation.pathname + currentLocation.search !== nextLocation.pathname + nextLocation.search,
   )
+
+  // Ctrl/Cmd+S saves from anywhere while the editor is open.
+  const saveRef = useRef<() => void>(() => {})
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault()
+        saveRef.current()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   useEffect(() => {
     if (!dirty) return
@@ -111,11 +126,16 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
       setTitleError(t('errors:lore.title_required'))
       return
     }
+    setDateError(undefined)
     setSaving(true)
     const aliases = draft.aliases.split(',').map((a) => a.trim()).filter(Boolean)
     const target = categories.find((c) => c.id === draft.categoryId)
     const fields = cleanFields(target?.fields ?? [], draft.fields)
     const dated = target?.builtIn === 'event'
+    if (dated && draft.date && draft.endDate && (dateSortKey(draft.endDate) ?? 0) < (dateSortKey(draft.date) ?? 0)) {
+      setDateError(t('encyclopedia:infobox.endBeforeStart'))
+      return
+    }
     try {
       let id: ID
       let notice: string | undefined
@@ -160,6 +180,8 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
     }
   }, [saving, draft, page, world.id, base, navigate, t, categories])
 
+  saveRef.current = () => void save()
+
   function onSubmit(e: FormEvent) {
     e.preventDefault()
     void save()
@@ -181,12 +203,6 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
       data-ink={category?.ink}
       onSubmit={onSubmit}
       noValidate
-      onKeyDown={(e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
-          e.preventDefault()
-          void save()
-        }
-      }}
     >
       <div className={styles.toolbar}>
         <div className={styles.toolbarInner}>
@@ -275,6 +291,7 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
             dates={
               category.builtIn === 'event'
                 ? {
+                    error: dateError,
                     date: draft.date,
                     endDate: draft.endDate,
                     onDate: (d) => set('date', d),
