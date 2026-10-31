@@ -309,7 +309,7 @@
   "timeline": {
     "title": "Zaman çizelgesi",
     "lede": "Tarihli tüm sayfalar, sırasıyla.",
-    "ledeCalendar": "Tarihli tüm sayfalar, sırasıyla; yıllar “{{label}}” sayılıyor.",
+    "ledeCalendar": "Tarihli tüm sayfalar sırayla; takvim: {{label}}.",
     "editCalendar": "Takvimi ve çağları düzenle",
     "newEvent": "Yeni olay",
     "emptyTitle": "Henüz tarihli bir şey yok",
@@ -321,7 +321,7 @@
     "filter": "Bölümleri göster",
     "includeFields": "Bilgi kutusu tarihlerini de göster (doğum, ölüm, kuruluş)",
     "scale": "Aralık",
-    "compact": "Sıkışık",
+    "compact": "Sık",
     "proportional": "Ölçekli",
     "zoom": "Yakınlaştır",
     "eras": "Çağlar",
@@ -348,7 +348,10 @@
     "colConnections": "Bağlı olduğu sayfalar",
     "noConnections": "Bağlantı yok",
     "emptyTitle": "Çizecek kadar bağlantı yok",
-    "emptyBody": "Ağ, sayfalar arasındaki bağlantılardan kendiliğinden çizilir. En az iki sayfayı [[Sayfa adı]] ile ya da Bağlılık, Yurdu gibi bir sayfa alanıyla birbirine bağla."
+    "emptyBody": "Ağ, sayfalar arasındaki bağlantılardan kendiliğinden çizilir. En az iki sayfayı [[Sayfa adı]] ile ya da Bağlılık, Yurdu gibi bir sayfa alanıyla birbirine bağla.",
+    "find": "Sayfa bul…",
+    "selected_one": "{{title}} seçildi, {{count}} bağlantı.",
+    "selected_other": "{{title}} seçildi, {{count}} bağlantı."
   },
   "calendar": {
     "title": "Takvim ve çağlar",
@@ -374,6 +377,10 @@
     "before": "0. yıldan önceki yıllar",
     "beforeHelp": "Eksi yıllar için kısaltma; ör. Kuruluştan önce için “KÖ”.",
     "beforePlaceholder": "ör. KÖ",
-    "save": "Takvimi kaydet"
+    "save": "Takvimi kaydet",
+    "eraOverlap": "“{{name}}”, “{{other}}” ile çakışıyor. Çağlar çakışamaz; yılları düzelt.",
+    "fixErrors_one": "Kaydetmeden önce {{count}} çağı düzelt.",
+    "fixErrors_other": "Kaydetmeden önce {{count}} çağı düzelt.",
+    "leaveBody": "Takvim ve çağlarda yaptığın değişiklikler kaybolacak."
   }
 }

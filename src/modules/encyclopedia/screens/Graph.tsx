@@ -7,15 +7,66 @@ import { Link, useNavigate } from 'react-router'
 import { useWorldContext } from '../../../app/shell/WorldLayout'
 import { useDocumentTitle } from '../../../app/shell/useDocumentTitle'
 import { contentCollator } from '../../../core/i18n/format'
+import { foldKey } from '../../../core/lore/normalize'
 import { usePages, useWorldLinks } from '../../../core/lore/api'
 import { categoryName } from '../../../core/lore/categories'
-import type { ID, Page } from '../../../core/lore/types'
+import type { Category, ID, Page } from '../../../core/lore/types'
 import { ButtonLink } from '../../../ui/Button'
 import { CategoryIcon } from '../../../ui/CategoryIcon'
 import { tokenColor } from '../components/inkColor'
 import styles from './Graph.module.css'
 
 cytoscape.use(fcose)
+
+/** Node shape per chapter, so category is a mark and not colour alone. */
+const SHAPES = ['ellipse', 'round-rectangle', 'diamond', 'triangle', 'hexagon', 'star', 'pentagon', 'vee', 'octagon', 'tag'] as const
+
+/** Layout positions per world for this browser session, so returning to the graph keeps its shape. */
+const positions = new Map<string, Record<string, { x: number; y: number }>>()
+
+function applyStyle(instance: Core, byCat: Map<ID, Category>, pages: Page[]) {
+  const text = tokenColor('--ink')
+  const paper = tokenColor('--paper')
+  const rule = tokenColor('--rule-strong')
+  const focus = tokenColor('--focus')
+  const colours = new Map<string, string>()
+  instance.batch(() => {
+    for (const p of pages) {
+      const ink = byCat.get(p.categoryId)?.ink ?? 'graphite'
+      if (!colours.has(ink)) colours.set(ink, tokenColor(`--ink-${ink}`))
+      instance.getElementById(p.id).data('color', colours.get(ink))
+    }
+  })
+  instance.style([
+    {
+      selector: 'node',
+      style: {
+        'background-color': 'data(color)',
+        shape: 'data(shape)' as never,
+        width: 'mapData(degree, 0, 12, 16, 44)',
+        height: 'mapData(degree, 0, 12, 16, 44)',
+        label: 'data(label)',
+        color: text,
+        'font-family': 'Archivo Variable, system-ui, sans-serif',
+        'font-size': 11,
+        'font-weight': 600,
+        'text-valign': 'bottom',
+        'text-margin-y': 4,
+        'text-outline-color': paper,
+        'text-outline-width': 3,
+        'text-max-width': '120px',
+        'text-wrap': 'ellipsis',
+        'border-width': 2,
+        'border-color': paper,
+        'min-zoomed-font-size': 7,
+      },
+    },
+    { selector: 'edge', style: { width: 'mapData(weight, 1, 4, 1, 3)', 'line-color': rule, 'curve-style': 'haystack', opacity: 0.75 } },
+    { selector: '.faded', style: { opacity: 0.1 } },
+    { selector: 'node.focus', style: { 'border-color': focus, 'border-width': 3, 'z-index': 10 } },
+    { selector: 'edge.focus', style: { 'line-color': focus, opacity: 1, 'z-index': 9 } },
+  ])
+}
 
 type View = 'graph' | 'list'
 
@@ -49,6 +100,8 @@ export function Graph() {
   const [showOrphans, setShowOrphans] = useState(false)
   const [selected, setSelected] = useState<ID | null>(null)
   const host = useRef<HTMLDivElement>(null)
+  const [ready, setReady] = useState(0)
+  const [find, setFind] = useState('')
   const cy = useRef<Core | null>(null)
   useDocumentTitle(t('encyclopedia:graph.title'), world.name)
 
@@ -83,98 +136,93 @@ export function Graph() {
   const presentCats = useMemo(() => [...new Set((pages ?? []).map((p) => p.categoryId))], [pages])
   const linkedCount = (pages ?? []).filter((p) => graph.neighbours.has(p.id)).length
 
-  // Build / rebuild the Cytoscape instance.
+  const visibleIds = useMemo(() => new Set(visiblePages.map((p) => p.id)), [visiblePages])
+  const visibleEdges = useMemo(() => graph.edges.filter((e) => visibleIds.has(e.a) && visibleIds.has(e.b)), [graph, visibleIds])
+  const order = useMemo(() => new Map(categories.map((c, i) => [c.id, i])), [categories])
+
+  // Build Cytoscape once per data set; filters and theme changes never re-run the layout.
   useEffect(() => {
     if (view !== 'graph' || !host.current || !pages) return
-    const visible = new Set(visiblePages.map((p) => p.id))
-    const ink = (p: Page) => tokenColor(`--ink-${byCat.get(p.categoryId)?.ink ?? 'graphite'}`)
     const els: ElementDefinition[] = [
-      ...visiblePages.map((p) => ({
-        data: { id: p.id, label: p.title, color: ink(p), degree: graph.neighbours.get(p.id)?.size ?? 0 },
+      ...pages.map((p) => ({
+        data: {
+          id: p.id,
+          label: p.title,
+          degree: graph.neighbours.get(p.id)?.size ?? 0,
+          shape: SHAPES[(order.get(p.categoryId) ?? 0) % SHAPES.length],
+        },
       })),
-      ...graph.edges
-        .filter((e) => visible.has(e.a) && visible.has(e.b))
-        .map((e) => ({ data: { id: `${e.a}|${e.b}`, source: e.a, target: e.b, weight: e.weight } })),
+      ...graph.edges.map((e) => ({ data: { id: `${e.a}|${e.b}`, source: e.a, target: e.b, weight: e.weight } })),
     ]
-    const text = tokenColor('--ink')
-    const paper = tokenColor('--paper')
-    const rule = tokenColor('--rule-strong')
-    const focus = tokenColor('--focus')
+    const instance = cytoscape({ container: host.current, elements: els, minZoom: 0.2, maxZoom: 3 })
+    applyStyle(instance, byCat, pages)
+    const saved = positions.get(world.id)
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
-    const instance = cytoscape({
-      container: host.current,
-      elements: els,
-      minZoom: 0.2,
-      maxZoom: 3,
-      wheelSensitivity: 0.3,
-      style: [
-        {
-          selector: 'node',
-          style: {
-            'background-color': 'data(color)',
-            width: 'mapData(degree, 0, 12, 14, 42)',
-            height: 'mapData(degree, 0, 12, 14, 42)',
-            label: 'data(label)',
-            color: text,
-            'font-family': 'Archivo Variable, system-ui, sans-serif',
-            'font-size': 11,
-            'font-weight': 600,
-            'text-valign': 'bottom',
-            'text-margin-y': 4,
-            'text-outline-color': paper,
-            'text-outline-width': 3,
-            'text-max-width': '120px',
-            'text-wrap': 'ellipsis',
-            'border-width': 2,
-            'border-color': paper,
-          },
-        },
-        {
-          selector: 'edge',
-          style: {
-            width: 'mapData(weight, 1, 4, 1, 3)',
-            'line-color': rule,
-            'curve-style': 'haystack',
-            opacity: 0.8,
-          },
-        },
-        { selector: '.faded', style: { opacity: 0.12 } },
-        { selector: 'node.focus', style: { 'border-color': focus, 'border-width': 3, 'z-index': 10 } },
-        { selector: 'edge.focus', style: { 'line-color': focus, opacity: 1, 'z-index': 9 } },
-      ],
-      layout: {
-        name: 'fcose',
-        animate: !reduce,
-        animationDuration: 500,
-        randomize: true,
-        nodeRepulsion: () => 16000,
-        idealEdgeLength: () => 120,
-        fit: true,
-        padding: 40,
-      } as cytoscape.LayoutOptions,
-    })
-    instance.one('layoutstop', () => {
-      instance.resize()
+    if (saved && pages.every((p) => saved[p.id])) {
+      instance.nodes().positions((n) => saved[n.id()])
       instance.fit(undefined, 30)
-    })
+    } else {
+      instance
+        .layout({
+          name: 'fcose',
+          animate: !reduce,
+          animationDuration: 500,
+          randomize: true,
+          nodeRepulsion: () => 16000,
+          idealEdgeLength: () => 120,
+          fit: true,
+          padding: 30,
+        } as cytoscape.LayoutOptions)
+        .run()
+    }
+    const remember = () => {
+      const pos: Record<string, { x: number; y: number }> = {}
+      instance.nodes().forEach((n) => {
+        pos[n.id()] = { ...n.position() }
+      })
+      positions.set(world.id, pos)
+    }
+    instance.on('layoutstop dragfree', remember)
     instance.on('tap', 'node', (e) => setSelected(e.target.id()))
     instance.on('dbltap', 'node', (e) => navigate(`/w/${world.id}/p/${e.target.id()}`))
     instance.on('tap', (e) => {
       if (e.target === instance) setSelected(null)
     })
-    // Keep the drawing centred when the container size changes (fonts, rotation, sidebars).
-    const ro = new ResizeObserver(() => {
-      instance.resize()
-      instance.fit(undefined, 30)
-    })
+    const ro = new ResizeObserver(() => instance.resize())
     ro.observe(host.current)
     cy.current = instance
+    setReady((r) => r + 1)
     return () => {
       ro.disconnect()
       instance.destroy()
       cy.current = null
     }
-  }, [view, visiblePages, graph, byCat, pages, themeKey, navigate, world.id])
+    // byCat/order only change with categories, which also change `pages` identity via live query.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, pages, graph, world.id, navigate])
+
+  // Theme: restyle in place.
+  useEffect(() => {
+    if (cy.current && pages) applyStyle(cy.current, byCat, pages)
+  }, [themeKey, byCat, pages, ready])
+
+  // Filters: hide nodes in place, keep positions, refit to what is visible.
+  useEffect(() => {
+    const c = cy.current
+    if (!c) return
+    c.batch(() => {
+      c.nodes().forEach((n) => {
+        n.style('display', visibleIds.has(n.id()) ? 'element' : 'none')
+      })
+    })
+    const shown = c.nodes(':visible')
+    if (shown.nonempty()) c.fit(shown, 30)
+  }, [visibleIds, ready])
+
+  // A page that gets filtered out is no longer selected.
+  useEffect(() => {
+    if (selected && !visibleIds.has(selected)) setSelected(null)
+  }, [selected, visibleIds])
 
   // Highlight the selected page and its neighbours.
   useEffect(() => {
@@ -187,7 +235,8 @@ export function Graph() {
     const hood = node.closedNeighborhood()
     c.elements().not(hood).addClass('faded')
     hood.addClass('focus')
-  }, [selected, visiblePages, themeKey])
+    c.animate({ center: { eles: node } }, { duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 250 })
+  }, [selected, ready])
 
   const toggle = (id: ID) =>
     setHidden((h) => {
@@ -199,9 +248,13 @@ export function Graph() {
 
   const selectedPage = selected ? byPage.get(selected) : undefined
   const selectedNeighbours = selected
-    ? [...(graph.neighbours.get(selected) ?? [])].map((id) => byPage.get(id)).filter((p): p is Page => !!p)
+    ? [...(graph.neighbours.get(selected) ?? [])]
+        .filter((id) => visibleIds.has(id))
+        .map((id) => byPage.get(id))
+        .filter((p): p is Page => !!p)
     : []
   const collator = contentCollator(world.contentLanguage)
+  selectedNeighbours.sort((a, b) => collator.compare(a.title, b.title))
   const listPages = [...visiblePages].sort((a, b) => collator.compare(a.title, b.title))
   const base = `/w/${world.id}`
 
@@ -232,7 +285,7 @@ export function Graph() {
       <header className={styles.head}>
         <div>
           <h1 className={styles.title}>{t('encyclopedia:graph.title')}</h1>
-          <p className={styles.lede}>{t('encyclopedia:graph.lede', { pages: visiblePages.length, links: graph.edges.length })}</p>
+          <p className={styles.lede}>{t('encyclopedia:graph.lede', { pages: visiblePages.length, links: visibleEdges.length })}</p>
         </div>
         <div className={styles.viewSwitch} role="group" aria-label={t('encyclopedia:graph.view')}>
           <button type="button" aria-pressed={view === 'graph'} onClick={() => setView('graph')}>
@@ -255,12 +308,29 @@ export function Graph() {
             return (
               <label key={id} className={styles.chip} data-ink={c.ink}>
                 <input type="checkbox" checked={!hidden.has(id)} onChange={() => toggle(id)} />
-                <span className={styles.dot} aria-hidden="true" />
+                <ShapeGlyph shape={SHAPES[(order.get(c.id) ?? 0) % SHAPES.length]} />
                 {categoryName(c, t, true)}
               </label>
             )
           })}
         </fieldset>
+        {view === 'graph' && (
+          <form
+            className={styles.find}
+            onSubmit={(e) => {
+              e.preventDefault()
+              const hit = visiblePages.find((p) => foldKey(p.title) === foldKey(find)) ?? visiblePages.find((p) => foldKey(p.title).includes(foldKey(find)))
+              if (hit) setSelected(hit.id)
+            }}
+          >
+            <label className="visually-hidden" htmlFor="graph-find">{t('encyclopedia:graph.find')}</label>
+            <input id="graph-find" list="graph-find-list" value={find} onChange={(e) => setFind(e.target.value)}
+              placeholder={t('encyclopedia:graph.find')} lang={world.contentLanguage} autoComplete="off" />
+            <datalist id="graph-find-list">
+              {visiblePages.map((p) => <option key={p.id} value={p.title} />)}
+            </datalist>
+          </form>
+        )}
         <label className={styles.switch}>
           <input type="checkbox" checked={showOrphans} onChange={(e) => setShowOrphans(e.target.checked)} />
           {t('encyclopedia:graph.showOrphans')}
@@ -271,15 +341,21 @@ export function Graph() {
         <div className={styles.stage}>
           <div ref={host} className={styles.canvas} role="img" aria-label={t('encyclopedia:graph.canvasLabel', { pages: visiblePages.length })} />
           <p className={styles.hint}>{t('encyclopedia:graph.hint')}</p>
+          <p className="visually-hidden" role="status">
+            {selectedPage ? t('encyclopedia:graph.selected', { title: selectedPage.title, count: selectedNeighbours.length }) : ''}
+          </p>
           {selectedPage && (
-            <aside className={styles.panel} data-ink={byCat.get(selectedPage.categoryId)?.ink} aria-live="polite">
+            <aside className={styles.panel} data-ink={byCat.get(selectedPage.categoryId)?.ink} aria-labelledby="graph-panel-title">
               <button type="button" className={styles.close} onClick={() => setSelected(null)} aria-label={t('common:action.close')}>
                 <X aria-hidden="true" />
               </button>
-              <p className={styles.panelCat}>{byCat.get(selectedPage.categoryId) && categoryName(byCat.get(selectedPage.categoryId)!, t)}</p>
-              <h2 className={styles.panelTitle} lang={world.contentLanguage}>{selectedPage.title}</h2>
+              <h2 id="graph-panel-title" className={styles.panelTitle} lang={world.contentLanguage}>{selectedPage.title}</h2>
+              <p className={styles.panelCat}>
+                {byCat.get(selectedPage.categoryId) && categoryName(byCat.get(selectedPage.categoryId)!, t)}
+                {' · '}
+                {t('encyclopedia:graph.connections', { count: selectedNeighbours.length })}
+              </p>
               {selectedPage.excerpt && <p className={styles.panelExcerpt} lang={world.contentLanguage}>{selectedPage.excerpt}</p>}
-              <h3 className={styles.panelSub}>{t('encyclopedia:graph.connections', { count: selectedNeighbours.length })}</h3>
               <ul role="list" className={styles.panelList}>
                 {selectedNeighbours.map((p) => (
                   <li key={p.id} data-ink={byCat.get(p.categoryId)?.ink}>
@@ -307,7 +383,7 @@ export function Graph() {
           <tbody>
             {listPages.map((p) => {
               const c = byCat.get(p.categoryId)
-              const ns = [...(graph.neighbours.get(p.id) ?? [])].map((id) => byPage.get(id)).filter((x): x is Page => !!x)
+              const ns = [...(graph.neighbours.get(p.id) ?? [])].filter((id) => visibleIds.has(id)).map((id) => byPage.get(id)).filter((x): x is Page => !!x)
               return (
                 <tr key={p.id} data-ink={c?.ink}>
                   <th scope="row">
@@ -331,5 +407,26 @@ export function Graph() {
         </table>
       )}
     </div>
+  )
+}
+
+/** Small legend glyph matching a node shape. */
+function ShapeGlyph({ shape }: { shape: (typeof SHAPES)[number] }) {
+  const paths: Record<string, string> = {
+    ellipse: 'M6 1a5 5 0 1 0 0 10A5 5 0 0 0 6 1z',
+    'round-rectangle': 'M3 1h6a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z',
+    diamond: 'M6 0l6 6-6 6-6-6z',
+    triangle: 'M6 0.5l5.5 11h-11z',
+    hexagon: 'M3 1h6l3 5-3 5H3L0 6z',
+    star: 'M6 0l1.8 3.9 4.2.4-3.2 2.8.9 4.1L6 9.1 2.3 11.2l.9-4.1L0 4.3l4.2-.4z',
+    pentagon: 'M6 0l6 4.4-2.3 7.1H2.3L0 4.4z',
+    vee: 'M0 1l6 3 6-3-6 10z',
+    octagon: 'M3.5 0h5L12 3.5v5L8.5 12h-5L0 8.5v-5z',
+    tag: 'M0 1h8l4 5-4 5H0z',
+  }
+  return (
+    <svg viewBox="0 0 12 12" className={styles.glyph} aria-hidden="true">
+      <path d={paths[shape]} />
+    </svg>
   )
 }

@@ -56,7 +56,7 @@ export function WorldForm({ initial, submitLabel, onSubmit, onCancel }: WorldFor
         placeholder={t('encyclopedia:world.namePlaceholder')}
         error={nameError}
         required
-        autoFocus
+        autoFocus={!initial.name}
         lang={value.contentLanguage}
         maxLength={120}
       />

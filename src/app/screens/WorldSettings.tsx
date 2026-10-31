@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { deleteWorld, updateWorld } from '../../core/lore/worlds'
 import { Button } from '../../ui/Button'
 import { ConfirmDialog } from '../../ui/ConfirmDialog'
@@ -18,6 +18,17 @@ export function WorldSettings() {
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleting, setDeleting] = useState(false)
   useDocumentTitle(t('common:nav.worldSettings'), world.name)
+  const { hash } = useLocation()
+  useEffect(() => {
+    if (!hash) return
+    const id = hash.slice(1)
+    const timer = setTimeout(() => {
+      const el = document.getElementById(id)
+      el?.scrollIntoView({ block: 'start' })
+      el?.querySelector<HTMLElement>('h2')?.focus()
+    }, 50)
+    return () => clearTimeout(timer)
+  }, [hash])
 
   return (
     <div className={`${layout.page} ${layout.narrow}`}>

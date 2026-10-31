@@ -21,6 +21,9 @@ describe('markdownToPlain / makeExcerpt', () => {
       'Head The capital and Saltspire burn.',
     )
   })
+  it('drops tables from plain text', () => {
+    expect(markdownToPlain('Intro.\n\n| A | B |\n|---|---|\n| x | y |\n\nOutro.')).toBe('Intro. Outro.')
+  })
   it('cuts on a word boundary', () => {
     const e = makeExcerpt('word '.repeat(100), 30)
     expect(e.endsWith('…')).toBe(true)

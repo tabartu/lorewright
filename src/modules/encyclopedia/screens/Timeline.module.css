@@ -68,6 +68,9 @@
   border-color: var(--chapter);
   background: var(--chapter-tint);
 }
+.chip:has(input:not(:checked)) {
+  color: var(--ink-3);
+}
 .chip:has(input:focus-visible) {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
@@ -322,4 +325,22 @@
     padding-inline: var(--s-2);
     font-size: var(--fs-xs);
   }
+}
+
+.gap[data-break] {
+  /* a long gap drawn as a break in the spine */
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.gap[data-break]::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: calc(var(--year-col) + var(--s-3) - 0.4rem);
+  inline-size: calc(0.8rem + 2px);
+  block-size: 0.6rem;
+  margin-block-start: 0.25rem;
+  background: var(--paper);
+  border-block: 2px solid color-mix(in oklab, var(--chapter) 45%, var(--rule));
+  transform: skewY(-20deg);
 }

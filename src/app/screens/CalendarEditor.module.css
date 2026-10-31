@@ -1,4 +1,5 @@
 .help {
+  scroll-margin-block-start: var(--masthead-h);
   max-inline-size: var(--measure);
   font-family: var(--font-read);
   font-size: var(--fs-sm);
@@ -22,7 +23,32 @@
   display: grid;
   grid-template-columns: minmax(8rem, 2fr) minmax(4.5rem, 1fr) minmax(4.5rem, 1fr) minmax(7rem, 1.2fr) 2.5rem;
   gap: var(--s-2);
+  align-items: end;
+}
+.cell {
+  display: grid;
+  gap: 0.15rem;
+  min-inline-size: 0;
+}
+.cellLabel {
+  /* Visible labels on phones, where the header row is hidden. */
+  display: none;
+  font-size: var(--fs-2xs);
+  color: var(--ink-3);
+}
+.rowError {
+  grid-column: 1 / -1;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--danger);
+}
+.row[data-invalid] .input {
+  border-color: var(--danger);
+}
+.inkControl {
+  display: flex;
   align-items: center;
+  gap: var(--s-2);
 }
 .head {
   font-size: var(--fs-2xs);
@@ -43,6 +69,9 @@
   .row > :first-child {
     grid-column: 1 / -1;
   }
+  .cellLabel {
+    display: block;
+  }
 }
 .input {
   inline-size: 100%;
@@ -61,17 +90,7 @@
   border-color: var(--focus);
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--focus) 22%, transparent);
 }
-.inkCell {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-2);
-}
-.inkCell select {
-  min-inline-size: 0;
-  border: 0;
-  background: none;
-  font-size: var(--fs-sm);
-}
+
 .swatch {
   inline-size: 0.8rem;
   block-size: 1rem;
@@ -115,4 +134,8 @@
   font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--danger);
+}
+
+:global(#calendar) {
+  scroll-margin-block-start: calc(var(--masthead-h) + var(--s-4));
 }

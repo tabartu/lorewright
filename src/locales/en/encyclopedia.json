@@ -348,7 +348,10 @@
     "colConnections": "Connected to",
     "noConnections": "No connections",
     "emptyTitle": "Not enough links to draw yet",
-    "emptyBody": "The graph draws itself from links between pages. Link at least two pages with [[Page name]], or use a page field such as Affiliation or Home."
+    "emptyBody": "The graph draws itself from links between pages. Link at least two pages with [[Page name]], or use a page field such as Affiliation or Home.",
+    "find": "Find a page…",
+    "selected_one": "{{title}} selected, {{count}} connection.",
+    "selected_other": "{{title}} selected, {{count}} connections."
   },
   "calendar": {
     "title": "Calendar and eras",
@@ -374,6 +377,10 @@
     "before": "Years before year 0",
     "beforeHelp": "Abbreviation for negative years, e.g. “BF” for before the Founding.",
     "beforePlaceholder": "e.g. BF",
-    "save": "Save calendar"
+    "save": "Save calendar",
+    "eraOverlap": "“{{name}}” overlaps “{{other}}”. Eras can't overlap; adjust the years.",
+    "fixErrors_one": "Fix {{count}} era before saving.",
+    "fixErrors_other": "Fix {{count}} eras before saving.",
+    "leaveBody": "Your changes to the calendar and eras will be lost."
   }
 }

@@ -1,5 +1,7 @@
 import { Plus, Trash2 } from 'lucide-react'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useBlocker } from 'react-router'
+import { ConfirmDialog } from '../../ui/ConfirmDialog'
 import { useTranslation } from 'react-i18next'
 import { useEras } from '../../core/lore/api'
 import { CHAPTER_INKS, type CalendarMonth, type ChapterInk, type World } from '../../core/lore/types'
@@ -33,19 +35,42 @@ function Editor({ world, initialEras }: { world: World; initialEras: EraDraft[] 
   const [months, setMonths] = useState<CalendarMonth[]>(world.calendar.months ?? [])
   const [eras, setEras] = useState<EraDraft[]>(initialEras)
   const [negLabel, setNegLabel] = useState(world.calendar.negativeAbbr ?? '')
-  const [error, setError] = useState<string>()
+  const [errors, setErrors] = useState<Map<number, string>>(new Map())
   const [saved, setSaved] = useState(false)
+  const [dirty, setDirty] = useState(false)
+  const errorRef = useRef<HTMLParagraphElement>(null)
+  const blocker = useBlocker(({ currentLocation, nextLocation }) => dirty && currentLocation.pathname !== nextLocation.pathname)
+  useEffect(() => {
+    if (errors.size) errorRef.current?.focus()
+  }, [errors])
+
+  /** Every era needs a start, must not end before it starts, and must not overlap another era. */
+  function validate(): Map<number, string> {
+    const found = new Map<number, string>()
+    const spans = eras
+      .map((era, i) => ({ i, era, start: Number(era.start), end: era.end === '' ? Infinity : Number(era.end) }))
+      .filter((x) => x.era.name.trim())
+    for (const x of spans) {
+      if (x.era.start === '' || !Number.isFinite(x.start)) found.set(x.i, t('encyclopedia:calendar.eraStartRequired', { name: x.era.name }))
+      else if (x.end < x.start) found.set(x.i, t('encyclopedia:calendar.eraEndBeforeStart', { name: x.era.name }))
+    }
+    const sorted = spans.filter((x) => !found.has(x.i)).sort((a, b) => a.start - b.start)
+    for (let k = 1; k < sorted.length; k++) {
+      const prev = sorted[k - 1]
+      const cur = sorted[k]
+      if (cur.start <= prev.end) {
+        found.set(cur.i, t('encyclopedia:calendar.eraOverlap', { name: cur.era.name, other: prev.era.name }))
+      }
+    }
+    return found
+  }
 
   async function save(e: FormEvent) {
     e.preventDefault()
     const clean = eras.filter((x) => x.name.trim())
-    for (const era of clean) {
-      const start = Number(era.start)
-      const end = era.end === '' ? undefined : Number(era.end)
-      if (era.start === '' || !Number.isFinite(start)) return setError(t('encyclopedia:calendar.eraStartRequired', { name: era.name }))
-      if (end !== undefined && end < start) return setError(t('encyclopedia:calendar.eraEndBeforeStart', { name: era.name }))
-    }
-    setError(undefined)
+    const found = validate()
+    setErrors(found)
+    if (found.size) return
     await updateWorld(world.id, {
       calendar: {
         ...world.calendar,
@@ -64,15 +89,16 @@ function Editor({ world, initialEras }: { world: World; initialEras: EraDraft[] 
       })),
     )
     setSaved(true)
+    setDirty(false)
   }
 
   return (
     <section id="calendar" className={layout.section} aria-labelledby="calendar-title">
-      <h2 id="calendar-title" className={layout.sectionTitle}>
+      <h2 id="calendar-title" className={layout.sectionTitle} tabIndex={-1}>
         {t('encyclopedia:calendar.title')}
       </h2>
       <p className={styles.help}>{t('encyclopedia:calendar.help')}</p>
-      <form onSubmit={save} noValidate onChange={() => setSaved(false)}>
+      <form onSubmit={save} noValidate onChange={() => { setSaved(false); setDirty(true) }}>
         <h3 className={styles.sub}>{t('encyclopedia:calendar.eras')}</h3>
         <p className={styles.help}>{t('encyclopedia:calendar.erasHelp')}</p>
         <div className={styles.table} role="table" aria-label={t('encyclopedia:calendar.eras')}>
@@ -86,33 +112,52 @@ function Editor({ world, initialEras }: { world: World; initialEras: EraDraft[] 
           {eras.map((era, i) => {
             const set = (patch: Partial<EraDraft>) => setEras((list) => list.map((x, j) => (j === i ? { ...x, ...patch } : x)))
             return (
-              <div key={i} className={styles.row} role="row" data-ink={era.ink}>
-                <input role="cell" aria-label={t('encyclopedia:calendar.eraName')} className={styles.input} value={era.name} lang={world.contentLanguage}
-                  onChange={(e) => set({ name: e.target.value })} placeholder={t('encyclopedia:calendar.eraNamePlaceholder')} />
-                <input role="cell" aria-label={t('encyclopedia:calendar.eraStart')} className={styles.input} type="number" inputMode="numeric" value={era.start}
-                  onChange={(e) => set({ start: e.target.value })} />
-                <input role="cell" aria-label={t('encyclopedia:calendar.eraEnd')} className={styles.input} type="number" inputMode="numeric" value={era.end}
-                  onChange={(e) => set({ end: e.target.value })} placeholder={t('encyclopedia:calendar.eraOpen')} />
-                <span role="cell" className={styles.inkCell}>
-                  <span className={styles.swatch} aria-hidden="true" />
-                  <select aria-label={t('encyclopedia:calendar.eraInk')} value={era.ink} onChange={(e) => set({ ink: e.target.value as ChapterInk })}>
-                    {CHAPTER_INKS.map((ink) => (
-                      <option key={ink} value={ink}>{t(`encyclopedia:ink.${ink}`)}</option>
-                    ))}
-                  </select>
-                </span>
-                <span role="cell">
-                  <Button size="sm" variant="quiet" icon={<Trash2 aria-hidden="true" />} onClick={() => setEras((l) => l.filter((_, j) => j !== i))}
+              <div key={i} className={styles.row} role="row" data-ink={era.ink} data-invalid={errors.has(i) || undefined}>
+                <label role="cell" className={styles.cell}>
+                  <span className={styles.cellLabel}>{t('encyclopedia:calendar.eraName')}</span>
+                  <input className={styles.input} value={era.name} lang={world.contentLanguage}
+                    onChange={(e) => set({ name: e.target.value })} placeholder={t('encyclopedia:calendar.eraNamePlaceholder')}
+                    aria-invalid={errors.has(i) || undefined} aria-describedby={errors.has(i) ? `era-error-${i}` : undefined} />
+                </label>
+                <label role="cell" className={styles.cell}>
+                  <span className={styles.cellLabel}>{t('encyclopedia:calendar.eraStart')}</span>
+                  <input className={styles.input} type="number" inputMode="numeric" value={era.start}
+                    onChange={(e) => set({ start: e.target.value })} aria-invalid={errors.has(i) || undefined} />
+                </label>
+                <label role="cell" className={styles.cell}>
+                  <span className={styles.cellLabel}>{t('encyclopedia:calendar.eraEnd')}</span>
+                  <input className={styles.input} type="number" inputMode="numeric" value={era.end}
+                    onChange={(e) => set({ end: e.target.value })} placeholder={t('encyclopedia:calendar.eraOpen')} aria-invalid={errors.has(i) || undefined} />
+                </label>
+                <label role="cell" className={`${styles.cell} ${styles.inkCell}`}>
+                  <span className={styles.cellLabel}>{t('encyclopedia:calendar.eraInk')}</span>
+                  <span className={styles.inkControl}>
+                    <span className={styles.swatch} aria-hidden="true" />
+                    <select className={styles.input} value={era.ink} onChange={(e) => set({ ink: e.target.value as ChapterInk })}>
+                      {CHAPTER_INKS.map((ink) => (
+                        <option key={ink} value={ink}>{t(`encyclopedia:ink.${ink}`)}</option>
+                      ))}
+                    </select>
+                  </span>
+                </label>
+                <span role="cell" className={styles.removeCell}>
+                  <Button size="sm" variant="quiet" icon={<Trash2 aria-hidden="true" />} onClick={() => { setEras((l) => l.filter((_, j) => j !== i)); setDirty(true) }}
                     aria-label={t('encyclopedia:calendar.removeEra', { name: era.name || '…' })} />
                 </span>
+                {errors.has(i) && (
+                  <p id={`era-error-${i}`} className={styles.rowError}>{errors.get(i)}</p>
+                )}
               </div>
             )
           })}
         </div>
         <Button size="sm" icon={<Plus aria-hidden="true" />} onClick={() => {
-          const last = eras.at(-1)
-          const start = last ? (last.end !== '' ? Number(last.end) + 1 : Number(last.start) + 100) : 0
-          setEras([...eras, { name: '', start: String(start), end: '', ink: CHAPTER_INKS[(eras.length + 3) % CHAPTER_INKS.length] }])
+          // A new era starts after the latest one; an ongoing era is closed the year before.
+          const latest = [...eras].filter((x) => x.start !== '').sort((a, b) => Number(b.start) - Number(a.start))[0]
+          const start = latest ? (latest.end !== '' ? Number(latest.end) + 1 : Number(latest.start) + 100) : 0
+          const closed = eras.map((x) => (x === latest && x.end === '' ? { ...x, end: String(start - 1) } : x))
+          setEras([...closed, { name: '', start: String(start), end: '', ink: CHAPTER_INKS[(eras.length + 3) % CHAPTER_INKS.length] }])
+          setDirty(true)
         }}>
           {t('encyclopedia:calendar.addEra')}
         </Button>
@@ -145,12 +190,26 @@ function Editor({ world, initialEras }: { world: World; initialEras: EraDraft[] 
             placeholder={t('encyclopedia:calendar.beforePlaceholder')} maxLength={12} />
         </label>
 
-        {error && <p className={styles.error} role="alert">{error}</p>}
+        {errors.size > 0 && (
+          <p ref={errorRef} tabIndex={-1} className={styles.error} role="alert">
+            {t('encyclopedia:calendar.fixErrors', { count: errors.size })}
+          </p>
+        )}
         {saved && <p className={layout.notice} role="status">{t('common:status.saved')}</p>}
         <div className={layout.formActions}>
           <Button type="submit" variant="primary">{t('encyclopedia:calendar.save')}</Button>
         </div>
       </form>
+      <ConfirmDialog
+        open={blocker.state === 'blocked'}
+        title={t('encyclopedia:editor.leaveTitle')}
+        confirmLabel={t('encyclopedia:editor.leaveConfirm')}
+        danger
+        onCancel={() => blocker.reset?.()}
+        onConfirm={() => blocker.proceed?.()}
+      >
+        {t('encyclopedia:calendar.leaveBody')}
+      </ConfirmDialog>
     </section>
   )
 }

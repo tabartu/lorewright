@@ -15,6 +15,9 @@ import styles from './Timeline.module.css'
 
 type Scale = 'compact' | 'proportional'
 
+/** Largest gap drawn to scale before it is shown as a break. */
+const MAX_GAP_REM = 16
+
 /** Dated pages along the world's own calendar, banded by era. */
 export function Timeline() {
   const { world, categories } = useWorldContext()
@@ -137,9 +140,9 @@ export function Timeline() {
 
           <div className={styles.timeline} lang={world.contentLanguage}>
             {groups.map((g, gi) => (
-              <section key={g.era?.id ?? `none-${gi}`} className={styles.era} data-ink={g.era?.ink ?? 'graphite'} aria-labelledby={`era-${g.era?.id ?? gi}`}>
+              <section key={g.era?.id ?? `none-${gi}`} className={styles.era} data-ink={g.era?.ink ?? 'graphite'} aria-labelledby={`era-title-${g.era?.id ?? gi}`}>
                 <header className={styles.band} id={g.era ? `era-${g.era.id}` : undefined}>
-                  <h2 id={`era-${g.era?.id ?? gi}`} className={styles.bandName}>
+                  <h2 id={`era-title-${g.era?.id ?? gi}`} className={styles.bandName}>
                     {g.era?.name ?? t('encyclopedia:timeline.noEra')}
                   </h2>
                   {g.era && (
@@ -159,11 +162,14 @@ export function Timeline() {
                       const gap = previous ? e.date.year - previous.date.year : 0
                       const sameYear = previous?.date.year === e.date.year
                       previous = e
-                      const space = scale === 'proportional' ? Math.min(gap * zoom * 0.08, 14) : 0
+                      // To scale: spacing grows linearly with the gap; very long gaps get a break mark instead.
+                      const raw = scale === 'proportional' ? gap * zoom * 0.05 : 0
+                      const broken = raw > MAX_GAP_REM
+                      const space = broken ? 1 : raw
                       return (
                         <Fragment key={e.key}>
-                          {scale === 'compact' && gap > 1 && (
-                            <li className={styles.gap} aria-hidden="true">
+                          {gap > 1 && (
+                            <li className={styles.gap} data-break={broken || undefined} aria-hidden="true">
                               {t('encyclopedia:timeline.gap', { count: gap, formatted: fmt.number(gap) })}
                             </li>
                           )}

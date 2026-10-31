@@ -1,5 +1,5 @@
 import { Command } from 'cmdk'
-import { BookOpen, CalendarRange, FilePlus2, Home, Library, Network, Settings, Settings2 } from 'lucide-react'
+import { BookOpen, CalendarCog, CalendarRange, FilePlus2, Home, Library, Network, Settings, Settings2 } from 'lucide-react'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -37,7 +37,19 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
     ? categories.filter((c) => foldKey(categoryName(c, t, true)).includes(folded) || foldKey(categoryName(c, t)).includes(folded))
     : []
   const exact = hits.some((h) => foldKey(h.title) === folded)
-  const firstValue = hits[0] ? `page:${hits[0].id}` : chapterHits[0] ? `chapter:${chapterHits[0].id}` : query.trim() ? 'create' : ''
+  const actions = [
+    { id: 'new', icon: <FilePlus2 aria-hidden="true" />, label: t('encyclopedia:page.new'), to: `${base}/new` },
+    { id: 'home', icon: <Home aria-hidden="true" />, label: t('encyclopedia:search.worldHome'), to: base },
+    { id: 'timeline', icon: <CalendarRange aria-hidden="true" />, label: t('encyclopedia:timeline.title'), to: `${base}/timeline` },
+    { id: 'graph', icon: <Network aria-hidden="true" />, label: t('encyclopedia:graph.title'), to: `${base}/graph` },
+    { id: 'calendar', icon: <CalendarCog aria-hidden="true" />, label: t('encyclopedia:calendar.title'), to: `${base}/settings#calendar` },
+    { id: 'chapters', icon: <BookOpen aria-hidden="true" />, label: t('encyclopedia:nav.manageChapters'), to: `${base}/chapters` },
+    { id: 'worldSettings', icon: <Settings aria-hidden="true" />, label: t('common:nav.worldSettings'), to: `${base}/settings` },
+    { id: 'shelf', icon: <Library aria-hidden="true" />, label: t('common:nav.shelf'), to: '/' },
+    { id: 'appSettings', icon: <Settings2 aria-hidden="true" />, label: t('common:nav.appSettings'), to: '/settings' },
+  ]
+  const actionHits = query.trim() ? actions.filter((a) => foldKey(a.label).includes(folded)) : actions
+  const firstValue = hits[0] ? `page:${hits[0].id}` : chapterHits[0] ? `chapter:${chapterHits[0].id}` : query.trim() && actionHits[0] ? actionHits[0].id : query.trim() ? 'create' : ''
   // Whenever results change, the best match is selected, never a stale action.
   useEffect(() => setSelected(firstValue), [firstValue])
   const status = !query.trim()
@@ -45,6 +57,7 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
     : !index
       ? t('encyclopedia:search.loading')
       : t('encyclopedia:search.status', { count: hits.length + chapterHits.length })
+
 
   function go(to: string) {
     onOpenChange(false)
@@ -89,7 +102,7 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
         </button>
       </div>
       <Command.List className={styles.list}>
-        {query.trim() && index && hits.length === 0 && chapterHits.length === 0 && (
+        {query.trim() && index && hits.length === 0 && chapterHits.length === 0 && actionHits.length === 0 && (
           <p className={styles.empty}>{t('encyclopedia:search.noResults', { query })}</p>
         )}
 
@@ -130,20 +143,6 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
           </Command.Group>
         )}
 
-        {query.trim() && index && !exact && (
-          <Command.Group heading={t('encyclopedia:search.actions')} className={styles.group}>
-            <Command.Item
-              value="create"
-              onSelect={() => go(`${base}/new?title=${encodeURIComponent(query.trim())}`)}
-              className={styles.item}
-            >
-              <span className={styles.icon}>
-                <FilePlus2 aria-hidden="true" />
-              </span>
-              <span className={styles.label}>{t('encyclopedia:search.create', { title: query.trim() })}</span>
-            </Command.Item>
-          </Command.Group>
-        )}
 
         {!query.trim() && (
           <>
@@ -163,17 +162,26 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
                 })}
               </Command.Group>
             )}
-            <Command.Group heading={t('encyclopedia:search.goTo')} className={styles.group}>
-              {action('new', <FilePlus2 aria-hidden="true" />, t('encyclopedia:page.new'), `${base}/new`)}
-              {action('home', <Home aria-hidden="true" />, t('encyclopedia:search.worldHome'), base)}
-              {action('timeline', <CalendarRange aria-hidden="true" />, t('encyclopedia:timeline.title'), `${base}/timeline`)}
-              {action('graph', <Network aria-hidden="true" />, t('encyclopedia:graph.title'), `${base}/graph`)}
-              {action('chapters', <BookOpen aria-hidden="true" />, t('encyclopedia:nav.manageChapters'), `${base}/chapters`)}
-              {action('worldSettings', <Settings aria-hidden="true" />, t('common:nav.worldSettings'), `${base}/settings`)}
-              {action('shelf', <Library aria-hidden="true" />, t('common:nav.shelf'), '/')}
-              {action('appSettings', <Settings2 aria-hidden="true" />, t('common:nav.appSettings'), '/settings')}
-            </Command.Group>
           </>
+        )}
+        {actionHits.length > 0 && (
+          <Command.Group heading={t('encyclopedia:search.goTo')} className={styles.group}>
+            {actionHits.map((a) => action(a.id, a.icon, a.label, a.to))}
+          </Command.Group>
+        )}
+        {query.trim() && index && !exact && (
+          <Command.Group heading={t('encyclopedia:search.actions')} className={styles.group}>
+            <Command.Item
+              value="create"
+              onSelect={() => go(`${base}/new?title=${encodeURIComponent(query.trim())}`)}
+              className={styles.item}
+            >
+              <span className={styles.icon}>
+                <FilePlus2 aria-hidden="true" />
+              </span>
+              <span className={styles.label}>{t('encyclopedia:search.create', { title: query.trim() })}</span>
+            </Command.Item>
+          </Command.Group>
         )}
       </Command.List>
       <p className="visually-hidden" role="status" aria-live="polite">

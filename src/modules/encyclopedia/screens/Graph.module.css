@@ -174,14 +174,13 @@
   block-size: 1rem;
 }
 .panelCat {
-  font-size: var(--fs-2xs);
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--chapter);
+  margin-block-start: var(--s-1);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink-2);
 }
 .panelTitle {
-  margin-block-start: var(--s-1);
+  color: var(--chapter, var(--ink));
   padding-inline-end: var(--s-6);
   font-size: var(--fs-xl);
   font-weight: 850;
@@ -207,7 +206,7 @@
 .panelList {
   display: grid;
   gap: 0.1rem;
-  margin-block-end: var(--s-4);
+  margin-block: var(--s-3) var(--s-4);
 }
 .panelList button {
   display: flex;
@@ -328,5 +327,35 @@
   }
   .canvas {
     block-size: 70vh;
+  }
+}
+.glyph {
+  inline-size: 0.8rem;
+  block-size: 0.8rem;
+  flex: none;
+  fill: var(--chapter);
+}
+.find input {
+  min-block-size: 2.25rem;
+  inline-size: min(16rem, 100%);
+  padding-inline: var(--s-3);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-size: var(--fs-sm);
+}
+.find input::placeholder {
+  color: var(--ink-3);
+}
+.find input:focus-visible {
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--focus) 22%, transparent);
+}
+@media (max-width: 40rem) {
+  .panel {
+    position: fixed;
+    z-index: 40;
+    max-block-size: 50vh;
   }
 }
