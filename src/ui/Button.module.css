@@ -1,0 +1,96 @@
+.button {
+  --btn-bg: transparent;
+  --btn-fg: var(--ink);
+  --btn-border: var(--rule-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-block-size: 2.5rem;
+  padding-block: var(--s-2);
+  padding-inline: var(--s-4);
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.button svg {
+  inline-size: 1.05em;
+  block-size: 1.05em;
+  flex: none;
+}
+.button span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.button:hover {
+  --btn-bg: var(--paper-2);
+  --btn-border: var(--ink-3);
+}
+.button:active {
+  --btn-bg: var(--paper-3);
+}
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.button[aria-busy='true'] {
+  cursor: progress;
+}
+
+.primary {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--paper);
+  --btn-border: var(--ink);
+}
+.primary:hover {
+  --btn-bg: color-mix(in oklab, var(--ink) 86%, var(--paper));
+  --btn-border: var(--btn-bg);
+}
+.primary:active {
+  --btn-bg: color-mix(in oklab, var(--ink) 75%, var(--paper));
+}
+
+.quiet {
+  --btn-border: transparent;
+}
+.quiet:hover {
+  --btn-border: transparent;
+}
+
+.danger {
+  --btn-fg: var(--danger);
+  --btn-border: color-mix(in oklab, var(--danger) 55%, var(--paper));
+}
+.danger:hover {
+  --btn-bg: var(--danger);
+  --btn-fg: var(--danger-ink);
+  --btn-border: var(--danger);
+}
+
+.onCover {
+  --btn-fg: var(--on-cover);
+  --btn-border: color-mix(in oklab, var(--on-cover) 40%, var(--cover));
+}
+.onCover:hover {
+  --btn-bg: color-mix(in oklab, var(--on-cover) 14%, var(--cover));
+  --btn-border: color-mix(in oklab, var(--on-cover) 60%, var(--cover));
+}
+.onCover:active {
+  --btn-bg: color-mix(in oklab, var(--on-cover) 22%, var(--cover));
+}
+
+.sm {
+  min-block-size: 2rem;
+  padding-inline: var(--s-3);
+  font-size: var(--fs-xs);
+}

@@ -1,0 +1,30 @@
+{
+  "shelf": {
+    "emptyTitle": "İlk cildini oluştur",
+    "emptyLede": "Lorewright oyununun dünyasını bir kaynak kitap gibi tutar: karakterler, mekânlar ve fraksiyonlar için bölümler, birbirine bağlanan maddeler ve her bilgi tek bir aramayla elinin altında.",
+    "step1": "Bir dünya oluştur ve lore'unun hangi dilde yazılacağını seç.",
+    "step2": "Maddeleri Markdown ile yaz. Başka bir maddeye bağlantı vermek için [[ yaz.",
+    "step3": "Dünyanda eksik olanı doldurmak için kırmızı bağlantıları takip et.",
+    "create": "Dünya oluştur",
+    "sampleEn": "Örnek dünyayı aç (İngilizce)",
+    "sampleTr": "Türkçe örneği aç",
+    "localNote": "Hesap gerekmez. Her şey bu tarayıcıda kalır.",
+    "lede_one": "Rafında {{count}} dünya var.",
+    "lede_other": "Rafında {{count}} dünya var.",
+    "updated": "{{when}} güncellendi",
+    "newSlot": "Yeni dünya",
+    "samplesTitle": "Örnek dünyalar"
+  },
+  "world": {
+    "title": "Bu cilt henüz boş",
+    "lede": "Bir karakter ve bir mekânla başla, sonra onları birbirine bağla. Kitabın geri kalanı bağlantılardan büyür.",
+    "step1Title": "Bir karakter yaz",
+    "step1Body": "Oyuncunun erkenden karşılaşacağı biri. Birkaç cümle yeter.",
+    "step2Title": "Bir mekâna bağla",
+    "step2Body": "Metnin içinde [[ yaz ve bir sayfa seç ya da yeni bir ad yaz. Henüz olmayan sayfalar kesik çizgili kırmızı bağlantı olarak görünür.",
+    "step3Title": "Kırmızı bağlantıları takip et",
+    "step3Body": "O sayfayı oluşturmak için kırmızı bağlantıya tıkla. Dünyan en zayıf olduğu yerden dolar.",
+    "firstCharacter": "İlk karakteri yaz",
+    "firstLocation": "İlk mekânı yaz"
+  }
+}

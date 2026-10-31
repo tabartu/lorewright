@@ -1,0 +1,208 @@
+.loading {
+  min-block-size: 60vh;
+}
+.inner {
+  max-inline-size: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block: var(--s-4) var(--s-8);
+}
+.runningHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding-block-end: var(--s-2);
+  border-block-end: 1px solid var(--chapter, var(--rule));
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  font-stretch: var(--stretch-semi);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--chapter, var(--ink-3));
+}
+.runningHead a {
+  color: inherit;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.runningHead a:hover {
+  text-decoration: underline;
+}
+.notice {
+  margin-block-start: var(--s-4);
+  padding-block: var(--s-2);
+  padding-inline: var(--s-3);
+  border-block-start: 2px solid var(--ok);
+  background: color-mix(in oklab, var(--ok) 9%, var(--paper));
+  font-size: var(--fs-sm);
+}
+.head {
+  margin-block-start: var(--s-6);
+}
+.headword {
+  font-size: var(--fs-headword);
+  font-weight: 850;
+  font-stretch: var(--stretch-condensed);
+  line-height: 0.95;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.headMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-block-start: var(--s-3);
+  padding-block-end: var(--s-4);
+  border-block-end: 3px double var(--rule-strong);
+}
+.metaLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-1) var(--s-3);
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+.metaCategory {
+  font-weight: 800;
+  font-stretch: var(--stretch-semi);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--chapter, var(--ink));
+}
+.spread {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem);
+  gap: var(--s-7);
+  align-items: start;
+  margin-block-start: var(--s-6);
+}
+@media (max-width: 56rem) {
+  .spread {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+  }
+  .statBlock {
+    order: -1;
+    position: static !important;
+  }
+}
+.column {
+  min-inline-size: 0;
+}
+
+/* stat block: double hairline rules, condensed labels, tabular values */
+.statBlock {
+  position: sticky;
+  inset-block-start: calc(var(--masthead-h) + var(--s-5));
+  padding-block: var(--s-3);
+  border-block: 3px double var(--chapter, var(--ink));
+  background: var(--chapter-tint, var(--paper-2));
+  padding-inline: var(--s-4);
+}
+.statTitle {
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  font-stretch: var(--stretch-condensed);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--chapter, var(--ink));
+  overflow-wrap: anywhere;
+}
+.stats {
+  display: grid;
+  margin-block-start: var(--s-2);
+}
+.stats > div {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) minmax(0, 1fr);
+  gap: var(--s-3);
+  padding-block: var(--s-2);
+  border-block-start: 1px solid color-mix(in oklab, var(--chapter, var(--ink)) 30%, transparent);
+}
+.stats dt {
+  font-size: var(--fs-2xs);
+  font-weight: 800;
+  font-stretch: var(--stretch-semi);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  padding-block-start: 0.15rem;
+}
+.stats dd {
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.blank {
+  max-inline-size: var(--measure);
+  padding: var(--s-5);
+  border: 1.5px dashed var(--rule-strong);
+}
+.blankTitle {
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  font-stretch: var(--stretch-condensed);
+  text-transform: uppercase;
+}
+.blankBody {
+  margin-block: var(--s-2) var(--s-4);
+  font-family: var(--font-read);
+  color: var(--ink-2);
+}
+
+.folio {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-block-start: var(--s-8);
+  padding-block-start: var(--s-3);
+  border-block-start: 1px solid var(--rule-strong);
+}
+.folioLink {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  max-inline-size: 48%;
+  color: var(--ink);
+  text-decoration: none;
+}
+.folioLink > span {
+  display: grid;
+  min-inline-size: 0;
+}
+.folioNext {
+  margin-inline-start: auto;
+  text-align: end;
+}
+.folioIcon {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  flex: none;
+  color: var(--chapter, var(--ink-3));
+}
+:dir(rtl) .folioIcon {
+  transform: scaleX(-1);
+}
+.folioLabel {
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.folioTitle {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.folioLink:hover .folioTitle {
+  text-decoration: underline;
+}

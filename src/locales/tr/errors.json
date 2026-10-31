@@ -1,0 +1,8 @@
+{
+  "lore": {
+    "title_required": "Önce bir ad ver.",
+    "title_taken": "Bu dünyada bu adla (ya da takma adla) bir sayfa zaten var. Başka bir ad seç ya da var olan sayfayı aç.",
+    "not_found": "Bu sayfa artık yok.",
+    "category_not_empty": "Bu bölümü kaldırmadan önce içindeki sayfaları taşı ya da sil."
+  }
+}

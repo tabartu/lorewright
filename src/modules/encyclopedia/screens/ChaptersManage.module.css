@@ -1,0 +1,99 @@
+.list {
+  display: grid;
+  margin-block-start: var(--s-5);
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-block: var(--s-3);
+  border-block-end: 1px solid var(--rule);
+}
+.rowMain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  min-inline-size: 0;
+  flex: 1;
+}
+.icon {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  color: var(--chapter);
+  flex: none;
+}
+.name {
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  font-stretch: var(--stretch-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.name:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--chapter);
+}
+.count {
+  font-size: var(--fs-sm);
+  color: var(--ink-3);
+}
+.badge {
+  padding-inline: 0.35rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 1px;
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+.inkSelect {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding-inline: var(--s-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  min-block-size: 2rem;
+}
+.inkSelect select {
+  border: 0;
+  background: none;
+  font-size: var(--fs-xs);
+  cursor: pointer;
+}
+.swatch {
+  inline-size: 0.75rem;
+  block-size: 0.9rem;
+  background: var(--chapter);
+}
+.renameForm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+.renameInput {
+  min-block-size: 2rem;
+  padding-inline: var(--s-2);
+  border: 1px solid var(--focus);
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-size: var(--fs-md);
+}
+.help {
+  max-inline-size: var(--measure);
+  font-family: var(--font-read);
+  color: var(--ink-2);
+}

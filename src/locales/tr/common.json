@@ -1,0 +1,29 @@
+{
+  "appName": "Lorewright",
+  "a11y": { "skipToContent": "İçeriğe geç" },
+  "action": {
+    "cancel": "Vazgeç",
+    "save": "Kaydet",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "rename": "Yeniden adlandır"
+  },
+  "nav": {
+    "shelf": "Dünyaların",
+    "appSettings": "Ayarlar",
+    "worldSettings": "Dünya ayarları"
+  },
+  "prefs": {
+    "menuLabel": "Dil ve tema",
+    "language": "Arayüz dili",
+    "theme": "Tema",
+    "more": "Diğer"
+  },
+  "theme": { "system": "Sisteme uy", "light": "Aydınlık", "dark": "Karanlık" },
+  "status": { "saved": "Kaydedildi." },
+  "notFound": {
+    "title": "Sayfa bulunamadı",
+    "body": "Bu sayfa yok ya da silinmiş. Dünyaların rafta duruyor.",
+    "back": "Dünyalarına dön"
+  }
+}

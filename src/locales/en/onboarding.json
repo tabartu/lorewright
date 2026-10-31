@@ -1,0 +1,30 @@
+{
+  "shelf": {
+    "emptyTitle": "Bind your first volume",
+    "emptyLede": "Lorewright keeps your game's world as a sourcebook: chapters for characters, places and factions, entries that link to each other, and every fact one search away.",
+    "step1": "Create a world and choose the language its lore is written in.",
+    "step2": "Write entries in Markdown. Type [[ to link another entry.",
+    "step3": "Follow red links to fill in what your world is missing.",
+    "create": "Create a world",
+    "sampleEn": "Open a sample world",
+    "sampleTr": "Open the Turkish sample",
+    "localNote": "No account needed. Everything stays in this browser.",
+    "lede_one": "{{count}} world on your shelf.",
+    "lede_other": "{{count}} worlds on your shelf.",
+    "updated": "Updated {{when}}",
+    "newSlot": "New world",
+    "samplesTitle": "Sample worlds"
+  },
+  "world": {
+    "title": "This volume is still blank",
+    "lede": "Start with one character and one place, then connect them. The rest of the book grows from the links.",
+    "step1Title": "Write a character",
+    "step1Body": "Someone the player will meet early. A few sentences are enough.",
+    "step2Title": "Link a place",
+    "step2Body": "Type [[ inside the text and pick a page, or type a new name. Missing pages show up as dashed red links.",
+    "step3Title": "Follow the red links",
+    "step3Body": "Click a red link to create that page. Your world fills in where it's thinnest.",
+    "firstCharacter": "Write the first character",
+    "firstLocation": "Write the first place"
+  }
+}

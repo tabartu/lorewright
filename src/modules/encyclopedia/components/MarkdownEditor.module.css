@@ -1,0 +1,13 @@
+.editor {
+  min-block-size: 22rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+.editor:focus-within {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--focus) 20%, transparent);
+}
+.editor :global(.cm-editor) {
+  min-block-size: 22rem;
+}

@@ -1,0 +1,181 @@
+.placeholder {
+  min-block-size: 50vh;
+}
+
+/* ---------- shelf of covers ---------- */
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
+  gap: var(--s-5);
+  margin-block-start: var(--s-6);
+}
+.cover,
+.newSlot {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 3 / 4;
+  padding: var(--s-4);
+  border-radius: 1px 3px 3px 1px;
+  text-decoration: none;
+}
+.cover {
+  position: relative;
+  background: var(--cover);
+  color: var(--on-cover);
+  box-shadow: 0 1px 1px oklch(0.2 0.03 260 / 0.25), 0 8px 18px -10px oklch(0.2 0.03 260 / 0.45);
+  transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+}
+.cover::before {
+  /* the spine hinge */
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0.6rem;
+  inline-size: 1px;
+  background: color-mix(in oklab, var(--on-cover) 22%, transparent);
+}
+.cover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 1px 1px oklch(0.2 0.03 260 / 0.25), 0 16px 28px -12px oklch(0.2 0.03 260 / 0.5);
+}
+.coverTop {
+  padding-inline-start: var(--s-3);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  font-stretch: var(--stretch-semi);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--on-cover-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.coverTitle {
+  margin-block-start: auto;
+  padding-inline-start: var(--s-3);
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  font-stretch: var(--stretch-condensed);
+  line-height: 0.98;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.coverRule {
+  margin-block: var(--s-3);
+  margin-inline-start: var(--s-3);
+  block-size: 3px;
+  border-block: 1px solid var(--on-cover-2);
+}
+.coverFoot {
+  padding-inline-start: var(--s-3);
+  font-size: var(--fs-xs);
+  color: var(--on-cover-2);
+}
+.newSlot {
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  border: 1.5px dashed var(--rule-strong);
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-align: center;
+}
+.newSlot svg {
+  inline-size: 2rem;
+  block-size: 2rem;
+}
+.newSlot:hover {
+  border-color: var(--ink-2);
+  color: var(--ink);
+  background: var(--paper-2);
+}
+
+/* ---------- empty shelf ---------- */
+.empty {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: center;
+  min-block-size: calc(100dvh - 12rem);
+}
+@media (max-width: 52rem) {
+  .empty {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-6);
+  }
+  .emptyShelf {
+    order: -1;
+    max-inline-size: 16rem;
+  }
+  .ghostCover,
+  .ghostSlot {
+    block-size: 7rem !important;
+  }
+  .ghostCover:nth-child(2) {
+    block-size: 6rem !important;
+  }
+}
+.emptyTitle {
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 800;
+  font-stretch: var(--stretch-condensed);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.emptyLede {
+  max-inline-size: 52ch;
+  margin-block: var(--s-4) var(--s-5);
+  font-family: var(--font-read);
+  font-size: var(--fs-lg);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.steps {
+  display: grid;
+  gap: var(--s-2);
+  margin-block-end: var(--s-6);
+  padding-inline-start: 1.4em;
+  font-family: var(--font-read);
+  color: var(--ink);
+}
+.steps li::marker {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  color: var(--ink-3);
+}
+.emptyNote {
+  margin-block-start: var(--s-4);
+  font-size: var(--fs-sm);
+  color: var(--ink-3);
+}
+.emptyShelf {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: end;
+  gap: var(--s-2);
+  padding-block-end: var(--s-2);
+  border-block-end: 6px solid var(--rule-strong);
+}
+.ghostCover {
+  block-size: 15rem;
+  background: var(--cover);
+  border-radius: 1px 3px 3px 1px;
+  box-shadow: inset -0.6rem 0 0 color-mix(in oklab, var(--cover) 82%, black);
+}
+.ghostCover:nth-child(2) {
+  block-size: 13rem;
+}
+.ghostCover:nth-child(3) {
+  block-size: 11.5rem;
+}
+.ghostSlot {
+  block-size: 14rem;
+  border: 1.5px dashed var(--rule-strong);
+  border-radius: 1px 3px 3px 1px;
+}

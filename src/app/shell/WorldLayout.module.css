@@ -1,0 +1,95 @@
+.layout {
+  min-block-size: 100dvh;
+}
+.loading {
+  min-block-size: 100dvh;
+}
+.actionLabel {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+@media (max-width: 36rem) {
+  .actionLabel {
+    display: none;
+  }
+}
+
+.tabs {
+  background: var(--paper);
+  border-block-end: 1px solid var(--rule);
+}
+.tabList {
+  display: flex;
+  gap: var(--s-1);
+  max-inline-size: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scroll-padding-inline: var(--gutter);
+}
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  block-size: 2.75rem;
+  padding-inline: var(--s-3);
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.tab::before {
+  /* The printed thumb-tab: a chapter-ink bar along the top edge. */
+  content: '';
+  position: absolute;
+  inset-inline: var(--s-2);
+  inset-block-start: 0;
+  block-size: 3px;
+  background: var(--chapter, var(--rule-strong));
+  transform-origin: top;
+  transform: scaleY(0.67);
+  transition: transform 180ms var(--ease-out);
+}
+.tab:hover {
+  color: var(--ink);
+}
+.tab:hover::before {
+  transform: scaleY(1);
+}
+.tab[aria-current='page'],
+.tab[data-active] {
+  color: var(--ink);
+  background: var(--chapter-tint, var(--paper-2));
+}
+.tab[aria-current='page']::before,
+.tab[data-active]::before {
+  inset-inline: 0;
+  block-size: 4px;
+  transform: none;
+}
+.tabIcon {
+  inline-size: 1rem;
+  block-size: 1rem;
+  color: var(--chapter, var(--ink-3));
+  flex: none;
+}
+.tabCount {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+.tabManage {
+  margin-inline-start: auto;
+}
+.tabManage .tab {
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.main {
+  outline: none;
+}

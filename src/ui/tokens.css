@@ -1,0 +1,167 @@
+/*
+ * Lorewright design tokens — "The Sourcebook".
+ * Bright cool sheet + near-black ink in light; deep cover-navy + bone ink in dark.
+ * Each world sets a cover ink ([data-cover]); each chapter sets a chapter ink ([data-ink]).
+ */
+:root {
+  color-scheme: light;
+
+  --paper: oklch(0.985 0.003 250);
+  --paper-2: oklch(0.958 0.006 250);
+  --paper-3: oklch(0.928 0.008 250);
+  --ink: oklch(0.21 0.025 260);
+  --ink-2: oklch(0.40 0.022 260);
+  --ink-3: oklch(0.50 0.016 260);
+  --rule: oklch(0.87 0.01 255);
+  --rule-strong: oklch(0.70 0.016 255);
+  --focus: oklch(0.52 0.19 258);
+  --danger: oklch(0.50 0.19 27);
+  --danger-ink: oklch(0.98 0.01 27);
+  --missing: oklch(0.50 0.17 32);
+  --ok: oklch(0.48 0.11 160);
+
+  --ink-vermilion: oklch(0.52 0.19 30);
+  --ink-jade: oklch(0.48 0.10 165);
+  --ink-violet: oklch(0.49 0.16 292);
+  --ink-amber: oklch(0.51 0.12 68);
+  --ink-cobalt: oklch(0.48 0.15 258);
+  --ink-moss: oklch(0.48 0.10 132);
+  --ink-magenta: oklch(0.49 0.19 348);
+  --ink-sienna: oklch(0.49 0.12 48);
+  --ink-cyan: oklch(0.50 0.09 215);
+  --ink-graphite: oklch(0.40 0.012 260);
+
+  --cover-lapis: oklch(0.40 0.13 262);
+  --cover-viridian: oklch(0.42 0.085 168);
+  --cover-oxblood: oklch(0.37 0.12 18);
+  --cover-ochre: oklch(0.74 0.13 82);
+  --cover-plum: oklch(0.39 0.11 328);
+  --cover-slate: oklch(0.40 0.03 250);
+  --cover-teal: oklch(0.47 0.085 205);
+  --cover-rust: oklch(0.50 0.14 42);
+  --on-cover-light: oklch(0.985 0.008 90);
+  --on-cover-dark: oklch(0.22 0.035 65);
+
+  --font-read: 'Literata Variable', 'Iowan Old Style', Georgia, serif;
+  --font-ui: 'Archivo Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --stretch-condensed: 72%;
+  --stretch-semi: 88%;
+
+  --fs-2xs: 0.6875rem;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-body: 1.0625rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: 2.5rem;
+  --fs-headword: 3.25rem;
+
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4.5rem;
+
+  --measure: 68ch;
+  /* Height of the sticky masthead band plus the chapter tabs. */
+  --masthead-h: 6.3rem;
+  --radius: 2px;
+  --page-max: 78rem;
+  --gutter: clamp(1rem, 3vw, 2.5rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-pop: 0 10px 30px -8px oklch(0.2 0.03 260 / 0.28), 0 2px 6px oklch(0.2 0.03 260 / 0.12);
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --fs-headword: 2.375rem;
+    --fs-3xl: 2rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --paper: oklch(0.195 0.03 262);
+    --paper-2: oklch(0.228 0.032 262);
+    --paper-3: oklch(0.262 0.034 262);
+    --ink: oklch(0.93 0.012 85);
+    --ink-2: oklch(0.81 0.014 85);
+    --ink-3: oklch(0.70 0.014 85);
+    --rule: oklch(0.33 0.03 262);
+    --rule-strong: oklch(0.47 0.03 262);
+    --focus: oklch(0.76 0.13 250);
+    --danger: oklch(0.70 0.16 27);
+    --danger-ink: oklch(0.18 0.03 27);
+    --missing: oklch(0.76 0.13 38);
+    --ok: oklch(0.76 0.1 160);
+    --ink-vermilion: oklch(0.76 0.14 32);
+    --ink-jade: oklch(0.78 0.09 165);
+    --ink-violet: oklch(0.77 0.12 292);
+    --ink-amber: oklch(0.82 0.12 75);
+    --ink-cobalt: oklch(0.77 0.11 255);
+    --ink-moss: oklch(0.79 0.10 132);
+    --ink-magenta: oklch(0.77 0.14 348);
+    --ink-sienna: oklch(0.77 0.10 50);
+    --ink-cyan: oklch(0.80 0.08 215);
+    --ink-graphite: oklch(0.80 0.012 260);
+    --shadow-pop: 0 12px 32px -6px oklch(0.05 0.02 262 / 0.6), 0 2px 6px oklch(0.05 0.02 262 / 0.4);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: oklch(0.195 0.03 262);
+  --paper-2: oklch(0.228 0.032 262);
+  --paper-3: oklch(0.262 0.034 262);
+  --ink: oklch(0.93 0.012 85);
+  --ink-2: oklch(0.81 0.014 85);
+  --ink-3: oklch(0.70 0.014 85);
+  --rule: oklch(0.33 0.03 262);
+  --rule-strong: oklch(0.47 0.03 262);
+  --focus: oklch(0.76 0.13 250);
+  --danger: oklch(0.70 0.16 27);
+  --danger-ink: oklch(0.18 0.03 27);
+  --missing: oklch(0.76 0.13 38);
+  --ok: oklch(0.76 0.1 160);
+  --ink-vermilion: oklch(0.76 0.14 32);
+  --ink-jade: oklch(0.78 0.09 165);
+  --ink-violet: oklch(0.77 0.12 292);
+  --ink-amber: oklch(0.82 0.12 75);
+  --ink-cobalt: oklch(0.77 0.11 255);
+  --ink-moss: oklch(0.79 0.10 132);
+  --ink-magenta: oklch(0.77 0.14 348);
+  --ink-sienna: oklch(0.77 0.10 50);
+  --ink-cyan: oklch(0.80 0.08 215);
+  --ink-graphite: oklch(0.80 0.012 260);
+  --shadow-pop: 0 12px 32px -6px oklch(0.05 0.02 262 / 0.6), 0 2px 6px oklch(0.05 0.02 262 / 0.4);
+}
+
+/* Chapter ink selection */
+[data-ink='vermilion'] { --chapter: var(--ink-vermilion); }
+[data-ink='jade'] { --chapter: var(--ink-jade); }
+[data-ink='violet'] { --chapter: var(--ink-violet); }
+[data-ink='amber'] { --chapter: var(--ink-amber); }
+[data-ink='cobalt'] { --chapter: var(--ink-cobalt); }
+[data-ink='moss'] { --chapter: var(--ink-moss); }
+[data-ink='magenta'] { --chapter: var(--ink-magenta); }
+[data-ink='sienna'] { --chapter: var(--ink-sienna); }
+[data-ink='cyan'] { --chapter: var(--ink-cyan); }
+[data-ink='graphite'] { --chapter: var(--ink-graphite); }
+[data-ink] { --chapter-tint: color-mix(in oklab, var(--chapter) 9%, var(--paper)); }
+
+/* World cover ink selection */
+[data-cover='lapis'] { --cover: var(--cover-lapis); --on-cover: var(--on-cover-light); }
+[data-cover='viridian'] { --cover: var(--cover-viridian); --on-cover: var(--on-cover-light); }
+[data-cover='oxblood'] { --cover: var(--cover-oxblood); --on-cover: var(--on-cover-light); }
+[data-cover='ochre'] { --cover: var(--cover-ochre); --on-cover: var(--on-cover-dark); }
+[data-cover='plum'] { --cover: var(--cover-plum); --on-cover: var(--on-cover-light); }
+[data-cover='slate'] { --cover: var(--cover-slate); --on-cover: var(--on-cover-light); }
+[data-cover='teal'] { --cover: var(--cover-teal); --on-cover: var(--on-cover-light); }
+[data-cover='rust'] { --cover: var(--cover-rust); --on-cover: var(--on-cover-light); }
+[data-cover] { --on-cover-2: color-mix(in oklab, var(--on-cover) 78%, var(--cover)); }

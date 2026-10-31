@@ -1,0 +1,29 @@
+{
+  "appName": "Lorewright",
+  "a11y": { "skipToContent": "Skip to content" },
+  "action": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "rename": "Rename"
+  },
+  "nav": {
+    "shelf": "Your worlds",
+    "appSettings": "Settings",
+    "worldSettings": "World settings"
+  },
+  "prefs": {
+    "menuLabel": "Language and theme",
+    "language": "Interface language",
+    "theme": "Theme",
+    "more": "More"
+  },
+  "theme": { "system": "Match system", "light": "Light", "dark": "Dark" },
+  "status": { "saved": "Saved." },
+  "notFound": {
+    "title": "Page not found",
+    "body": "This page doesn't exist, or it was deleted. Your worlds are still on the shelf.",
+    "back": "Back to your worlds"
+  }
+}
