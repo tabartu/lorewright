@@ -87,58 +87,16 @@
     grid-template-columns: minmax(0, 1fr);
     gap: var(--s-5);
   }
-  .statBlock {
-    position: static !important;
-  }
 }
 .column {
   min-inline-size: 0;
 }
 
-/* stat block: double hairline rules, condensed labels, tabular values */
-.statBlock {
-  position: sticky;
-  inset-block-start: calc(var(--masthead-h) + var(--s-5));
-  padding-block: var(--s-3);
-  border-block: 3px double var(--chapter, var(--ink));
-  background: var(--chapter-tint, var(--paper-2));
-  padding-inline: var(--s-4);
+.colophon {
+  margin-block-start: var(--s-6);
+  font-size: var(--fs-xs);
+  color: var(--ink-3);
 }
-.statTitle {
-  font-size: var(--fs-lg);
-  font-weight: 800;
-  font-stretch: var(--stretch-condensed);
-  line-height: 1.05;
-  text-transform: uppercase;
-  color: var(--chapter, var(--ink));
-  overflow-wrap: anywhere;
-}
-.stats {
-  display: grid;
-  margin-block-start: var(--s-2);
-}
-.stats > div {
-  display: grid;
-  grid-template-columns: minmax(6rem, auto) minmax(0, 1fr);
-  gap: var(--s-3);
-  padding-block: var(--s-2);
-  border-block-start: 1px solid color-mix(in oklab, var(--chapter, var(--ink)) 30%, transparent);
-}
-.stats dt {
-  font-size: var(--fs-2xs);
-  font-weight: 800;
-  font-stretch: var(--stretch-semi);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  padding-block-start: 0.15rem;
-}
-.stats dd {
-  font-size: var(--fs-sm);
-  font-variant-numeric: tabular-nums;
-  overflow-wrap: anywhere;
-}
-
 .blank {
   max-inline-size: var(--measure);
   padding: var(--s-5);

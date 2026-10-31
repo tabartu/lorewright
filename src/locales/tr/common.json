@@ -1,6 +1,8 @@
 {
   "appName": "Lorewright",
-  "a11y": { "skipToContent": "İçeriğe geç" },
+  "a11y": {
+    "skipToContent": "İçeriğe geç"
+  },
   "action": {
     "cancel": "Vazgeç",
     "save": "Kaydet",
@@ -19,11 +21,19 @@
     "theme": "Tema",
     "more": "Diğer"
   },
-  "theme": { "system": "Sisteme uy", "light": "Aydınlık", "dark": "Karanlık" },
-  "status": { "saved": "Kaydedildi." },
+  "theme": {
+    "system": "Sisteme uy",
+    "light": "Aydınlık",
+    "dark": "Karanlık"
+  },
+  "status": {
+    "saved": "Kaydedildi."
+  },
   "notFound": {
     "title": "Sayfa bulunamadı",
     "body": "Bu sayfa yok ya da silinmiş. Dünyaların rafta duruyor.",
     "back": "Dünyalarına dön"
-  }
+  },
+  "yes": "Evet",
+  "no": "Hayır"
 }

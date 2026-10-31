@@ -9,6 +9,8 @@ import { contentCollator, useFormat } from '../../../core/i18n/format'
 import { usePage, usePages } from '../../../core/lore/api'
 import { categoryName } from '../../../core/lore/categories'
 import { ButtonLink } from '../../../ui/Button'
+import { Backlinks } from '../components/Backlinks'
+import { Infobox } from '../components/Infobox'
 import { MarkdownView } from '../components/MarkdownView'
 import { StatusMark } from '../components/StatusMark'
 import styles from './PageReader.module.css'
@@ -66,7 +68,7 @@ export function PageReader() {
           <div className={styles.headMeta}>
             <p className={styles.metaLine}>
               <span className={styles.metaCategory}>{singular}</span>
-              {page.date && <span>{fmt.worldDate(page.date, world.calendar)}</span>}
+              {page.date && <span lang={world.contentLanguage}>{fmt.worldDate(page.date, world.calendar)}</span>}
               {page.aliases.length > 0 && (
                 <span lang={world.contentLanguage}>
                   {t('encyclopedia:page.alsoKnownAs', { names: page.aliases.join(', ') })}
@@ -93,44 +95,17 @@ export function PageReader() {
                 </ButtonLink>
               </div>
             )}
+            <Backlinks pageId={page.id} world={world} categories={categories} />
+            <p className={styles.colophon}>
+              {t('encyclopedia:page.colophon', {
+                words: fmt.number(page.wordCount),
+                count: page.wordCount,
+                updated: fmt.relative(page.updatedAt),
+              })}
+            </p>
           </div>
 
-          <aside className={styles.statBlock} aria-label={t('encyclopedia:page.facts')}>
-            <h2 className={styles.statTitle} lang={world.contentLanguage}>
-              {page.title}
-            </h2>
-            <dl className={styles.stats}>
-              <div>
-                <dt>{t('encyclopedia:page.category')}</dt>
-                <dd>{singular}</dd>
-              </div>
-              {page.date && (
-                <div>
-                  <dt>{t('encyclopedia:field.date')}</dt>
-                  <dd>
-                    {fmt.worldDate(page.date, world.calendar)}
-                    {page.endDate && ` – ${fmt.worldDate(page.endDate, world.calendar)}`}
-                  </dd>
-                </div>
-              )}
-              <div>
-                <dt>{t('encyclopedia:page.statusLabel')}</dt>
-                <dd>{t(`encyclopedia:status.${page.status}`)}</dd>
-              </div>
-              <div>
-                <dt>{t('encyclopedia:page.words')}</dt>
-                <dd>{fmt.number(page.wordCount)}</dd>
-              </div>
-              <div>
-                <dt>{t('encyclopedia:page.updated')}</dt>
-                <dd>
-                  <time dateTime={new Date(page.updatedAt).toISOString()} title={fmt.dateTime(page.updatedAt)}>
-                    {fmt.relative(page.updatedAt)}
-                  </time>
-                </dd>
-              </div>
-            </dl>
-          </aside>
+          <Infobox page={page} category={category} world={world} />
         </div>
 
         {(folio.prev || folio.next) && (

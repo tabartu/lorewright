@@ -9,10 +9,12 @@ import { usePage, usePageTitles } from '../../../core/lore/api'
 import { categoryName } from '../../../core/lore/categories'
 import { LoreError } from '../../../core/lore/errors'
 import { createPage, deletePage, updatePage } from '../../../core/lore/pages'
-import type { ID, Page, PageStatus } from '../../../core/lore/types'
+import { cleanFields } from '../../../core/lore/fields'
+import type { ID, Page, PageStatus, WorldDate } from '../../../core/lore/types'
 import { Button } from '../../../ui/Button'
 import { ConfirmDialog } from '../../../ui/ConfirmDialog'
 import { SelectField, TextField } from '../../../ui/Field'
+import { InfoboxForm } from '../components/InfoboxForm'
 import { MarkdownEditor } from '../components/MarkdownEditor'
 import { MarkdownView } from '../components/MarkdownView'
 import styles from './PageEditor.module.css'
@@ -26,6 +28,9 @@ interface Draft {
   status: PageStatus
   aliases: string
   body: string
+  fields: Record<string, unknown>
+  date?: WorldDate
+  endDate?: WorldDate
 }
 
 /** Route wrapper: resolves "new" vs "edit" and waits for the page to load. */
@@ -47,8 +52,11 @@ export function PageEditor() {
         status: data.page.status,
         aliases: data.page.aliases.join(', '),
         body: data.body,
+        fields: data.page.fields,
+        date: data.page.date,
+        endDate: data.page.endDate,
       }
-    : { title: params.get('title') ?? '', categoryId: fallbackCategory, status: 'draft', aliases: '', body: '' }
+    : { title: params.get('title') ?? '', categoryId: fallbackCategory, status: 'draft', aliases: '', body: '', fields: {} }
 
   return <EditorForm key={pageId ?? `new:${params.toString()}`} page={data?.page} initial={initial} />
 }
@@ -105,6 +113,9 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
     }
     setSaving(true)
     const aliases = draft.aliases.split(',').map((a) => a.trim()).filter(Boolean)
+    const target = categories.find((c) => c.id === draft.categoryId)
+    const fields = cleanFields(target?.fields ?? [], draft.fields)
+    const dated = target?.builtIn === 'event'
     try {
       let id: ID
       let notice: string | undefined
@@ -115,6 +126,9 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
           categoryId: draft.categoryId,
           status: draft.status,
           aliases,
+          fields,
+          date: dated ? (draft.date ?? null) : undefined,
+          endDate: dated ? (draft.endDate ?? null) : undefined,
         })
         id = page.id
         notice = rewrittenLinks > 0 ? t('encyclopedia:page.renamedLinks', { count: rewrittenLinks }) : t('common:status.saved')
@@ -126,6 +140,9 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
           body: draft.body,
           status: draft.status,
           aliases,
+          fields,
+          date: dated ? draft.date : undefined,
+          endDate: dated ? draft.endDate : undefined,
         })
         id = created.id
         notice = t('encyclopedia:page.created')
@@ -141,7 +158,7 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
     } finally {
       setSaving(false)
     }
-  }, [saving, draft, page, world.id, base, navigate, t])
+  }, [saving, draft, page, world.id, base, navigate, t, categories])
 
   function onSubmit(e: FormEvent) {
     e.preventDefault()
@@ -246,6 +263,27 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
             lang={world.contentLanguage}
           />
         </div>
+
+        {category && (
+          <InfoboxForm
+            fields={category.fields}
+            values={draft.fields}
+            onChange={(fieldId, value) => setDraft((d) => ({ ...d, fields: { ...d.fields, [fieldId]: value } }))}
+            titles={(titles ?? []).filter((p) => p.id !== page?.id).map((p) => p.title)}
+            calendar={world.calendar}
+            lang={world.contentLanguage}
+            dates={
+              category.builtIn === 'event'
+                ? {
+                    date: draft.date,
+                    endDate: draft.endDate,
+                    onDate: (d) => set('date', d),
+                    onEndDate: (d) => set('endDate', d),
+                  }
+                : undefined
+            }
+          />
+        )}
 
         <div className={styles.bodyHead}>
           <h2 className={styles.bodyLabel}>{t('encyclopedia:editor.body')}</h2>

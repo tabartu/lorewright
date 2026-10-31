@@ -97,3 +97,11 @@
   font-family: var(--font-read);
   color: var(--ink-2);
 }
+
+.fieldsLink {
+  padding-inline: var(--s-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}

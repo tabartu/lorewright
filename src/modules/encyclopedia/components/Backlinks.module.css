@@ -1,0 +1,58 @@
+.backlinks {
+  max-inline-size: var(--measure);
+  margin-block-start: var(--s-7);
+  padding-block-start: var(--s-3);
+  border-block-start: 3px double var(--rule-strong);
+}
+.title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  font-stretch: var(--stretch-semi);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.count {
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.list {
+  columns: 2 15rem;
+  column-gap: var(--s-6);
+  margin-block-start: var(--s-3);
+}
+.list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-1) var(--s-2);
+  padding-block: var(--s-1);
+  break-inside: avoid;
+}
+.icon {
+  inline-size: 0.9rem;
+  block-size: 0.9rem;
+  flex: none;
+  align-self: center;
+  color: var(--chapter);
+}
+.link {
+  font-weight: 650;
+  color: var(--ink);
+  text-decoration-color: color-mix(in oklab, var(--chapter, var(--ink)) 60%, transparent);
+  overflow-wrap: anywhere;
+}
+.meta {
+  font-size: var(--fs-xs);
+  color: var(--ink-3);
+}
+.empty {
+  margin-block-start: var(--s-2);
+  font-family: var(--font-read);
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}

@@ -1,0 +1,65 @@
+/* Stat block: double hairline rules, condensed labels, tabular values. */
+.statBlock {
+  position: sticky;
+  inset-block-start: calc(var(--masthead-h) + var(--s-5));
+  padding-block: var(--s-3);
+  padding-inline: var(--s-4);
+  border-block: 3px double var(--chapter, var(--ink));
+  background: var(--chapter-tint, var(--paper-2));
+}
+.title {
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  font-stretch: var(--stretch-condensed);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--chapter, var(--ink));
+  overflow-wrap: anywhere;
+}
+.stats {
+  display: grid;
+  margin-block-start: var(--s-2);
+}
+.stats > div {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 7.5rem) minmax(0, 1fr);
+  gap: var(--s-3);
+  padding-block: var(--s-2);
+  border-block-start: 1px solid color-mix(in oklab, var(--chapter, var(--ink)) 30%, transparent);
+}
+.stats dt {
+  padding-block-start: 0.15rem;
+  font-size: var(--fs-2xs);
+  font-weight: 800;
+  font-stretch: var(--stretch-semi);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.stats dd {
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.stats dd a {
+  font-weight: 600;
+}
+.stats [data-type='longtext'] {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-1);
+}
+.stats [data-type='longtext'] dd {
+  font-family: var(--font-read);
+}
+.empty {
+  margin-block-start: var(--s-2);
+  font-family: var(--font-read);
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+@media (max-width: 56rem) {
+  .statBlock {
+    position: static;
+  }
+}

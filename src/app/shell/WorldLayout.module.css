@@ -108,3 +108,34 @@
 .main {
   outline: none;
 }
+
+.searchButton {
+  gap: var(--s-2);
+  min-inline-size: 2.5rem;
+  margin-inline-end: var(--s-2);
+  padding-inline: var(--s-3);
+  border: 1px solid color-mix(in oklab, var(--on-cover) 35%, var(--cover)) !important;
+}
+.searchLabel {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.kbd {
+  padding-inline: 0.3rem;
+  border: 1px solid color-mix(in oklab, var(--on-cover) 35%, var(--cover));
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  color: var(--on-cover-2);
+}
+@media (max-width: 44rem) {
+  .searchLabel,
+  .kbd {
+    display: none;
+  }
+  .searchButton {
+    border-color: transparent !important;
+    margin-inline-end: 0;
+  }
+}

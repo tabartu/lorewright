@@ -1,14 +1,47 @@
 {
-  "module": { "name": "Lore Encyclopedia" },
-  "nav": { "chapters": "Chapters", "manageChapters": "Edit chapters" },
+  "module": {
+    "name": "Lore Encyclopedia"
+  },
+  "nav": {
+    "chapters": "Chapters",
+    "manageChapters": "Edit chapters"
+  },
   "category": {
-    "character": { "singular": "Character", "plural": "Characters", "purpose": "People and other beings with a will of their own: heroes, rulers, villains, the ferryman everyone avoids." },
-    "location": { "singular": "Location", "plural": "Locations", "purpose": "Places the player can reach or hear about: cities, ruins, regions, rooms." },
-    "faction": { "singular": "Faction", "plural": "Factions", "purpose": "Groups with shared goals: houses, guilds, armies, cults, companies." },
-    "event": { "singular": "Event", "plural": "Events", "purpose": "Things that happened, or will. Give an event a date and it will appear on the timeline." },
-    "item": { "singular": "Item", "plural": "Items", "purpose": "Objects that matter: relics, weapons, keys, letters, the crown nobody can take off." },
-    "creature": { "singular": "Creature", "plural": "Creatures", "purpose": "Beasts, monsters and species: where they live and what they do to people who wander too far." },
-    "concept": { "singular": "Concept", "plural": "Concepts", "purpose": "The rules of your world: magic systems, religions, technologies, laws, languages." }
+    "character": {
+      "singular": "Character",
+      "plural": "Characters",
+      "purpose": "People and other beings with a will of their own: heroes, rulers, villains, the ferryman everyone avoids."
+    },
+    "location": {
+      "singular": "Location",
+      "plural": "Locations",
+      "purpose": "Places the player can reach or hear about: cities, ruins, regions, rooms."
+    },
+    "faction": {
+      "singular": "Faction",
+      "plural": "Factions",
+      "purpose": "Groups with shared goals: houses, guilds, armies, cults, companies."
+    },
+    "event": {
+      "singular": "Event",
+      "plural": "Events",
+      "purpose": "Things that happened, or will. Give an event a date and it will appear on the timeline."
+    },
+    "item": {
+      "singular": "Item",
+      "plural": "Items",
+      "purpose": "Objects that matter: relics, weapons, keys, letters, the crown nobody can take off."
+    },
+    "creature": {
+      "singular": "Creature",
+      "plural": "Creatures",
+      "purpose": "Beasts, monsters and species: where they live and what they do to people who wander too far."
+    },
+    "concept": {
+      "singular": "Concept",
+      "plural": "Concepts",
+      "purpose": "The rules of your world: magic systems, religions, technologies, laws, languages."
+    }
   },
   "field": {
     "date": "Date",
@@ -18,7 +51,7 @@
     "affiliation": "Affiliation",
     "home": "Home",
     "occupation": "Occupation",
-    "lifeStatus": "Status",
+    "lifeStatus": "Life status",
     "locationType": "Type",
     "region": "Region",
     "ruler": "Ruler",
@@ -39,9 +72,14 @@
     "habitat": "Habitat",
     "danger": "Danger",
     "conceptType": "Type",
-    "related": "Related"
+    "related": "Related",
+    "endDate": "End date"
   },
-  "lifeStatus": { "alive": "Alive", "dead": "Dead", "unknown": "Unknown" },
+  "lifeStatus": {
+    "alive": "Alive",
+    "dead": "Dead",
+    "unknown": "Unknown"
+  },
   "status": {
     "stub": "Stub",
     "draft": "Draft",
@@ -135,7 +173,9 @@
     "namePlaceholder": "e.g. Vehicles",
     "ink": "Chapter colour",
     "add": "Add chapter",
-    "deleteConfirm": "Remove the chapter “{{name}}”?"
+    "deleteConfirm": "Remove the chapter “{{name}}”?",
+    "fields_one": "{{count}} field",
+    "fields_other": "{{count}} fields"
   },
   "page": {
     "new": "New page",
@@ -164,7 +204,9 @@
     "renamedLinks_other": "Saved. {{count}} links to this page were updated to the new name.",
     "delete": "Delete page",
     "deleteConfirmTitle": "Delete “{{title}}”?",
-    "deleteConfirmBody": "Links to this page will turn red. This can't be undone."
+    "deleteConfirmBody": "Links to this page will turn red. This can't be undone.",
+    "colophon_one": "{{words}} word · updated {{updated}}",
+    "colophon_other": "{{words}} words · updated {{updated}}"
   },
   "editor": {
     "body": "Text",
@@ -185,5 +227,74 @@
   "link": {
     "missingTitle": "“{{title}}” hasn't been written yet. Click to create it.",
     "missingA11y": "page not written yet"
+  },
+  "search": {
+    "button": "Search",
+    "shortcut": "Ctrl K",
+    "escKey": "Esc",
+    "label": "Search {{world}}",
+    "placeholder": "Search {{world}}…",
+    "noResults": "No pages match “{{query}}”.",
+    "pages": "Pages",
+    "actions": "Actions",
+    "create": "Create a page called “{{title}}”",
+    "goTo": "Go to",
+    "worldHome": "World home",
+    "hint": "↑ ↓ to move · Enter to open · Esc to close"
+  },
+  "backlinks": {
+    "title": "Pages that link here",
+    "empty": "No other page links here yet. Mention it as [[…]] in another entry and it will appear."
+  },
+  "infobox": {
+    "title": "Stat block",
+    "empty": "No facts yet. Fill in the stat block when you edit this page.",
+    "none": "—",
+    "refPlaceholder": "Page name",
+    "refsPlaceholder": "Type a page name, then Enter",
+    "remove": "Remove {{title}}",
+    "tagsHint": "Separate with commas.",
+    "year": "Year",
+    "month": "Month",
+    "day": "Day",
+    "approximate": "Approximate"
+  },
+  "fieldType": {
+    "text": "Short text",
+    "longtext": "Long text",
+    "number": "Number",
+    "worldDate": "World date",
+    "pageRef": "Link to a page",
+    "pageRefs": "Links to pages",
+    "select": "Choice from a list",
+    "tags": "Tags",
+    "boolean": "Yes / no"
+  },
+  "fieldTypeHelp": {
+    "text": "A single line, such as a title or a nickname.",
+    "longtext": "A few sentences. Shown full-width in the stat block.",
+    "number": "A number, formatted for the reader's language.",
+    "worldDate": "A year in this world's calendar, with optional month and day.",
+    "pageRef": "Points at one page. It counts as a link: it shows up in backlinks and becomes a red link if the page doesn't exist.",
+    "pageRefs": "Points at several pages, e.g. members or allies. Each one counts as a link.",
+    "select": "One option from a fixed list you define.",
+    "tags": "Free words separated by commas.",
+    "boolean": "A checkbox."
+  },
+  "fields": {
+    "title": "{{chapter}}: fields",
+    "lede": "These fields make up the stat block of every page in this chapter. Built-in fields can be reordered; your own can also be removed.",
+    "empty": "This chapter has no fields yet. Add one below.",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "deleteHint": "Remove this field. Values already entered stay stored but are no longer shown.",
+    "addTitle": "Add a field",
+    "label": "Field name",
+    "labelPlaceholder": "e.g. Title, Allegiance, Weakness",
+    "type": "Type",
+    "options": "Options",
+    "optionsHint": "Separate options with commas.",
+    "optionsRequired": "A choice field needs at least one option.",
+    "add": "Add field"
   }
 }

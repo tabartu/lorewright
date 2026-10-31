@@ -178,6 +178,9 @@ function ChapterRow({
             ))}
           </select>
         </label>
+        <Link to={`/w/${worldId}/chapters/${category.id}`} className={styles.fieldsLink}>
+          {t('encyclopedia:chapters.fields', { count: category.fields.length })}
+        </Link>
         {!category.builtIn && !editing && (
           <Button size="sm" variant="quiet" onClick={() => setEditing(true)}>
             {t('common:action.rename')}

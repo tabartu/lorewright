@@ -1,14 +1,47 @@
 {
-  "module": { "name": "Lore Ansiklopedisi" },
-  "nav": { "chapters": "Bölümler", "manageChapters": "Bölümleri düzenle" },
+  "module": {
+    "name": "Lore Ansiklopedisi"
+  },
+  "nav": {
+    "chapters": "Bölümler",
+    "manageChapters": "Bölümleri düzenle"
+  },
   "category": {
-    "character": { "singular": "Karakter", "plural": "Karakterler", "purpose": "Kendi iradesi olan insanlar ve diğer varlıklar: kahramanlar, hükümdarlar, kötüler, herkesin uzak durduğu kayıkçı." },
-    "location": { "singular": "Mekân", "plural": "Mekânlar", "purpose": "Oyuncunun gidebileceği ya da adını duyacağı yerler: şehirler, harabeler, bölgeler, odalar." },
-    "faction": { "singular": "Fraksiyon", "plural": "Fraksiyonlar", "purpose": "Ortak amacı olan gruplar: hanedanlar, loncalar, ordular, tarikatlar, şirketler." },
-    "event": { "singular": "Olay", "plural": "Olaylar", "purpose": "Olmuş ya da olacak şeyler. Bir olaya tarih verirsen zaman çizelgesinde görünür." },
-    "item": { "singular": "Eşya", "plural": "Eşyalar", "purpose": "Önemli nesneler: kalıntılar, silahlar, anahtarlar, mektuplar, kimsenin çıkaramadığı taç." },
-    "creature": { "singular": "Yaratık", "plural": "Yaratıklar", "purpose": "Hayvanlar, canavarlar ve türler: nerede yaşadıkları ve fazla uzaklaşanlara ne yaptıkları." },
-    "concept": { "singular": "Kavram", "plural": "Kavramlar", "purpose": "Dünyanın kuralları: büyü sistemleri, dinler, teknolojiler, yasalar, diller." }
+    "character": {
+      "singular": "Karakter",
+      "plural": "Karakterler",
+      "purpose": "Kendi iradesi olan insanlar ve diğer varlıklar: kahramanlar, hükümdarlar, kötüler, herkesin uzak durduğu kayıkçı."
+    },
+    "location": {
+      "singular": "Mekân",
+      "plural": "Mekânlar",
+      "purpose": "Oyuncunun gidebileceği ya da adını duyacağı yerler: şehirler, harabeler, bölgeler, odalar."
+    },
+    "faction": {
+      "singular": "Fraksiyon",
+      "plural": "Fraksiyonlar",
+      "purpose": "Ortak amacı olan gruplar: hanedanlar, loncalar, ordular, tarikatlar, şirketler."
+    },
+    "event": {
+      "singular": "Olay",
+      "plural": "Olaylar",
+      "purpose": "Olmuş ya da olacak şeyler. Bir olaya tarih verirsen zaman çizelgesinde görünür."
+    },
+    "item": {
+      "singular": "Eşya",
+      "plural": "Eşyalar",
+      "purpose": "Önemli nesneler: kalıntılar, silahlar, anahtarlar, mektuplar, kimsenin çıkaramadığı taç."
+    },
+    "creature": {
+      "singular": "Yaratık",
+      "plural": "Yaratıklar",
+      "purpose": "Hayvanlar, canavarlar ve türler: nerede yaşadıkları ve fazla uzaklaşanlara ne yaptıkları."
+    },
+    "concept": {
+      "singular": "Kavram",
+      "plural": "Kavramlar",
+      "purpose": "Dünyanın kuralları: büyü sistemleri, dinler, teknolojiler, yasalar, diller."
+    }
   },
   "field": {
     "date": "Tarih",
@@ -18,7 +51,7 @@
     "affiliation": "Bağlılık",
     "home": "Yurdu",
     "occupation": "Uğraşı",
-    "lifeStatus": "Durumu",
+    "lifeStatus": "Yaşam durumu",
     "locationType": "Tür",
     "region": "Bölge",
     "ruler": "Yönetici",
@@ -39,9 +72,14 @@
     "habitat": "Yaşam alanı",
     "danger": "Tehlike",
     "conceptType": "Tür",
-    "related": "İlgili"
+    "related": "İlgili",
+    "endDate": "Bitiş tarihi"
   },
-  "lifeStatus": { "alive": "Yaşıyor", "dead": "Ölü", "unknown": "Bilinmiyor" },
+  "lifeStatus": {
+    "alive": "Yaşıyor",
+    "dead": "Ölü",
+    "unknown": "Bilinmiyor"
+  },
   "status": {
     "stub": "Taslak",
     "draft": "Yazılıyor",
@@ -135,7 +173,9 @@
     "namePlaceholder": "ör. Araçlar",
     "ink": "Bölüm rengi",
     "add": "Bölümü ekle",
-    "deleteConfirm": "“{{name}}” bölümü kaldırılsın mı?"
+    "deleteConfirm": "“{{name}}” bölümü kaldırılsın mı?",
+    "fields_one": "{{count}} alan",
+    "fields_other": "{{count}} alan"
   },
   "page": {
     "new": "Yeni sayfa",
@@ -164,7 +204,9 @@
     "renamedLinks_other": "Kaydedildi. Bu sayfaya giden {{count}} bağlantı yeni ada güncellendi.",
     "delete": "Sayfayı sil",
     "deleteConfirmTitle": "“{{title}}” silinsin mi?",
-    "deleteConfirmBody": "Bu sayfaya giden bağlantılar kırmızıya döner. Geri alınamaz."
+    "deleteConfirmBody": "Bu sayfaya giden bağlantılar kırmızıya döner. Geri alınamaz.",
+    "colophon_one": "{{words}} kelime · {{updated}} güncellendi",
+    "colophon_other": "{{words}} kelime · {{updated}} güncellendi"
   },
   "editor": {
     "body": "Metin",
@@ -185,5 +227,74 @@
   "link": {
     "missingTitle": "“{{title}}” henüz yazılmadı. Oluşturmak için tıkla.",
     "missingA11y": "henüz yazılmamış sayfa"
+  },
+  "search": {
+    "button": "Ara",
+    "shortcut": "Ctrl K",
+    "escKey": "Esc",
+    "label": "{{world}} içinde ara",
+    "placeholder": "{{world}} içinde ara…",
+    "noResults": "“{{query}}” ile eşleşen sayfa yok.",
+    "pages": "Sayfalar",
+    "actions": "Eylemler",
+    "create": "“{{title}}” adında bir sayfa oluştur",
+    "goTo": "Git",
+    "worldHome": "Dünya ana sayfası",
+    "hint": "↑ ↓ ile gezin · Enter ile aç · Esc ile kapat"
+  },
+  "backlinks": {
+    "title": "Bu sayfaya bağlantı verenler",
+    "empty": "Henüz başka bir sayfa buraya bağlantı vermiyor. Başka bir maddede [[…]] olarak an, burada görünsün."
+  },
+  "infobox": {
+    "title": "Bilgi kutusu",
+    "empty": "Henüz bilgi yok. Sayfayı düzenlerken bilgi kutusunu doldur.",
+    "none": "—",
+    "refPlaceholder": "Sayfa adı",
+    "refsPlaceholder": "Bir sayfa adı yaz, sonra Enter",
+    "remove": "{{title}} kaldır",
+    "tagsHint": "Virgülle ayır.",
+    "year": "Yıl",
+    "month": "Ay",
+    "day": "Gün",
+    "approximate": "Yaklaşık"
+  },
+  "fieldType": {
+    "text": "Kısa metin",
+    "longtext": "Uzun metin",
+    "number": "Sayı",
+    "worldDate": "Dünya tarihi",
+    "pageRef": "Bir sayfaya bağlantı",
+    "pageRefs": "Sayfalara bağlantılar",
+    "select": "Listeden seçim",
+    "tags": "Etiketler",
+    "boolean": "Evet / hayır"
+  },
+  "fieldTypeHelp": {
+    "text": "Tek satır; örneğin bir unvan ya da lakap.",
+    "longtext": "Birkaç cümle. Bilgi kutusunda tam genişlikte gösterilir.",
+    "number": "Okuyucunun diline göre biçimlenen bir sayı.",
+    "worldDate": "Bu dünyanın takviminde bir yıl; isteğe bağlı ay ve gün.",
+    "pageRef": "Tek bir sayfayı gösterir. Bağlantı sayılır: geri bağlantılarda görünür, sayfa yoksa kırmızı bağlantı olur.",
+    "pageRefs": "Birden fazla sayfayı gösterir; örneğin üyeler ya da müttefikler. Her biri bağlantı sayılır.",
+    "select": "Senin tanımladığın sabit bir listeden tek seçenek.",
+    "tags": "Virgülle ayrılmış serbest kelimeler.",
+    "boolean": "Bir onay kutusu."
+  },
+  "fields": {
+    "title": "{{chapter}}: alanlar",
+    "lede": "Bu alanlar, bu bölümdeki her sayfanın bilgi kutusunu oluşturur. Hazır alanların sırası değiştirilebilir; kendi eklediğin alanlar kaldırılabilir de.",
+    "empty": "Bu bölümün henüz alanı yok. Aşağıdan ekle.",
+    "moveUp": "Yukarı taşı",
+    "moveDown": "Aşağı taşı",
+    "deleteHint": "Bu alanı kaldır. Girilmiş değerler saklanır ama artık gösterilmez.",
+    "addTitle": "Alan ekle",
+    "label": "Alan adı",
+    "labelPlaceholder": "ör. Unvan, Bağlılık, Zayıflık",
+    "type": "Tür",
+    "options": "Seçenekler",
+    "optionsHint": "Seçenekleri virgülle ayır.",
+    "optionsRequired": "Seçim alanı için en az bir seçenek gerekir.",
+    "add": "Alanı ekle"
   }
 }

@@ -1,4 +1,4 @@
-import { Plus, Settings } from 'lucide-react'
+import { Plus, Search, Settings } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Outlet, useOutletContext, useParams } from 'react-router'
@@ -7,8 +7,11 @@ import { categoryName } from '../../core/lore/categories'
 import type { Category, World } from '../../core/lore/types'
 import { CategoryIcon } from '../../ui/CategoryIcon'
 import { NotFound } from '../screens/NotFound'
+import { CommandPalette } from './CommandPalette'
 import { Masthead, mastheadStyles } from './Masthead'
 import styles from './WorldLayout.module.css'
+
+const IS_MAC = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
 
 export interface WorldContext {
   world: World
@@ -38,6 +41,18 @@ export function WorldLayout() {
   const counts = usePageCounts(worldId)
   const { t } = useTranslation()
   const [activeCategory, setActiveCategory] = useState<string>()
+  const [paletteOpen, setPaletteOpen] = useState(false)
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        setPaletteOpen((o) => !o)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   if (world === null) return <NotFound />
   if (!world || !categories) return <div className={styles.loading} aria-busy="true" />
@@ -52,6 +67,17 @@ export function WorldLayout() {
         titleLang={world.contentLanguage}
         actions={
           <>
+            <button
+              type="button"
+              className={`${mastheadStyles.iconButton} ${styles.searchButton}`}
+              onClick={() => setPaletteOpen(true)}
+              aria-keyshortcuts="Control+K Meta+K"
+              title={t('encyclopedia:search.button')}
+            >
+              <Search aria-hidden="true" strokeWidth={1.75} />
+              <span className={styles.searchLabel}>{t('encyclopedia:search.button')}</span>
+              <kbd className={styles.kbd}>{IS_MAC ? '⌘K' : t('encyclopedia:search.shortcut')}</kbd>
+            </button>
             <NavLink to={`${base}/new`} className={mastheadStyles.iconButton} title={t('encyclopedia:page.new')}>
               <Plus aria-hidden="true" strokeWidth={1.75} />
               <span className={styles.actionLabel}>{t('encyclopedia:page.newShort')}</span>
@@ -89,6 +115,7 @@ export function WorldLayout() {
       <main id="main" className={styles.main} tabIndex={-1}>
         <Outlet context={{ world, categories, setActiveCategory } satisfies WorldContext} />
       </main>
+      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} world={world} categories={categories} />
     </div>
   )
 }
