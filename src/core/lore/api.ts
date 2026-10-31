@@ -5,7 +5,7 @@
  */
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/db'
-import type { BuiltInCategory, Category, ID, Link, Page, World } from './types'
+import type { BuiltInCategory, Category, Era, ID, Link, Page, World } from './types'
 
 // ---------- plain async queries (usable outside React) ----------
 
@@ -157,4 +157,19 @@ export function usePageCounts(worldId: ID | undefined) {
       .each((p) => counts.set(p.categoryId, (counts.get(p.categoryId) ?? 0) + 1))
     return counts
   }, [worldId])
+}
+
+export function useEras(worldId: ID | undefined): Era[] | undefined {
+  return useLiveQuery(
+    async () => (worldId ? (await db.eras.where('worldId').equals(worldId).toArray()).sort((a, b) => a.startYear - b.startYear) : []),
+    [worldId],
+  )
+}
+
+/** Resolved links of a world (for the relationship graph). */
+export function useWorldLinks(worldId: ID | undefined): Link[] | undefined {
+  return useLiveQuery(
+    async () => (worldId ? db.links.where('worldId').equals(worldId).filter((l) => !!l.toPageId).toArray() : []),
+    [worldId],
+  )
 }

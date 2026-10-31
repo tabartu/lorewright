@@ -6,7 +6,7 @@ Lorewright is a local-first wiki for game developers to write and manage the lor
 
 Its first module, the **Lore Encyclopedia**, keeps a world as a sourcebook. Categories are chapters, pages are entries, and every entry can link to any other. Everything is stored in your browser: no server and no account.
 
-> **Status:** in development. Stages 1–2 of 6 are done (worlds, pages, chapters, internal links, search, backlinks, stat blocks, EN/TR interface). See [docs/PLAN.md](docs/PLAN.md) for the roadmap.
+> **Status:** in development. Stages 1–3 of 6 are done (worlds, pages, chapters, internal links, search, backlinks, stat blocks, timeline, relationship graph, EN/TR interface). See [docs/PLAN.md](docs/PLAN.md) for the roadmap.
 
 ## Features
 
@@ -23,6 +23,15 @@ Available now:
 - **Search.** Press Ctrl/⌘+K anywhere in a world to search titles, aliases and text.
   - Case and accents don't matter, Turkish dotted/dotless i included: `istanbul` finds *İstanbul*, `isikli` finds *Işıklı*.
   - The same palette jumps to chapters and settings, and creates a page from what you typed.
+- **Timeline.** Every dated page appears in order, in the world's own calendar.
+  - Name the calendar, add months, a label for years before year 0, and eras such as *Age of Ash*, all under world settings.
+  - Eras appear as coloured bands.
+  - Births, deaths and foundings from stat blocks can be shown too.
+  - Filter by chapter, and switch between compact spacing (with "N years later" markers) and to-scale spacing with zoom.
+- **Relationship graph.** All links between pages, drawn as a network and coloured by chapter.
+  - Filter by chapter, and show or hide unlinked pages.
+  - Click a page to highlight its connections; double-click to open it.
+  - A list view shows the same connections as text.
 - **Backlinks.** Every page lists the pages that link to it, from their text or their stat block.
 - **Stat blocks (infoboxes).** Each chapter has fields, such as born, species, affiliation and home for characters.
   - Field types: short and long text, number, world date, link(s) to pages, choice list, tags, yes/no.
@@ -39,7 +48,6 @@ Available now:
 
 Planned, see [docs/PLAN.md](docs/PLAN.md):
 
-- timeline and relationship graph
 - maps
 - AI assistance with multiple providers
 - export, backup, and GitHub Pages deployment

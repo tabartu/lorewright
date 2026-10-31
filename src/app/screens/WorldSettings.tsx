@@ -7,6 +7,7 @@ import { ConfirmDialog } from '../../ui/ConfirmDialog'
 import layout from '../../ui/layout.module.css'
 import { useWorldContext } from '../shell/WorldLayout'
 import { useDocumentTitle } from '../shell/useDocumentTitle'
+import { CalendarEditor } from './CalendarEditor'
 import { WorldForm } from './WorldForm'
 
 export function WorldSettings() {
@@ -48,6 +49,7 @@ export function WorldSettings() {
           setSaved(true)
         }}
       />
+      <CalendarEditor world={world} />
       <section className={layout.dangerZone}>
         <h2>{t('encyclopedia:world.deleteTitle')}</h2>
         <p>{t('encyclopedia:world.deleteBody')}</p>

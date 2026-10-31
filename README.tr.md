@@ -6,7 +6,7 @@ Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönetti
 
 İlk modül **Lore Ansiklopedisi**, dünyayı bir kaynak kitap gibi tutar: kategoriler bölüm, sayfalar maddedir ve her madde diğerlerine bağlantı verebilir. Her şey tarayıcında saklanır; sunucu yok, hesap gerekmez.
 
-> **Durum:** geliştiriliyor. 6 aşamadan ilk 2'si tamam: dünyalar, sayfalar, bölümler, iç bağlantılar, arama, geri bağlantılar, bilgi kutuları, EN/TR arayüz. Yol haritası için [docs/PLAN.md](docs/PLAN.md) dosyasına bak.
+> **Durum:** geliştiriliyor. 6 aşamadan ilk 3'ü tamam: dünyalar, sayfalar, bölümler, iç bağlantılar, arama, geri bağlantılar, bilgi kutuları, zaman çizelgesi, ilişki ağı, EN/TR arayüz. Yol haritası için [docs/PLAN.md](docs/PLAN.md) dosyasına bak.
 
 ## Özellikler
 
@@ -23,6 +23,15 @@ Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönetti
 - **Arama.** Bir dünyanın içindeyken Ctrl/⌘+K ile başlıklarda, takma adlarda ve metinde ara.
   - Büyük-küçük harf ve aksanlar fark etmez, Türkçe noktalı/noktasız i dahil: `istanbul` *İstanbul*'u, `isikli` *Işıklı*'yı bulur.
   - Aynı pencereden bölümlere ve ayarlara gidebilir, yazdığın adla yeni sayfa oluşturabilirsin.
+- **Zaman çizelgesi.** Tarihli tüm sayfalar, dünyanın kendi takviminde sırayla görünür.
+  - Dünya ayarlarından takvime ad verebilir, ay ekleyebilir, 0. yıldan önceki yıllar için bir etiket ve *Kül Çağı* gibi çağlar tanımlayabilirsin.
+  - Çağlar renkli bantlar olarak görünür.
+  - Bilgi kutularındaki doğum, ölüm ve kuruluş tarihleri de gösterilebilir.
+  - Bölüme göre süzebilir; sıkışık aralık ("N yıl sonra" işaretleriyle) ile yakınlaştırılabilir ölçekli aralık arasında geçiş yapabilirsin.
+- **İlişki ağı.** Sayfalar arasındaki tüm bağlantılar, bölüme göre renklendirilmiş bir ağ olarak çizilir.
+  - Bölüme göre süzebilir, bağlantısız sayfaları gösterip gizleyebilirsin.
+  - Bir sayfaya tıklayınca bağlantıları vurgulanır; çift tıklayınca sayfa açılır.
+  - Liste görünümü aynı bağlantıları metin olarak gösterir.
 - **Geri bağlantılar.** Her sayfa, metninde ya da bilgi kutusunda ona bağlantı veren sayfaları listeler.
 - **Bilgi kutuları (infobox).** Her bölümün alanları vardır; örneğin karakterler için doğum, tür, bağlılık ve yurdu.
   - Alan türleri: kısa ve uzun metin, sayı, dünya tarihi, sayfa bağlantısı (tek ya da çok), seçim listesi, etiketler, evet/hayır.
@@ -39,7 +48,6 @@ Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönetti
 
 Planlananlar ([docs/PLAN.md](docs/PLAN.md)):
 
-- zaman çizelgesi ve ilişki ağı
 - harita
 - birden fazla sağlayıcıyla yapay zekâ desteği
 - dışa aktarma, yedekleme ve GitHub Pages'e yayın

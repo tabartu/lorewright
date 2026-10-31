@@ -2,6 +2,8 @@ import { BookOpen } from 'lucide-react'
 import type { LorewrightModule } from '../types'
 
 /** The editor pulls in CodeMirror, so it loads on demand. */
+const timeline = { lazy: async () => ({ Component: (await import('./screens/Timeline')).Timeline }) }
+const graph = { lazy: async () => ({ Component: (await import('./screens/Graph')).Graph }) }
 const editor = { lazy: async () => ({ Component: (await import('./screens/PageEditor')).PageEditor }) }
 import { CategoryIndex } from './screens/CategoryIndex'
 import { ChapterFields } from './screens/ChapterFields'
@@ -20,6 +22,8 @@ export const encyclopediaModule: LorewrightModule = {
     { path: 'p/:pageId', element: <PageReader /> },
     { path: 'p/:pageId/edit', ...editor },
     { path: 'new', ...editor },
+    { path: 'timeline', ...timeline },
+    { path: 'graph', ...graph },
     { path: 'chapters', element: <ChaptersManage /> },
     { path: 'chapters/:categoryId', element: <ChapterFields /> },
   ],

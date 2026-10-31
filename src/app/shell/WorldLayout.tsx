@@ -1,4 +1,4 @@
-import { Plus, Search, Settings } from 'lucide-react'
+import { CalendarRange, Network, Plus, Search, Settings } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Outlet, useOutletContext, useParams } from 'react-router'
@@ -104,6 +104,18 @@ export function WorldLayout() {
                 </NavLink>
               </li>
             ))}
+            <li className={styles.viewsStart}>
+              <NavLink to={`${base}/timeline`} className={`${styles.tab} ${styles.viewTab}`}>
+                <CalendarRange aria-hidden="true" className={styles.tabIcon} strokeWidth={1.75} />
+                <span className={styles.tabLabel}>{t('encyclopedia:timeline.title')}</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={`${base}/graph`} className={`${styles.tab} ${styles.viewTab}`}>
+                <Network aria-hidden="true" className={styles.tabIcon} strokeWidth={1.75} />
+                <span className={styles.tabLabel}>{t('encyclopedia:nav.graph')}</span>
+              </NavLink>
+            </li>
             <li className={styles.tabManage}>
               <NavLink to={`${base}/chapters`} className={styles.tab}>
                 <span className={styles.tabLabel}>{t('encyclopedia:nav.manageChapters')}</span>

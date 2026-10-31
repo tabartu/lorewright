@@ -1,5 +1,5 @@
 import { Command } from 'cmdk'
-import { BookOpen, FilePlus2, Home, Library, Settings, Settings2 } from 'lucide-react'
+import { BookOpen, CalendarRange, FilePlus2, Home, Library, Network, Settings, Settings2 } from 'lucide-react'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -166,6 +166,8 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
             <Command.Group heading={t('encyclopedia:search.goTo')} className={styles.group}>
               {action('new', <FilePlus2 aria-hidden="true" />, t('encyclopedia:page.new'), `${base}/new`)}
               {action('home', <Home aria-hidden="true" />, t('encyclopedia:search.worldHome'), base)}
+              {action('timeline', <CalendarRange aria-hidden="true" />, t('encyclopedia:timeline.title'), `${base}/timeline`)}
+              {action('graph', <Network aria-hidden="true" />, t('encyclopedia:graph.title'), `${base}/graph`)}
               {action('chapters', <BookOpen aria-hidden="true" />, t('encyclopedia:nav.manageChapters'), `${base}/chapters`)}
               {action('worldSettings', <Settings aria-hidden="true" />, t('common:nav.worldSettings'), `${base}/settings`)}
               {action('shelf', <Library aria-hidden="true" />, t('common:nav.shelf'), '/')}

@@ -1,0 +1,325 @@
+.page {
+  max-inline-size: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block: var(--s-6) var(--s-8);
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding-block-end: var(--s-4);
+  border-block-end: 3px double var(--rule-strong);
+}
+.title {
+  font-size: var(--fs-3xl);
+  font-weight: 850;
+  font-stretch: var(--stretch-condensed);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.lede {
+  max-inline-size: var(--measure);
+  margin-block-start: var(--s-2);
+  font-family: var(--font-read);
+  color: var(--ink-2);
+}
+.lede a {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+  margin-block-start: var(--s-4);
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-block-size: 2.25rem;
+  padding-inline: var(--s-3);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+.chip input {
+  accent-color: var(--chapter);
+  margin: 0;
+}
+.chip:has(input:checked) {
+  border-color: var(--chapter);
+  background: var(--chapter-tint);
+}
+.chip:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.chipIcon {
+  inline-size: 0.95rem;
+  block-size: 0.95rem;
+  color: var(--chapter);
+}
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+.switch input {
+  accent-color: var(--ink);
+  margin: 0;
+}
+.scale {
+  display: inline-flex;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+}
+.scale button {
+  padding-block: var(--s-1);
+  padding-inline: var(--s-3);
+  border: 0;
+  background: none;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.scale button + button {
+  border-inline-start: 1px solid var(--rule-strong);
+}
+.scale button[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+.zoom {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--fs-sm);
+}
+.zoom input {
+  accent-color: var(--ink);
+}
+
+.eraNav {
+  position: sticky;
+  inset-block-start: var(--masthead-h);
+  z-index: 5;
+  display: flex;
+  gap: var(--s-1);
+  margin-block-start: var(--s-4);
+  padding-block: var(--s-2);
+  overflow-x: auto;
+  background: var(--paper);
+  border-block-end: 1px solid var(--rule);
+}
+.eraNav a {
+  flex: none;
+  padding-block: var(--s-1);
+  padding-inline: var(--s-3);
+  border-block-start: 3px solid var(--chapter);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+.eraNav a:hover {
+  background: var(--chapter-tint);
+}
+
+/* ---- the timeline: era bands, a spine, entries ---- */
+.timeline {
+  --year-col: 8.5rem;
+  margin-block-start: var(--s-5);
+}
+.era + .era {
+  margin-block-start: var(--s-6);
+}
+.band {
+  /* Full-width named band per era. */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-1) var(--s-4);
+  padding-block: var(--s-3);
+  padding-inline: var(--s-4);
+  background: var(--chapter-tint);
+  border-block: 3px solid var(--chapter);
+  scroll-margin-block-start: calc(var(--masthead-h) + 3.5rem);
+}
+.bandName {
+  font-size: var(--fs-xl);
+  font-weight: 850;
+  font-stretch: var(--stretch-condensed);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--chapter);
+  overflow-wrap: anywhere;
+}
+.bandRange {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+}
+.bandEmpty {
+  padding-block: var(--s-3);
+  padding-inline-start: calc(var(--year-col) + var(--s-5));
+  font-family: var(--font-read);
+  font-size: var(--fs-sm);
+  font-style: italic;
+  color: var(--ink-3);
+}
+.entries {
+  position: relative;
+  margin: 0;
+  padding-block: var(--s-4);
+  padding-inline: 0;
+  list-style: none;
+}
+.entries::before {
+  /* the spine */
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(var(--year-col) + var(--s-3));
+  inline-size: 2px;
+  background: color-mix(in oklab, var(--chapter) 45%, var(--rule));
+}
+.entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--year-col) 1.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: var(--s-2);
+  padding-block: var(--s-2);
+}
+.year {
+  padding-block-start: 0.1rem;
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  font-stretch: var(--stretch-semi);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  color: var(--ink);
+}
+.marker {
+  justify-self: center;
+  inline-size: 0.85rem;
+  block-size: 0.85rem;
+  margin-block-start: 0.3rem;
+  background: var(--chapter, var(--ink));
+  outline: 3px solid var(--paper);
+  z-index: 1;
+}
+.entry[data-source='field'] .marker {
+  /* stat-block dates: a hollow mark, never colour alone */
+  background: var(--paper);
+  border: 2px solid var(--chapter, var(--ink));
+  border-radius: 50%;
+}
+.card {
+  min-inline-size: 0;
+}
+.what {
+  font-family: var(--font-read);
+  font-size: var(--fs-body);
+  line-height: 1.35;
+}
+.entry[data-source='page'] .what {
+  font-weight: 650;
+}
+.fieldLabel {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+.link {
+  color: var(--ink);
+  text-decoration-color: color-mix(in oklab, var(--chapter, var(--ink)) 60%, transparent);
+  overflow-wrap: anywhere;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-2);
+  margin-block-start: 0.1rem;
+  font-size: var(--fs-xs);
+  color: var(--ink-3);
+}
+.metaIcon {
+  inline-size: 0.8rem;
+  block-size: 0.8rem;
+  color: var(--chapter);
+}
+.gap {
+  padding-block: var(--s-1);
+  padding-inline-start: calc(var(--year-col) + var(--s-6));
+  font-size: var(--fs-xs);
+  font-style: italic;
+  color: var(--ink-3);
+}
+@media (max-width: 40rem) {
+  .timeline {
+    --year-col: 5rem;
+  }
+  .year {
+    font-size: var(--fs-xs);
+  }
+}
+
+.empty {
+  max-inline-size: 42rem;
+  margin-block-start: var(--s-6);
+  font-family: var(--font-read);
+  color: var(--ink-2);
+}
+.emptyTitle {
+  margin-block-end: var(--s-2);
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  font-stretch: var(--stretch-condensed);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.emptySteps {
+  display: grid;
+  gap: var(--s-2);
+  margin-block: var(--s-4);
+  padding-inline-start: 1.3em;
+}
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+@media (max-width: 40rem) {
+  .chip {
+    min-block-size: 2rem;
+    padding-inline: var(--s-2);
+    font-size: var(--fs-xs);
+  }
+}
