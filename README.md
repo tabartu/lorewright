@@ -6,7 +6,7 @@ Lorewright is a local-first wiki for game developers to write and manage the lor
 
 Its first module, the **Lore Encyclopedia**, keeps a world as a sourcebook. Categories are chapters, pages are entries, and every entry can link to any other. Everything is stored in your browser: no server and no account.
 
-> **Status:** in development. Stages 1–3 of 6 are done (worlds, pages, chapters, internal links, search, backlinks, stat blocks, timeline, relationship graph, EN/TR interface). See [docs/PLAN.md](docs/PLAN.md) for the roadmap.
+> **Status:** in development. Stages 1–5 of 6 are done: worlds, pages, chapters, internal links, search, backlinks, stat blocks, timeline, relationship graph, maps, AI assistance and the EN/TR interface. See [docs/PLAN.md](docs/PLAN.md) for the roadmap.
 
 ## Features
 
@@ -32,6 +32,17 @@ Available now:
   - Filter by chapter, and show or hide unlinked pages.
   - Click a page to highlight its connections; double-click to open it.
   - A list view shows the same connections as text.
+- **Maps.** Upload your own map image, then zoom and pan it.
+  - Click to place markers and drag them to move. Link each marker to a page; the marker takes the colour of the page's chapter, and a page that isn't written yet shows a hollow ring.
+  - Every page shows "On the map" links that jump to its marker.
+  - The marker list beside the map is the text version.
+- **AI assistance (optional).** Works with Anthropic (Claude), OpenAI, Google Gemini and OpenRouter. It also works with Ollama and LM Studio, which run free on your own computer, and with any OpenAI-compatible service (Groq, Mistral, DeepSeek…).
+  - **Expand this page:** new material that fits the existing lore.
+  - **Draft a missing page:** a first draft for a red link, from what links to it.
+  - **Consistency check:** finds contradictions such as date conflicts or dead characters who appear later, and links to the pages involved.
+  - Answers stream in as they're written. Nothing is saved until you review, edit and accept it.
+  - The AI writes in the world's content language.
+  - Only the relevant pages are sent: the page, what it links to and what links to it, and one more ring for consistency checks. The whole world is never sent.
 - **Backlinks.** Every page lists the pages that link to it, from their text or their stat block.
 - **Stat blocks (infoboxes).** Each chapter has fields, such as born, species, affiliation and home for characters.
   - Field types: short and long text, number, world date, link(s) to pages, choice list, tags, yes/no.
@@ -48,8 +59,6 @@ Available now:
 
 Planned, see [docs/PLAN.md](docs/PLAN.md):
 
-- maps
-- AI assistance with multiple providers
 - export, backup, and GitHub Pages deployment
 
 ## Getting started
@@ -83,6 +92,67 @@ One-time setup:
 
 1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
 2. On a free GitHub plan, the repository must be public for Pages to work.
+
+## AI providers
+
+AI is optional; everything else works without it. To set up a provider, go to **Settings → AI assistants → Add a provider**, choose a provider, then:
+
+1. Paste your API key (local providers need none).
+2. Click **Load models** and pick one, or type the model name.
+3. Click **Test connection**.
+
+You can save several providers and mark one as the default. Under **Model per task** you can choose a different model for each job, for example a strong model for consistency checks and a fast, cheap one for drafts.
+
+| Provider | Address (default) | Notes |
+|---|---|---|
+| Anthropic (Claude) | `https://api.anthropic.com` | Key from console.anthropic.com. Works directly from the browser. |
+| OpenAI | `https://api.openai.com/v1` | Key from platform.openai.com. |
+| Google Gemini | `https://generativelanguage.googleapis.com/v1beta` | Key from aistudio.google.com. |
+| OpenRouter | `https://openrouter.ai/api/v1` | One key for many models; model names look like `anthropic/claude-sonnet-4.5`. |
+| Ollama (local, free) | `http://localhost:11434` | See below. |
+| LM Studio (local, free) | `http://localhost:1234/v1` | In LM Studio: Developer tab → start server → enable **CORS**. |
+| Custom (OpenAI-compatible) | your service's `/v1` URL | Groq, Mistral, DeepSeek, Together… may need the local proxy. |
+
+**Where your keys go.** API keys are stored only in your browser, in a separate IndexedDB database named `lorewright-secrets`. They are never written into exports, backups or the repository, and they are sent only to the provider you configured.
+
+### Ollama
+
+Install it from [ollama.com](https://ollama.com), download a model, and start it so browsers may connect:
+
+```bash
+ollama pull llama3.2
+```
+
+```bash
+OLLAMA_ORIGINS="*" ollama serve
+```
+
+If you use the hosted app (GitHub Pages), set `OLLAMA_ORIGINS` to that address instead of `*`, for example `https://<user>.github.io`. On Windows, set `OLLAMA_ORIGINS` as an environment variable and restart Ollama.
+
+### Local proxy (for services that block browsers)
+
+Some services refuse requests that come straight from a web page (CORS). If **Test connection** says the request was blocked:
+
+1. Run the small proxy that ships with Lorewright. It has no dependencies, listens only on `127.0.0.1:8787` and stores nothing:
+   ```bash
+   npm run proxy
+   ```
+2. In Settings, tick **Use local proxy** for that provider.
+
+Options:
+
+- `PORT=9000 npm run proxy` uses another port. Update the proxy address under **Settings → Local proxy** to match.
+- `ALLOW_HOSTS=api.groq.com,api.mistral.ai npm run proxy` restricts which services the proxy will forward to.
+
+Safari blocks web pages served over https from calling `http://localhost`, so with the hosted app use Chrome, Edge or Firefox for local models and the proxy.
+
+### Adding an AI provider (for developers)
+
+Add one file to `src/core/ai/providers/` that default-exports an `AIProvider`; the registry picks it up automatically.
+
+- For an OpenAI-style API, `openAICompatible({ id, defaultBaseUrl, needsKey, browserFriendly })` from `src/core/ai/lib/openaiCompatible.ts` does almost all the work.
+- Add its name and help text to `src/locales/*/ai.json` under `provider.<id>`.
+- Prompts live in `src/core/ai/prompts/` and are provider-agnostic.
 
 ## Your data
 

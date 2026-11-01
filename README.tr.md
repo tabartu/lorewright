@@ -6,7 +6,7 @@ Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönetti
 
 İlk modül **Lore Ansiklopedisi**, dünyayı bir kaynak kitap gibi tutar: kategoriler bölüm, sayfalar maddedir ve her madde diğerlerine bağlantı verebilir. Her şey tarayıcında saklanır; sunucu yok, hesap gerekmez.
 
-> **Durum:** geliştiriliyor. 6 aşamadan ilk 3'ü tamam: dünyalar, sayfalar, bölümler, iç bağlantılar, arama, geri bağlantılar, bilgi kutuları, zaman çizelgesi, ilişki ağı, EN/TR arayüz. Yol haritası için [docs/PLAN.md](docs/PLAN.md) dosyasına bak.
+> **Durum:** geliştiriliyor. 6 aşamadan ilk 5'i tamam: dünyalar, sayfalar, bölümler, iç bağlantılar, arama, geri bağlantılar, bilgi kutuları, zaman çizelgesi, ilişki ağı, haritalar, yapay zekâ desteği ve EN/TR arayüz. Yol haritası için [docs/PLAN.md](docs/PLAN.md) dosyasına bak.
 
 ## Özellikler
 
@@ -32,6 +32,17 @@ Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönetti
   - Bölüme göre süzebilir, bağlantısız sayfaları gösterip gizleyebilirsin.
   - Bir sayfaya tıklayınca bağlantıları vurgulanır; çift tıklayınca sayfa açılır.
   - Liste görünümü aynı bağlantıları metin olarak gösterir.
+- **Haritalar.** Kendi harita görselini yükle, yakınlaştır ve kaydır.
+  - Tıklayarak işaret koy, sürükleyerek taşı. Her işareti bir sayfaya bağla: işaret o sayfanın bölüm rengini alır, henüz yazılmamış sayfalar boş halkayla görünür.
+  - Her sayfada, işaretine götüren "Haritada" bağlantıları çıkar.
+  - Haritanın yanındaki işaret listesi aynı bilginin metin hâlidir.
+- **Yapay zekâ desteği (isteğe bağlı).** Anthropic (Claude), OpenAI, Google Gemini ve OpenRouter ile çalışır. Bilgisayarında ücretsiz çalışan Ollama ve LM Studio ile ve OpenAI uyumlu her servisle de (Groq, Mistral, DeepSeek…) çalışır.
+  - **Bu sayfayı genişlet:** mevcut lore'a uyan yeni içerik önerir.
+  - **Eksik sayfa taslağı:** kırmızı bir bağlantı için, ona bağlantı veren sayfalardan yola çıkarak ilk taslağı yazar.
+  - **Tutarlılık kontrolü:** tarih uyuşmazlığı ya da ölen bir karakterin sonradan ortaya çıkması gibi çelişkileri bulur ve ilgili sayfalara bağlantı verir.
+  - Yanıtlar yazıldıkça akar. Sen gözden geçirip düzenleyip onaylamadan hiçbir şey kaydedilmez.
+  - Yapay zekâ dünyanın içerik dilinde yazar.
+  - Yalnızca ilgili sayfalar gönderilir: sayfanın kendisi, bağlantı verdiği ve ona bağlantı veren sayfalar, tutarlılık kontrolünde bir halka daha. Dünyanın tamamı asla gönderilmez.
 - **Geri bağlantılar.** Her sayfa, metninde ya da bilgi kutusunda ona bağlantı veren sayfaları listeler.
 - **Bilgi kutuları (infobox).** Her bölümün alanları vardır; örneğin karakterler için doğum, tür, bağlılık ve yurdu.
   - Alan türleri: kısa ve uzun metin, sayı, dünya tarihi, sayfa bağlantısı (tek ya da çok), seçim listesi, etiketler, evet/hayır.
@@ -48,8 +59,6 @@ Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönetti
 
 Planlananlar ([docs/PLAN.md](docs/PLAN.md)):
 
-- harita
-- birden fazla sağlayıcıyla yapay zekâ desteği
 - dışa aktarma, yedekleme ve GitHub Pages'e yayın
 
 ## Kurulum ve çalıştırma
@@ -83,6 +92,67 @@ Bir kerelik ayar:
 
 1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
 2. Ücretsiz GitHub planında Pages'in çalışması için deponun public olması gerekir.
+
+## Yapay zekâ sağlayıcıları
+
+Yapay zekâ isteğe bağlıdır; geri kalan her şey onsuz da çalışır. Bir sağlayıcı kurmak için **Ayarlar → Yapay zekâ asistanları → Sağlayıcı ekle**'ye git, sağlayıcıyı seç, sonra:
+
+1. API anahtarını yapıştır (yerel sağlayıcılar anahtar istemez).
+2. **Modelleri yükle**'ye tıklayıp birini seç ya da model adını yaz.
+3. **Bağlantıyı test et**'e tıkla.
+
+Birden fazla sağlayıcı kaydedip birini varsayılan yapabilirsin. **İşe göre model** bölümünden her iş için ayrı model seçebilirsin; örneğin tutarlılık kontrolü için güçlü, taslaklar için hızlı ve ucuz bir model.
+
+| Sağlayıcı | Varsayılan adres | Not |
+|---|---|---|
+| Anthropic (Claude) | `https://api.anthropic.com` | Anahtar: console.anthropic.com. Doğrudan tarayıcıdan çalışır. |
+| OpenAI | `https://api.openai.com/v1` | Anahtar: platform.openai.com. |
+| Google Gemini | `https://generativelanguage.googleapis.com/v1beta` | Anahtar: aistudio.google.com. |
+| OpenRouter | `https://openrouter.ai/api/v1` | Tek anahtarla birçok model; model adları `anthropic/claude-sonnet-4.5` gibi. |
+| Ollama (yerel, ücretsiz) | `http://localhost:11434` | Aşağıya bak. |
+| LM Studio (yerel, ücretsiz) | `http://localhost:1234/v1` | LM Studio'da: Developer sekmesi → sunucuyu başlat → **CORS**'u aç. |
+| Özel (OpenAI uyumlu) | servisin `/v1` adresi | Groq, Mistral, DeepSeek, Together… yerel proxy gerektirebilir. |
+
+**Anahtarların nereye gider?** API anahtarları yalnızca tarayıcında, `lorewright-secrets` adlı ayrı bir IndexedDB veritabanında saklanır. Dışa aktarmalara, yedeklere ya da depoya asla girmez; yalnızca ayarladığın sağlayıcıya gönderilir.
+
+### Ollama
+
+[ollama.com](https://ollama.com)'dan kur, bir model indir ve tarayıcıların bağlanabilmesi için şöyle başlat:
+
+```bash
+ollama pull llama3.2
+```
+
+```bash
+OLLAMA_ORIGINS="*" ollama serve
+```
+
+Yayındaki uygulamayı (GitHub Pages) kullanıyorsan `OLLAMA_ORIGINS` değerine `*` yerine o adresi yaz; örneğin `https://<kullanıcı>.github.io`. Windows'ta `OLLAMA_ORIGINS`'i bir ortam değişkeni olarak ayarla ve Ollama'yı yeniden başlat.
+
+### Yerel proxy (tarayıcıları engelleyen servisler için)
+
+Bazı servisler doğrudan bir web sayfasından gelen istekleri (CORS) reddeder. **Bağlantıyı test et** isteğin engellendiğini söylerse:
+
+1. Lorewright ile gelen küçük proxy'yi çalıştır. Bağımlılığı yoktur, yalnızca `127.0.0.1:8787` üzerinde dinler ve hiçbir şey saklamaz:
+   ```bash
+   npm run proxy
+   ```
+2. Ayarlar'da o sağlayıcı için **Yerel proxy kullan**'ı işaretle.
+
+Seçenekler:
+
+- `PORT=9000 npm run proxy` başka bir port kullanır. Bu durumda **Ayarlar → Yerel proxy** altındaki proxy adresini de güncelle.
+- `ALLOW_HOSTS=api.groq.com,api.mistral.ai npm run proxy` proxy'nin istek iletebileceği servisleri sınırlar.
+
+Safari, https üzerinden sunulan sayfaların `http://localhost`'a istek atmasını engeller. Yayındaki uygulamada yerel modeller ve proxy için Chrome, Edge ya da Firefox kullan.
+
+### Yapay zekâ sağlayıcısı eklemek (geliştiriciler için)
+
+`src/core/ai/providers/` klasörüne, varsayılan olarak bir `AIProvider` dışa aktaran tek bir dosya ekle; kayıt sistemi onu kendiliğinden bulur.
+
+- OpenAI tarzı bir API için `src/core/ai/lib/openaiCompatible.ts` içindeki `openAICompatible({ id, defaultBaseUrl, needsKey, browserFriendly })` neredeyse her şeyi yapar.
+- Sağlayıcının adını ve yardım metnini `src/locales/*/ai.json` içinde `provider.<id>` altına ekle.
+- İstemler (prompt'lar) `src/core/ai/prompts/` içindedir ve sağlayıcıdan bağımsızdır.
 
 ## Verilerin
 
