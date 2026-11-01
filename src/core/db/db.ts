@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import type { Category, Era, Link, Page, PageBody, World } from '../lore/types'
+import type { Category, Era, Link, MapDoc, MapImage, Marker, Page, PageBody, World } from '../lore/types'
 
 /**
  * The main Lorewright database. Everything here belongs to the user's worlds
@@ -17,6 +17,9 @@ export class LorewrightDB extends Dexie {
   pageBodies!: EntityTable<PageBody, 'pageId'>
   links!: EntityTable<Link, 'id'>
   eras!: EntityTable<Era, 'id'>
+  maps!: EntityTable<MapDoc, 'id'>
+  mapImages!: EntityTable<MapImage, 'id'>
+  markers!: EntityTable<Marker, 'id'>
 
   constructor(name = 'lorewright') {
     super(name)
@@ -27,6 +30,12 @@ export class LorewrightDB extends Dexie {
       pageBodies: 'pageId',
       links: '++id, worldId, fromPageId, toPageId, [worldId+toKey]',
       eras: 'id, worldId',
+    })
+    // v2: maps (stage 4)
+    this.version(2).stores({
+      maps: 'id, worldId',
+      mapImages: 'id',
+      markers: 'id, worldId, mapId',
     })
   }
 }

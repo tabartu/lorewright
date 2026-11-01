@@ -3,6 +3,7 @@ import { dateSortKey } from './calendar'
 import { LoreError } from './errors'
 import { countWords, foldKey, makeExcerpt, markdownToPlain, newId } from './normalize'
 import type { ID, Link, Page, PageStatus, WorldDate } from './types'
+import { renameMarkerRefs } from './maps'
 import { parseWikiLinks, rewriteWikiLinks } from './wikilinks'
 
 export interface PageInput {
@@ -154,7 +155,7 @@ export async function createPage(input: PageInput): Promise<Page> {
  */
 export async function updatePage(id: ID, patch: PagePatch): Promise<{ rewrittenLinks: number }> {
   let rewrittenLinks = 0
-  await db.transaction('rw', [db.pages, db.pageBodies, db.links, db.worlds], async () => {
+  await db.transaction('rw', [db.pages, db.pageBodies, db.links, db.worlds, db.markers], async () => {
     const page = await db.pages.get(id)
     if (!page) throw new LoreError('not_found')
     const now = Date.now()
@@ -213,6 +214,7 @@ export async function updatePage(id: ID, patch: PagePatch): Promise<{ rewrittenL
       }
     }
 
+    if (renamed) await renameMarkerRefs(page.worldId, oldKey, title)
     await releaseStaleIncoming(page.worldId, id, keys)
     await resolveIncoming(page.worldId, keys, id)
     await db.worlds.update(page.worldId, { updatedAt: now })

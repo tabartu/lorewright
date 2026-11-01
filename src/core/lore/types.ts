@@ -152,6 +152,35 @@ export interface PageBody {
   body: string
 }
 
+/** An uploaded map image of a world. */
+export interface MapDoc {
+  id: ID
+  worldId: ID
+  name: string
+  imageId: ID
+  width: number
+  height: number
+  createdAt: number
+  updatedAt: number
+}
+
+export interface MapImage {
+  id: ID
+  blob: Blob
+}
+
+/** A pin on a map, in image pixel coordinates; usually linked to a page by title. */
+export interface Marker {
+  id: ID
+  worldId: ID
+  mapId: ID
+  /** Linked page title (resolved like a [[link]]), or empty for a plain label. */
+  pageTitle?: string
+  label?: string
+  x: number
+  y: number
+}
+
 /** Derived index of every [[link]] and page reference. Rebuilt on save. */
 export interface Link {
   id?: number
