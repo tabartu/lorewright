@@ -157,7 +157,7 @@ Safari, https üzerinden sunulan sayfaların `http://localhost`'a istek atmasın
 
 ## Verilerin
 
-Tüm dünyalar tarayıcının IndexedDB'sinde, `worldledger` adlı veritabanında durur. Hiçbir şey bilgisayarından çıkmaz. Uygulamanın site verilerini silersen dünyaların da silinir. JSON yedekleme ve geri yükleme 6. aşamada geliyor.
+Tüm dünyalar tarayıcının IndexedDB'sinde, `worldledger` adlı veritabanında durur. Hiçbir şey bilgisayarından çıkmaz. Uygulamanın site verilerini silersen dünyaların da silinir; bu yüzden arada bir her dünyanın ayarlarından JSON yedek indir.
 
 ## Yeni bir dil nasıl eklenir
 
