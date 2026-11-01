@@ -87,6 +87,7 @@
   text-transform: uppercase;
 }
 .providerHelp {
+  max-inline-size: var(--measure);
   margin-block-start: calc(-1 * var(--s-2));
   font-family: var(--font-read);
   font-size: var(--fs-sm);

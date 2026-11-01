@@ -7,7 +7,7 @@
   margin-inline-start: auto;
   padding: 0;
   border: 0;
-  border-inline-start: 4px solid var(--cover, var(--ink));
+  border-block-start: 4px solid var(--cover, var(--ink));
   background: var(--paper);
   color: var(--ink);
   box-shadow: var(--shadow-pop);
@@ -301,7 +301,5 @@
 @media (max-width: 40rem) {
   .panel {
     inline-size: 100vw;
-    border-inline-start: 0;
-    border-block-start: 4px solid var(--cover, var(--ink));
   }
 }
