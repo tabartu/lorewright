@@ -9,6 +9,7 @@ import { Button, ButtonLink } from '../../ui/Button'
 import layout from '../../ui/layout.module.css'
 import { Masthead } from '../shell/Masthead'
 import { useDocumentTitle } from '../shell/useDocumentTitle'
+import { RestoreBackup } from './RestoreBackup'
 import styles from './WorldsShelf.module.css'
 
 export function WorldsShelf() {
@@ -63,6 +64,7 @@ export function WorldsShelf() {
                   {t('onboarding:shelf.create')}
                 </ButtonLink>
                 {sampleButtons}
+                <RestoreBackup />
               </div>
               <p className={styles.emptyNote}>{t('onboarding:shelf.localNote')}</p>
             </div>
@@ -125,6 +127,7 @@ export function WorldsShelf() {
               <h2 className={layout.sectionTitle}>{t('onboarding:shelf.samplesTitle')}</h2>
               <div className={layout.actions}>
                 {sampleButtons}
+                <RestoreBackup />
               </div>
             </section>
           </>

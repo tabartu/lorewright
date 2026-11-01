@@ -6,7 +6,7 @@ Worldledger is a local-first wiki for game developers to write and manage the lo
 
 Its first module, the **Lore Encyclopedia**, keeps a world as a sourcebook. Categories are chapters, pages are entries, and every entry can link to any other. Everything is stored in your browser: no server and no account.
 
-> **Status:** in development. Stages 1–5 of 6 are done: worlds, pages, chapters, internal links, search, backlinks, stat blocks, timeline, relationship graph, maps, AI assistance and the EN/TR interface. See [docs/PLAN.md](docs/PLAN.md) for the roadmap.
+> **Status:** in development. All six stages are done: worlds, pages, chapters, internal links, search, backlinks, stat blocks, timeline, relationship graph, maps, AI assistance, export and backup, and the EN/TR interface. See [docs/PLAN.md](docs/PLAN.md) for the roadmap.
 
 ## Features
 
@@ -43,6 +43,11 @@ Available now:
   - Answers stream in as they're written. Nothing is saved until you review, edit and accept it.
   - The AI writes in the world's content language.
   - Only the relevant pages are sent: the page, what it links to and what links to it, and one more ring for consistency checks. The whole world is never sent.
+- **Export and backup.** In each world's settings:
+  - **JSON backup**: everything, including maps. Restore it from the shelf with **Restore from backup**, either replacing the world or importing it as a copy.
+  - **Markdown zip**: one `.md` file per page with YAML front matter, in a folder per chapter; works with Obsidian.
+  - **Single HTML page**: a readable, printable file with contents and working links.
+  - Exports never contain AI keys.
 - **Backlinks.** Every page lists the pages that link to it, from their text or their stat block.
 - **Stat blocks (infoboxes).** Each chapter has fields, such as born, species, affiliation and home for characters.
   - Field types: short and long text, number, world date, link(s) to pages, choice list, tags, yes/no.
@@ -56,10 +61,6 @@ Available now:
   - Layouts use CSS logical properties, so right-to-left languages work.
 - **Content language is separate from interface language.** You can use an English interface and write Turkish lore.
 - **Light and dark themes**, and layouts for phones.
-
-Planned, see [docs/PLAN.md](docs/PLAN.md):
-
-- export, backup, and GitHub Pages deployment
 
 ## Getting started
 
@@ -156,7 +157,7 @@ Add one file to `src/core/ai/providers/` that default-exports an `AIProvider`; t
 
 ## Your data
 
-All worlds live in your browser's IndexedDB, in a database named `worldledger`. Nothing leaves your machine. Clearing site data for the app deletes your worlds. JSON backup and restore arrive in stage 6.
+All worlds live in your browser's IndexedDB, in a database named `worldledger`. Nothing leaves your machine. Clearing site data for the app deletes your worlds, so download a JSON backup from each world's settings now and then.
 
 ## How to add a new language
 

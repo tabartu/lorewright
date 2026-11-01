@@ -255,3 +255,15 @@ export async function getPageBody(id: ID): Promise<string> {
 }
 
 export { findByKey as findPageByKey }
+
+/** Rebuild every link row of a world (after a restore or import). */
+export async function rebuildLinks(worldId: ID): Promise<void> {
+  await db.transaction('rw', [db.pages, db.pageBodies, db.links], async () => {
+    await db.links.where('worldId').equals(worldId).delete()
+    const pages = await db.pages.where('worldId').equals(worldId).toArray()
+    for (const p of pages) {
+      const body = (await db.pageBodies.get(p.id))?.body ?? ''
+      await reindexLinks(p, body)
+    }
+  })
+}

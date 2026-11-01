@@ -1,0 +1,9 @@
+.error {
+  flex-basis: 100%;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--danger);
+}
+.copyRow {
+  margin-block-start: var(--s-3);
+}

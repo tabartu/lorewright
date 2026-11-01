@@ -426,5 +426,44 @@
     "y": "Y",
     "removed": "Removed marker “{{name}}”.",
     "undo": "Undo"
+  },
+  "export": {
+    "title": "Export and backup",
+    "lede": "Your world lives in this browser. Download a backup now and then, or export it to read and share elsewhere.",
+    "json": {
+      "name": "Backup (JSON)",
+      "desc": "Everything in this world, including maps. Restore it from the shelf on any device.",
+      "action": "Download backup"
+    },
+    "zip": {
+      "name": "Markdown folder (zip)",
+      "desc": "One .md file per page with its stat block as front matter, in a folder per chapter. Works with Obsidian and other note tools.",
+      "action": "Download zip"
+    },
+    "html": {
+      "name": "Single readable page (HTML)",
+      "desc": "The whole world in one file with contents and working links, ready to read, share or print.",
+      "action": "Download HTML"
+    },
+    "done": {
+      "json": "Backup downloaded.",
+      "zip": "Markdown zip downloaded.",
+      "html": "HTML page downloaded."
+    },
+    "keysNote": "Exports never include AI API keys.",
+    "failed": "The export failed: {{detail}}",
+    "generated": "Exported from Worldledger on {{date}}.",
+    "restore": "Restore from backup",
+    "existsTitle": "“{{name}}” is already on your shelf",
+    "existsBody": "Replace it with the backup (changes made since will be lost), or import the backup as a separate copy.",
+    "replace": "Replace it",
+    "importCopy": "Import as a copy",
+    "copyName": "{{name}} (restored)",
+    "restoreError": {
+      "not_json": "That file isn't a backup: it couldn't be read as JSON.",
+      "wrong_format": "That JSON file isn't a Worldledger backup.",
+      "newer_version": "This backup was made by a newer version of Worldledger. Update the app first.",
+      "incomplete": "The backup is incomplete and can't be restored."
+    }
   }
 }

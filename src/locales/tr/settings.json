@@ -4,9 +4,11 @@
     "title": "Arayüz dili",
     "help": "Menüleri ve düğmeleri değiştirir. Her dünyanın kendi içerik dili vardır; onu dünyanın ayarlarından seçersin."
   },
-  "theme": { "title": "Tema" },
+  "theme": {
+    "title": "Tema"
+  },
   "data": {
     "title": "Verilerin",
-    "help": "Yazdığın her şey bu tarayıcıda (IndexedDB) saklanır, hiçbir sunucuya gönderilmez. Yedekleme ve dışa aktarma sonraki bir sürümde geliyor; o zamana kadar bu sitenin verilerini silmekten kaçın."
+    "help": "Yazdığın her şey bu tarayıcıda (IndexedDB) saklanır; hiçbir sunucuya gönderilmez. Bu sitenin verilerini silmek dünyalarını da siler; bu yüzden arada bir her dünyanın ayarlarından yedek indir."
   }
 }

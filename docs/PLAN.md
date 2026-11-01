@@ -1,6 +1,6 @@
 # Worldledger — Build Plan (v1: Lore Encyclopedia)
 
-Status: **approved.** Visual direction **B (The Sourcebook)**. License: none (all rights reserved). Stages 1–5 done.
+Status: **approved.** Visual direction **B (The Sourcebook)**. License: none (all rights reserved). All six stages done.
 
 ---
 

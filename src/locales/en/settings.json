@@ -4,9 +4,11 @@
     "title": "Interface language",
     "help": "Changes menus and buttons. Each world keeps its own content language, set in that world's settings."
   },
-  "theme": { "title": "Theme" },
+  "theme": {
+    "title": "Theme"
+  },
   "data": {
     "title": "Your data",
-    "help": "Everything you write is stored in this browser (IndexedDB). Nothing is sent to a server. Backups and exports arrive in a later version; until then, avoid clearing this site's data."
+    "help": "Everything you write is stored in this browser (IndexedDB); nothing is sent to a server. Clearing this site's data deletes your worlds, so download a backup from each world's settings now and then."
   }
 }

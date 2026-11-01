@@ -426,5 +426,44 @@
     "y": "Y",
     "removed": "“{{name}}” işareti kaldırıldı.",
     "undo": "Geri al"
+  },
+  "export": {
+    "title": "Dışa aktarma ve yedekleme",
+    "lede": "Dünyan bu tarayıcıda yaşıyor. Arada bir yedek indir ya da başka yerlerde okumak ve paylaşmak için dışa aktar.",
+    "json": {
+      "name": "Yedek (JSON)",
+      "desc": "Haritalar dahil bu dünyadaki her şey. Herhangi bir cihazda raftan geri yükleyebilirsin.",
+      "action": "Yedeği indir"
+    },
+    "zip": {
+      "name": "Markdown klasörü (zip)",
+      "desc": "Her sayfa için bir .md dosyası, bilgi kutusu başlık bilgisi (front matter) olarak; her bölüm ayrı klasörde. Obsidian ve benzeri not araçlarıyla çalışır.",
+      "action": "Zip'i indir"
+    },
+    "html": {
+      "name": "Tek okunabilir sayfa (HTML)",
+      "desc": "Tüm dünya, içindekiler ve çalışan bağlantılarla tek bir dosyada; okumaya, paylaşmaya ya da yazdırmaya hazır.",
+      "action": "HTML'i indir"
+    },
+    "done": {
+      "json": "Yedek indirildi.",
+      "zip": "Markdown zip'i indirildi.",
+      "html": "HTML sayfası indirildi."
+    },
+    "keysNote": "Dışa aktarmalar yapay zekâ API anahtarlarını asla içermez.",
+    "failed": "Dışa aktarma başarısız oldu: {{detail}}",
+    "generated": "{{date}} tarihinde Worldledger'dan dışa aktarıldı.",
+    "restore": "Yedekten geri yükle",
+    "existsTitle": "“{{name}}” zaten rafında",
+    "existsBody": "Yedekle değiştir (o zamandan beri yapılan değişiklikler kaybolur) ya da yedeği ayrı bir kopya olarak içe aktar.",
+    "replace": "Değiştir",
+    "importCopy": "Kopya olarak içe aktar",
+    "copyName": "{{name}} (geri yüklendi)",
+    "restoreError": {
+      "not_json": "Bu dosya bir yedek değil: JSON olarak okunamadı.",
+      "wrong_format": "Bu JSON dosyası bir Worldledger yedeği değil.",
+      "newer_version": "Bu yedek Worldledger'ın daha yeni bir sürümüyle yapılmış. Önce uygulamayı güncelle.",
+      "incomplete": "Yedek eksik, geri yüklenemiyor."
+    }
   }
 }

@@ -1,0 +1,41 @@
+.help,
+.note {
+  max-inline-size: var(--measure);
+  font-family: var(--font-read);
+  color: var(--ink-2);
+}
+.note {
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-sm);
+}
+.list {
+  display: grid;
+  margin-block-start: var(--s-3);
+}
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-block: var(--s-3);
+  border-block-end: 1px solid var(--rule);
+}
+.text {
+  display: grid;
+  min-inline-size: min(100%, 18rem);
+  flex: 1;
+}
+.name {
+  font-weight: 750;
+}
+.desc {
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+.error {
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--danger);
+}

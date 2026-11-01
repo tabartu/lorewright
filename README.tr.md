@@ -6,7 +6,7 @@ Worldledger, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönett
 
 İlk modül **Lore Ansiklopedisi**, dünyayı bir kaynak kitap gibi tutar: kategoriler bölüm, sayfalar maddedir ve her madde diğerlerine bağlantı verebilir. Her şey tarayıcında saklanır; sunucu yok, hesap gerekmez.
 
-> **Durum:** geliştiriliyor. 6 aşamadan ilk 5'i tamam: dünyalar, sayfalar, bölümler, iç bağlantılar, arama, geri bağlantılar, bilgi kutuları, zaman çizelgesi, ilişki ağı, haritalar, yapay zekâ desteği ve EN/TR arayüz. Yol haritası için [docs/PLAN.md](docs/PLAN.md) dosyasına bak.
+> **Durum:** geliştiriliyor. Altı aşamanın hepsi tamam: dünyalar, sayfalar, bölümler, iç bağlantılar, arama, geri bağlantılar, bilgi kutuları, zaman çizelgesi, ilişki ağı, haritalar, yapay zekâ desteği, dışa aktarma ve yedekleme ve EN/TR arayüz. Yol haritası için [docs/PLAN.md](docs/PLAN.md) dosyasına bak.
 
 ## Özellikler
 
@@ -43,6 +43,11 @@ Worldledger, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönett
   - Yanıtlar yazıldıkça akar. Sen gözden geçirip düzenleyip onaylamadan hiçbir şey kaydedilmez.
   - Yapay zekâ dünyanın içerik dilinde yazar.
   - Yalnızca ilgili sayfalar gönderilir: sayfanın kendisi, bağlantı verdiği ve ona bağlantı veren sayfalar, tutarlılık kontrolünde bir halka daha. Dünyanın tamamı asla gönderilmez.
+- **Dışa aktarma ve yedekleme.** Her dünyanın ayarlarında:
+  - **JSON yedek**: haritalar dahil her şey. Raftaki **Yedekten geri yükle** ile geri yükleyebilir, dünyayı değiştirebilir ya da kopya olarak içe aktarabilirsin.
+  - **Markdown zip**: her sayfa için YAML başlık bilgisiyle bir `.md` dosyası, her bölüm ayrı klasörde; Obsidian ile çalışır.
+  - **Tek HTML sayfası**: içindekiler ve çalışan bağlantılarla okunabilir, yazdırılabilir bir dosya.
+  - Dışa aktarmalar yapay zekâ anahtarlarını asla içermez.
 - **Geri bağlantılar.** Her sayfa, metninde ya da bilgi kutusunda ona bağlantı veren sayfaları listeler.
 - **Bilgi kutuları (infobox).** Her bölümün alanları vardır; örneğin karakterler için doğum, tür, bağlılık ve yurdu.
   - Alan türleri: kısa ve uzun metin, sayı, dünya tarihi, sayfa bağlantısı (tek ya da çok), seçim listesi, etiketler, evet/hayır.
@@ -56,10 +61,6 @@ Worldledger, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönett
   - Düzenler CSS logical properties kullanır, bu yüzden sağdan sola yazılan diller de çalışır.
 - **İçerik dili arayüz dilinden ayrıdır.** Arayüzü İngilizce kullanıp lore'u Türkçe yazabilirsin.
 - **Aydınlık ve karanlık tema**, telefonlara uygun düzenler.
-
-Planlananlar ([docs/PLAN.md](docs/PLAN.md)):
-
-- dışa aktarma, yedekleme ve GitHub Pages'e yayın
 
 ## Kurulum ve çalıştırma
 
