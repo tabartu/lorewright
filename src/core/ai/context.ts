@@ -96,3 +96,21 @@ function serialize(p: Page, cat: Category | undefined, body: string, world: Worl
   if (text.trim()) lines.push('', text.trim())
   return lines.join('\n')
 }
+
+/**
+ * Best chapter for a page that doesn't exist yet: if stat-block fields point
+ * at it (e.g. a character's Home), use the chapter those fields expect.
+ */
+export async function guessCategory(world: World, title: string): Promise<ID | undefined> {
+  const categories = await db.categories.where('worldId').equals(world.id).toArray()
+  const links = await db.links.where('[worldId+toKey]').equals([world.id, foldKey(title)]).toArray()
+  const votes = new Map<ID, number>()
+  for (const l of links) {
+    if (l.source === 'body') continue
+    const from = await db.pages.get(l.fromPageId)
+    const field = categories.find((c) => c.id === from?.categoryId)?.fields.find((f) => f.id === l.source)
+    const target = field?.refCategory && categories.find((c) => c.builtIn === field.refCategory || c.id === field.refCategory)
+    if (target) votes.set(target.id, (votes.get(target.id) ?? 0) + 1)
+  }
+  return [...votes.entries()].sort((a, b) => b[1] - a[1])[0]?.[0]
+}

@@ -1,5 +1,5 @@
-import { ChevronLeft, ChevronRight, Pencil } from 'lucide-react'
-import { useMemo } from 'react'
+import { ChevronLeft, ChevronRight, Pencil, ScanSearch, Sparkles } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useParams } from 'react-router'
 import { NotFound } from '../../../app/screens/NotFound'
@@ -9,6 +9,9 @@ import { contentCollator, useFormat } from '../../../core/i18n/format'
 import { usePage, usePages } from '../../../core/lore/api'
 import { categoryName } from '../../../core/lore/categories'
 import { ButtonLink } from '../../../ui/Button'
+import { updatePage } from '../../../core/lore/pages'
+import { Button } from '../../../ui/Button'
+import { AIPanel, type AIRequest } from '../components/AIPanel'
 import { Backlinks } from '../components/Backlinks'
 import { Infobox } from '../components/Infobox'
 import { OnMaps } from '../components/OnMaps'
@@ -24,6 +27,8 @@ export function PageReader() {
   const { t } = useTranslation()
   const fmt = useFormat()
   const location = useLocation()
+  const [ai, setAi] = useState<AIRequest | null>(null)
+  const [aiNotice, setAiNotice] = useState<string>()
   const notice = (location.state as { notice?: string } | null)?.notice
   const category = data ? categories.find((c) => c.id === data.page.categoryId) : undefined
   const siblings = usePages(world.id, { categoryId: category?.id })
@@ -56,7 +61,12 @@ export function PageReader() {
           {category && <Link to={`${base}/c/${category.id}`}>{categoryName(category, t, true)}</Link>}
         </nav>
 
-        {notice && (
+        {aiNotice && (
+          <p className={styles.notice} role="status">
+            {aiNotice}
+          </p>
+        )}
+        {notice && !aiNotice && (
           <p className={styles.notice} role="status">
             {notice}
           </p>
@@ -82,9 +92,17 @@ export function PageReader() {
               )}
               <StatusMark status={page.status} />
             </p>
-            <ButtonLink to={`${base}/p/${page.id}/edit`} variant="primary" size="sm" icon={<Pencil aria-hidden="true" />}>
-              {t('common:action.edit')}
-            </ButtonLink>
+            <div className={styles.headActions}>
+              <Button size="sm" variant="quiet" icon={<Sparkles aria-hidden="true" />} onClick={() => setAi({ task: 'expand', title: page.title, pageId: page.id })}>
+                {t('ai:action.expand')}
+              </Button>
+              <Button size="sm" variant="quiet" icon={<ScanSearch aria-hidden="true" />} onClick={() => setAi({ task: 'consistency', title: page.title, pageId: page.id })}>
+                {t('ai:action.consistency')}
+              </Button>
+              <ButtonLink to={`${base}/p/${page.id}/edit`} variant="primary" size="sm" icon={<Pencil aria-hidden="true" />}>
+                {t('common:action.edit')}
+              </ButtonLink>
+            </div>
           </div>
         </header>
 
@@ -146,6 +164,18 @@ export function PageReader() {
         </nav>
         )}
       </div>
+      <AIPanel
+        request={ai}
+        world={world}
+        categories={categories}
+        onClose={() => setAi(null)}
+        acceptLabel={t('ai:action.appendAccept')}
+        onAccept={async (text) => {
+          const separator = body.trim() ? '\n\n' : ''
+          await updatePage(page.id, { body: `${body.trimEnd()}${separator}${text}\n` })
+          setAiNotice(t('ai:panel.appended'))
+        }}
+      />
     </article>
   )
 }

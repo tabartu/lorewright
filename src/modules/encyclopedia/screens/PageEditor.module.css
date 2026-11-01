@@ -110,6 +110,9 @@
   gap: var(--s-3);
   margin-block: var(--s-6) var(--s-2);
 }
+.bodyHead > button {
+  margin-inline-end: auto;
+}
 .bodyLabel {
   font-size: var(--fs-xs);
   font-weight: 700;

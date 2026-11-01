@@ -1,0 +1,138 @@
+{
+  "provider": {
+    "anthropic": {
+      "name": "Anthropic (Claude)",
+      "help": "Anahtarı console.anthropic.com adresinden oluştur. İstekler bu tarayıcıdan doğrudan Anthropic'e gider."
+    },
+    "openai": {
+      "name": "OpenAI",
+      "help": "Anahtarı platform.openai.com adresinden oluştur. İstekler bu tarayıcıdan doğrudan OpenAI'ye gider."
+    },
+    "gemini": {
+      "name": "Google Gemini",
+      "help": "Anahtarı Google AI Studio'dan (aistudio.google.com) oluştur. İstekler bu tarayıcıdan doğrudan Google'a gider."
+    },
+    "openrouter": {
+      "name": "OpenRouter",
+      "help": "Tek anahtarla birçok model (Claude, GPT, Llama, Mistral…). Anahtarı openrouter.ai/keys adresinden oluştur. Model adları “anthropic/claude-sonnet-4.5” gibi görünür."
+    },
+    "ollama": {
+      "name": "Ollama (yerel)",
+      "help": "Bilgisayarında çalışan ücretsiz modeller; internet gerekmez. ollama.com'dan kur, bir model indir (ör. “ollama pull llama3.2”) ve tarayıcıların bağlanabilmesi için şöyle başlat:",
+      "command": "OLLAMA_ORIGINS=\"*\" ollama serve"
+    },
+    "lmstudio": {
+      "name": "LM Studio (yerel)",
+      "help": "Bilgisayarında ücretsiz modeller. LM Studio'da Developer sekmesini aç, sunucuyu başlat ve “Enable CORS”u aç. Varsayılan adres http://localhost:1234/v1."
+    },
+    "openai-compatible": {
+      "name": "Özel (OpenAI uyumlu)",
+      "help": "OpenAI tarzı API'si olan her servis: Groq, Mistral, DeepSeek, Together ve diğerleri. Adresini, anahtarını ve model adını gir. Test engellenen bir istek bildirirse yerel proxy'yi aç."
+    }
+  },
+  "task": {
+    "expand": {
+      "name": "Bu sayfayı genişlet"
+    },
+    "fillMissing": {
+      "name": "Eksik sayfa taslağı"
+    },
+    "consistency": {
+      "name": "Tutarlılık kontrolü"
+    }
+  },
+  "action": {
+    "expand": "Yapay zekâyla genişlet",
+    "consistency": "Tutarlılığı kontrol et",
+    "draft": "Yapay zekâyla taslak",
+    "draftFor": "“{{title}}” için yapay zekâyla taslak",
+    "draftNeedsTitle": "Önce sayfaya bir başlık ver",
+    "appendAccept": "Sayfaya ekle",
+    "createAccept": "Sayfayı oluştur",
+    "insertAccept": "Düzenleyiciye ekle"
+  },
+  "panel": {
+    "notConfigured": "Henüz bir yapay zekâ sağlayıcısı kurulmadı. Ayarlar'dan ekle: kendi anahtarınla bir bulut servisi ya da Ollama veya LM Studio ile ücretsiz yerel bir model.",
+    "optional": "Yapay zekâ isteğe bağlı. Lorewright'ın geri kalanı onsuz da çalışır.",
+    "openSettings": "Yapay zekâ ayarlarını aç",
+    "using": "Kullanılan: {{target}}",
+    "languageNote": "{{language}} yazar",
+    "thinking": "Lore'un okunuyor…",
+    "finished": "Bitti. Aşağıdaki metni gözden geçir.",
+    "stop": "Durdur",
+    "regenerate": "Yeniden dene",
+    "discard": "Vazgeç",
+    "accept": "Kabul et",
+    "edit": "Düzenle",
+    "reviewLabel": "Yapay zekâ önerisi (düzenlenebilir)",
+    "reviewNote": "Sen kabul edene kadar hiçbir şey kaydedilmez. Önce istediğin gibi düzenle.",
+    "appended": "Yapay zekâ metni sayfaya eklendi. İnceltmek için sayfayı düzenle.",
+    "created": "Sayfa yapay zekâ taslağından oluşturuldu ve “Yazılıyor” olarak işaretlendi.",
+    "noFindings": "Bu sayfa ve çevresindeki sayfalar arasında çelişki bulunamadı.",
+    "unparsed": "Yanıt beklenen biçimde değildi; metin olarak aşağıda."
+  },
+  "severity": {
+    "high": "Ciddi",
+    "medium": "Kontrol et",
+    "low": "Küçük"
+  },
+  "hint": {
+    "not_configured": "Ayarlar'dan bir sağlayıcı ekle.",
+    "invalid_key": "Ayarlar'daki API anahtarını kontrol et; yanlış yazılmış, iptal edilmiş ya da başka bir servise ait olabilir.",
+    "quota_exceeded": "Bu sağlayıcıdaki hesabının kredisi bitmiş ya da limiti aşılmış. Kredi ekle ya da başka bir sağlayıcıya veya yerel bir modele geç.",
+    "rate_limited": "Sağlayıcı istekleri sınırlıyor. Bir dakika bekleyip yeniden dene.",
+    "model_not_found": "Ayarlar'da “Modelleri yükle” ile listeden bir model seç ya da yazımı kontrol et.",
+    "local_unreachable": "Yerel sunucu çalışıyor mu? Ollama'yı ya da LM Studio'yu başlat ve tarayıcı bağlantılarına izin verdiğinden emin ol (bkz. Ayarlar).",
+    "cors_or_network": "Ya çevrimdışısın ya da bu servis web sayfalarından gelen istekleri engelliyor. Bu sağlayıcı için “Yerel proxy kullan”ı aç ve “npm run proxy” komutunu çalıştır.",
+    "context_too_long": "Bu model için çok fazla lore var. Daha geniş bağlam penceresi olan bir model dene.",
+    "server_error": "Sağlayıcıda bir sorun oldu. Biraz sonra yeniden dene.",
+    "bad_request": "Sağlayıcı isteği reddetti. Model adını ve adresi kontrol et.",
+    "empty_response": "Model hiçbir şey döndürmedi. Yeniden dene ya da başka bir model seç."
+  },
+  "settings": {
+    "title": "Yapay zekâ asistanları",
+    "lede": "İsteğe bağlı. Sayfaları genişletmek, eksik sayfaların taslağını yazmak ve lore'unu çelişkilere karşı kontrol etmek için bir ya da daha fazla yapay zekâ sağlayıcısı bağla. Yapay zekâ her zaman dünyanın içerik dilinde yazar.",
+    "privacy": "API anahtarları yalnızca bu tarayıcıda saklanır. Dışa aktarmalara ve yedeklere asla girmez; yalnızca seçtiğin sağlayıcıya gönderilir.",
+    "add": "Sağlayıcı ekle",
+    "addTitle": "Sağlayıcı ekle",
+    "editTitle": "Sağlayıcıyı düzenle",
+    "provider": "Sağlayıcı",
+    "label": "Ad",
+    "baseUrl": "Adres",
+    "baseUrlHint": "Varsayılanı kullanmak için boş bırak.",
+    "baseUrlExample": "ör. https://api.groq.com/openai/v1",
+    "baseUrlRequired": "Servisin adresini gir.",
+    "apiKey": "API anahtarı",
+    "apiKeyHint": "Bu tarayıcıda kalır.",
+    "showKey": "Göster",
+    "hideKey": "Gizle",
+    "model": "Model",
+    "modelPlaceholder": "ör. claude-sonnet-4-5",
+    "modelHint": "Bir model adı yaz ya da listeyi sağlayıcıdan yükle.",
+    "modelRequired": "Bir model seç.",
+    "loadModels": "Modelleri yükle",
+    "modelsLoaded_one": "{{count}} model bulundu. Önerilerden birini seç.",
+    "modelsLoaded_other": "{{count}} model bulundu. Önerilerden birini seç.",
+    "useProxy": "Yerel proxy kullan",
+    "useProxyHint": "Tarayıcıları engelleyen servisler için istekleri {{url}} üzerinden gönderir. Önce “npm run proxy” komutunu çalıştır.",
+    "test": "Bağlantıyı test et",
+    "testOk": "Bağlandı.",
+    "useByDefault": "Varsayılan olarak {{label}} kullan",
+    "default": "Varsayılan",
+    "noModel": "model yok",
+    "viaProxy": "proxy üzerinden",
+    "delete": "{{label}} kaldır",
+    "deleteConfirm": "“{{label}}” kaldırılsın mı?",
+    "deleteBody": "API anahtarı bu tarayıcıdan silinecek.",
+    "tasksTitle": "İşe göre model",
+    "tasksHelp": "Tutarlılık kontrolü için güçlü, taslaklar için hızlı ve ucuz bir model kullanabilirsin. Boş bırakırsan varsayılan sağlayıcı ve modeli kullanılır.",
+    "useDefaultProfile": "Varsayılan sağlayıcı",
+    "taskProfile": "{{task}} için sağlayıcı",
+    "taskModel": "{{task}} için model",
+    "taskModelPlaceholder": "Sağlayıcının modeli",
+    "proxyTitle": "Tarayıcıları engelleyen servisler için yerel proxy",
+    "proxyHelp": "Bazı servisler web sayfalarından gelen istekleri reddeder. Lorewright ile gelen küçük proxy'yi bilgisayarında çalıştır, sonra o sağlayıcı için “Yerel proxy kullan”ı işaretle. Yalnızca senin bilgisayarında dinler ve hiçbir şey saklamaz.",
+    "proxyUrl": "Proxy adresi",
+    "proxyCommand": "npm run proxy"
+  }
+}

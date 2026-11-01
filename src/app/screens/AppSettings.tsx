@@ -1,9 +1,12 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router'
 import { LOCALES } from '../../core/i18n'
 import layout from '../../ui/layout.module.css'
 import { Masthead } from '../shell/Masthead'
 import { useDocumentTitle } from '../shell/useDocumentTitle'
 import { useTheme, type ThemePref } from '../theme'
+import { AISettings } from './AISettings'
 import styles from './AppSettings.module.css'
 
 const THEMES: ThemePref[] = ['system', 'light', 'dark']
@@ -12,6 +15,12 @@ export function AppSettings() {
   const { t, i18n } = useTranslation()
   const [theme, setTheme] = useTheme()
   useDocumentTitle(t('common:nav.appSettings'))
+  const { hash } = useLocation()
+  useEffect(() => {
+    if (!hash) return
+    const timer = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' }), 50)
+    return () => clearTimeout(timer)
+  }, [hash])
   return (
     <>
       <Masthead />
@@ -55,6 +64,8 @@ export function AppSettings() {
             ))}
           </div>
         </fieldset>
+
+        <AISettings />
 
         <section className={styles.group}>
           <h2 className={styles.legend}>{t('settings:data.title')}</h2>

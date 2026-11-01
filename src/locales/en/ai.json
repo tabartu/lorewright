@@ -1,0 +1,138 @@
+{
+  "provider": {
+    "anthropic": {
+      "name": "Anthropic (Claude)",
+      "help": "Create a key at console.anthropic.com. Calls go straight from this browser to Anthropic."
+    },
+    "openai": {
+      "name": "OpenAI",
+      "help": "Create a key at platform.openai.com. Calls go straight from this browser to OpenAI."
+    },
+    "gemini": {
+      "name": "Google Gemini",
+      "help": "Create a key in Google AI Studio (aistudio.google.com). Calls go straight from this browser to Google."
+    },
+    "openrouter": {
+      "name": "OpenRouter",
+      "help": "One key for many models (Claude, GPT, Llama, Mistral…). Create it at openrouter.ai/keys. Model names look like “anthropic/claude-sonnet-4.5”."
+    },
+    "ollama": {
+      "name": "Ollama (local)",
+      "help": "Free models that run on your computer, no internet needed. Install from ollama.com, pull a model (e.g. “ollama pull llama3.2”), and start it so browsers may connect:",
+      "command": "OLLAMA_ORIGINS=\"*\" ollama serve"
+    },
+    "lmstudio": {
+      "name": "LM Studio (local)",
+      "help": "Free models on your computer. In LM Studio open the Developer tab, start the server and turn on “Enable CORS”. The default address is http://localhost:1234/v1."
+    },
+    "openai-compatible": {
+      "name": "Custom (OpenAI-compatible)",
+      "help": "Any service with an OpenAI-style API: Groq, Mistral, DeepSeek, Together and more. Enter its address, key and model name. If the test reports a blocked request, turn on the local proxy."
+    }
+  },
+  "task": {
+    "expand": {
+      "name": "Expand this page"
+    },
+    "fillMissing": {
+      "name": "Draft a missing page"
+    },
+    "consistency": {
+      "name": "Consistency check"
+    }
+  },
+  "action": {
+    "expand": "Expand with AI",
+    "consistency": "Check consistency",
+    "draft": "Draft with AI",
+    "draftFor": "Draft “{{title}}” with AI",
+    "draftNeedsTitle": "Give the page a title first",
+    "appendAccept": "Add to page",
+    "createAccept": "Create page",
+    "insertAccept": "Insert into editor"
+  },
+  "panel": {
+    "notConfigured": "No AI provider is set up yet. Add one in Settings: a cloud service with your own key, or a free local model with Ollama or LM Studio.",
+    "optional": "AI is optional. Everything else in Lorewright works without it.",
+    "openSettings": "Open AI settings",
+    "using": "Using {{target}}",
+    "languageNote": "writes in {{language}}",
+    "thinking": "Reading your lore…",
+    "finished": "Done. Review the text below.",
+    "stop": "Stop",
+    "regenerate": "Try again",
+    "discard": "Discard",
+    "accept": "Accept",
+    "edit": "Edit",
+    "reviewLabel": "AI suggestion (editable)",
+    "reviewNote": "Nothing is saved until you accept. Edit freely first.",
+    "appended": "AI text added to the page. Edit the page to refine it.",
+    "created": "Page created from an AI draft. It is marked as a draft.",
+    "noFindings": "No contradictions found among this page and the pages around it.",
+    "unparsed": "The answer wasn't in the expected format; here it is as text."
+  },
+  "severity": {
+    "high": "Serious",
+    "medium": "Check",
+    "low": "Minor"
+  },
+  "hint": {
+    "not_configured": "Add a provider in Settings.",
+    "invalid_key": "Check the API key in Settings; it may be mistyped, revoked or for another service.",
+    "quota_exceeded": "Your account with this provider is out of credit or over its limit. Add credit, or switch to another provider or a local model.",
+    "rate_limited": "The provider is limiting requests. Wait a minute and try again.",
+    "model_not_found": "Pick a model from “Load models” in Settings, or check the spelling.",
+    "local_unreachable": "Is the local server running? Start Ollama or LM Studio and make sure it allows browser connections (see Settings).",
+    "cors_or_network": "Either you're offline or this service blocks requests from web pages. Turn on “Use local proxy” for this provider and run “npm run proxy”.",
+    "context_too_long": "There is too much lore for this model. Try a model with a larger context window.",
+    "server_error": "The provider had a problem. Try again in a moment.",
+    "bad_request": "The provider rejected the request. Check the model name and address.",
+    "empty_response": "The model returned nothing. Try again or choose another model."
+  },
+  "settings": {
+    "title": "AI assistants",
+    "lede": "Optional. Connect one or more AI providers to expand pages, draft missing ones and check your lore for contradictions. AI always writes in each world's content language.",
+    "privacy": "API keys are stored only in this browser. They are never put into exports or backups, and they're sent only to the provider you choose.",
+    "add": "Add a provider",
+    "addTitle": "Add a provider",
+    "editTitle": "Edit provider",
+    "provider": "Provider",
+    "label": "Name",
+    "baseUrl": "Address",
+    "baseUrlHint": "Leave empty to use the default.",
+    "baseUrlExample": "e.g. https://api.groq.com/openai/v1",
+    "baseUrlRequired": "Enter the service's address.",
+    "apiKey": "API key",
+    "apiKeyHint": "Stays in this browser.",
+    "showKey": "Show",
+    "hideKey": "Hide",
+    "model": "Model",
+    "modelPlaceholder": "e.g. claude-sonnet-4-5",
+    "modelHint": "Type a model name, or load the list from the provider.",
+    "modelRequired": "Choose a model.",
+    "loadModels": "Load models",
+    "modelsLoaded_one": "{{count}} model found. Pick one from the suggestions.",
+    "modelsLoaded_other": "{{count}} models found. Pick one from the suggestions.",
+    "useProxy": "Use local proxy",
+    "useProxyHint": "Sends requests through {{url}} for services that block browsers. Run “npm run proxy” first.",
+    "test": "Test connection",
+    "testOk": "Connected.",
+    "useByDefault": "Use {{label}} by default",
+    "default": "Default",
+    "noModel": "no model",
+    "viaProxy": "via proxy",
+    "delete": "Remove {{label}}",
+    "deleteConfirm": "Remove “{{label}}”?",
+    "deleteBody": "Its API key will be deleted from this browser.",
+    "tasksTitle": "Model per task",
+    "tasksHelp": "Use a strong model for consistency checks and a fast, cheap one for drafts. Empty means the default provider and its model.",
+    "useDefaultProfile": "Default provider",
+    "taskProfile": "Provider for {{task}}",
+    "taskModel": "Model for {{task}}",
+    "taskModelPlaceholder": "Provider's model",
+    "proxyTitle": "Local proxy for services that block browsers",
+    "proxyHelp": "Some services refuse requests from web pages. Run the small proxy that comes with Lorewright on your computer, then tick “Use local proxy” for that provider. It listens on your computer only and stores nothing.",
+    "proxyUrl": "Proxy address",
+    "proxyCommand": "npm run proxy"
+  }
+}

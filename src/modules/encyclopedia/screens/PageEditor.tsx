@@ -1,4 +1,4 @@
-import { Columns2, Eye, PenLine, Trash2 } from 'lucide-react'
+import { Columns2, Eye, PenLine, Sparkles, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBlocker, useNavigate, useParams, useSearchParams } from 'react-router'
@@ -15,6 +15,7 @@ import type { ID, Page, PageStatus, WorldDate } from '../../../core/lore/types'
 import { Button } from '../../../ui/Button'
 import { ConfirmDialog } from '../../../ui/ConfirmDialog'
 import { SelectField, TextField } from '../../../ui/Field'
+import { AIPanel, type AIRequest } from '../components/AIPanel'
 import { InfoboxForm } from '../components/InfoboxForm'
 import { MarkdownEditor } from '../components/MarkdownEditor'
 import { MarkdownView } from '../components/MarkdownView'
@@ -73,6 +74,7 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
   const [dateError, setDateError] = useState<string>()
   const [saving, setSaving] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [ai, setAi] = useState<AIRequest | null>(null)
   const allowLeave = useRef(false)
   const isNew = !page
   useDocumentTitle(isNew ? t('encyclopedia:page.new') : t('encyclopedia:page.editing', { title: page.title }), world.name)
@@ -304,6 +306,13 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
 
         <div className={styles.bodyHead}>
           <h2 className={styles.bodyLabel}>{t('encyclopedia:editor.body')}</h2>
+          {isNew && (
+            <Button size="sm" variant="quiet" icon={<Sparkles aria-hidden="true" />} disabled={!draft.title.trim()}
+              title={draft.title.trim() ? undefined : t('ai:action.draftNeedsTitle')}
+              onClick={() => setAi({ task: 'fillMissing', title: draft.title.trim(), categoryId: draft.categoryId })}>
+              {t('ai:action.draft')}
+            </Button>
+          )}
           <div className={styles.viewSwitch} role="group" aria-label={t('encyclopedia:editor.viewMode')}>
             {viewButtons.map((b) => (
               <button
@@ -361,6 +370,16 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
       >
         {t('encyclopedia:editor.leaveBody')}
       </ConfirmDialog>
+      <AIPanel
+        request={ai}
+        world={world}
+        categories={categories}
+        onClose={() => setAi(null)}
+        acceptLabel={t('ai:action.insertAccept')}
+        onAccept={(text, { categoryId }) => {
+          setDraft((d) => ({ ...d, body: d.body.trim() ? `${d.body.trimEnd()}\n\n${text}` : text, categoryId: categoryId ?? d.categoryId }))
+        }}
+      />
       {page && (
         <ConfirmDialog
           open={confirmDelete}

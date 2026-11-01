@@ -4,5 +4,20 @@
     "title_taken": "Bu dünyada bu adla (ya da takma adla) bir sayfa zaten var. Başka bir ad seç ya da var olan sayfayı aç.",
     "not_found": "Bu sayfa artık yok.",
     "category_not_empty": "Bu bölümü kaldırmadan önce içindeki sayfaları taşı ya da sil."
+  },
+  "ai": {
+    "not_configured": "Kurulu bir yapay zekâ sağlayıcısı yok.",
+    "invalid_key": "API anahtarı reddedildi.",
+    "quota_exceeded": "Kredi bitti ya da kullanım limiti aşıldı.",
+    "rate_limited": "Şu anda çok fazla istek var.",
+    "model_not_found": "Bu model bulunamadı.",
+    "local_unreachable": "Yerel yapay zekâ sunucusuna ulaşılamıyor.",
+    "cors_or_network": "İstek engellendi ya da ağ bağlantısı yok.",
+    "context_too_long": "Bu model için metin çok uzun.",
+    "bad_request": "Sağlayıcı isteği reddetti.",
+    "server_error": "Sağlayıcıda bir hata oluştu.",
+    "aborted": "Durduruldu.",
+    "empty_response": "Model metin döndürmedi.",
+    "unknown": "Bir şeyler ters gitti."
   }
 }

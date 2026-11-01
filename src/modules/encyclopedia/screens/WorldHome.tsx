@@ -1,4 +1,9 @@
-import { Plus } from 'lucide-react'
+import { Plus, Sparkles } from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
+import { guessCategory } from '../../../core/ai/context'
+import { createPage } from '../../../core/lore/pages'
+import { AIPanel, type AIRequest } from '../components/AIPanel'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { useWorldContext } from '../../../app/shell/WorldLayout'
@@ -20,6 +25,8 @@ export function WorldHome() {
   const recent = useRecentPages(world.id, 8)
   const wanted = useRedLinks(world.id)
   useDocumentTitle(world.name)
+  const navigate = useNavigate()
+  const [ai, setAi] = useState<AIRequest | null>(null)
 
   const total = counts ? [...counts.values()].reduce((a, b) => a + b, 0) : undefined
   const byId = new Map(categories.map((c) => [c.id, c]))
@@ -143,6 +150,15 @@ export function WorldHome() {
                         {w.title}
                       </Link>
                       <span className={styles.wantedCount}>{t('encyclopedia:home.wantedCount', { count: w.count })}</span>
+                      <button
+                        type="button"
+                        className={styles.draftButton}
+                        onClick={async () => setAi({ task: 'fillMissing', title: w.title, categoryId: await guessCategory(world, w.title) })}
+                        aria-label={t('ai:action.draftFor', { title: w.title })}
+                        title={t('ai:action.draftFor', { title: w.title })}
+                      >
+                        <Sparkles aria-hidden="true" />
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -153,6 +169,18 @@ export function WorldHome() {
           </section>
         </div>
       )}
+      <AIPanel
+        request={ai}
+        world={world}
+        categories={categories}
+        onClose={() => setAi(null)}
+        acceptLabel={t('ai:action.createAccept')}
+        onAccept={async (text, { categoryId }) => {
+          if (!ai) return
+          const page = await createPage({ worldId: world.id, categoryId: categoryId ?? categories[0].id, title: ai.title, body: text, status: 'draft' })
+          navigate(`${base}/p/${page.id}`, { state: { notice: t('ai:panel.created') } })
+        }}
+      />
     </div>
   )
 }

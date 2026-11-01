@@ -168,9 +168,11 @@
 .wantedList li {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: center;
   gap: var(--s-2);
+}
+.wantedList li > a {
+  margin-inline-end: auto;
 }
 .wantedLink {
   font-family: var(--font-read);
@@ -243,4 +245,25 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-2);
+}
+
+.draftButton {
+  display: grid;
+  place-items: center;
+  inline-size: 1.9rem;
+  block-size: 1.9rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: none;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.draftButton:hover {
+  border-color: var(--ink-3);
+  color: var(--ink);
+  background: var(--paper-2);
+}
+.draftButton svg {
+  inline-size: 0.95rem;
+  block-size: 0.95rem;
 }

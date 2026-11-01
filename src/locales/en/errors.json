@@ -4,5 +4,20 @@
     "title_taken": "A page with this name (or alias) already exists in this world. Pick a different name, or open the existing page.",
     "not_found": "This page no longer exists.",
     "category_not_empty": "Move or delete the pages in this chapter before removing it."
+  },
+  "ai": {
+    "not_configured": "No AI provider is set up.",
+    "invalid_key": "The API key was rejected.",
+    "quota_exceeded": "Out of credit or over the usage limit.",
+    "rate_limited": "Too many requests right now.",
+    "model_not_found": "That model wasn't found.",
+    "local_unreachable": "The local AI server can't be reached.",
+    "cors_or_network": "The request was blocked or the network is down.",
+    "context_too_long": "Too much text for this model.",
+    "bad_request": "The provider rejected the request.",
+    "server_error": "The provider had an error.",
+    "aborted": "Stopped.",
+    "empty_response": "The model returned no text.",
+    "unknown": "Something went wrong."
   }
 }
