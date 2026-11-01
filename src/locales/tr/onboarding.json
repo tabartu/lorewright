@@ -1,7 +1,7 @@
 {
   "shelf": {
     "emptyTitle": "İlk cildini oluştur",
-    "emptyLede": "Lorewright oyununun dünyasını bir kaynak kitap gibi tutar: karakterler, mekânlar ve fraksiyonlar için bölümler, birbirine bağlanan maddeler ve her bilgi tek bir aramayla elinin altında.",
+    "emptyLede": "Worldledger oyununun dünyasını bir kaynak kitap gibi tutar: karakterler, mekânlar ve fraksiyonlar için bölümler, birbirine bağlanan maddeler ve her bilgi tek bir aramayla elinin altında.",
     "step1": "Bir dünya oluştur ve lore'unun hangi dilde yazılacağını seç.",
     "step2": "Maddeleri Markdown ile yaz. Başka bir maddeye bağlantı vermek için [[ yaz.",
     "step3": "Dünyanda eksik olanı doldurmak için kırmızı bağlantıları takip et.",

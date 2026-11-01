@@ -54,7 +54,7 @@
   },
   "panel": {
     "notConfigured": "No AI provider is set up yet. Add one in Settings: a cloud service with your own key, or a free local model with Ollama or LM Studio.",
-    "optional": "AI is optional. Everything else in Lorewright works without it.",
+    "optional": "AI is optional. Everything else in Worldledger works without it.",
     "openSettings": "Open AI settings",
     "using": "Using {{target}}",
     "languageNote": "writes in {{language}}",
@@ -142,7 +142,7 @@
     "taskModel": "Model for {{task}}",
     "taskModelPlaceholder": "Provider's model",
     "proxyTitle": "Local proxy for services that block browsers",
-    "proxyHelp": "Some services refuse requests from web pages. Run the small proxy that comes with Lorewright on your computer, then tick “Use local proxy” for that provider. It listens on your computer only and stores nothing.",
+    "proxyHelp": "Some services refuse requests from web pages. Run the small proxy that comes with Worldledger on your computer, then tick “Use local proxy” for that provider. It listens on your computer only and stores nothing.",
     "proxyUrl": "Proxy address",
     "proxyCommand": "npm run proxy"
   }

@@ -1,8 +1,8 @@
-# Lorewright
+# Worldledger
 
 *[Türkçe README](README.tr.md)*
 
-Lorewright is a local-first wiki for game developers to write and manage the lore of their game worlds, independent of genre or engine.
+Worldledger is a local-first wiki for game developers to write and manage the lore of their game worlds, independent of genre or engine.
 
 Its first module, the **Lore Encyclopedia**, keeps a world as a sourcebook. Categories are chapters, pages are entries, and every entry can link to any other. Everything is stored in your browser: no server and no account.
 
@@ -113,7 +113,7 @@ You can save several providers and mark one as the default. Under **Model per ta
 | LM Studio (local, free) | `http://localhost:1234/v1` | In LM Studio: Developer tab → start server → enable **CORS**. |
 | Custom (OpenAI-compatible) | your service's `/v1` URL | Groq, Mistral, DeepSeek, Together… may need the local proxy. |
 
-**Where your keys go.** API keys are stored only in your browser, in a separate IndexedDB database named `lorewright-secrets`. They are never written into exports, backups or the repository, and they are sent only to the provider you configured.
+**Where your keys go.** API keys are stored only in your browser, in a separate IndexedDB database named `worldledger-secrets`. They are never written into exports, backups or the repository, and they are sent only to the provider you configured.
 
 ### Ollama
 
@@ -133,7 +133,7 @@ If you use the hosted app (GitHub Pages), set `OLLAMA_ORIGINS` to that address i
 
 Some services refuse requests that come straight from a web page (CORS). If **Test connection** says the request was blocked:
 
-1. Run the small proxy that ships with Lorewright. It has no dependencies, listens only on `127.0.0.1:8787` and stores nothing:
+1. Run the small proxy that ships with Worldledger. It has no dependencies, listens only on `127.0.0.1:8787` and stores nothing:
    ```bash
    npm run proxy
    ```
@@ -156,7 +156,7 @@ Add one file to `src/core/ai/providers/` that default-exports an `AIProvider`; t
 
 ## Your data
 
-All worlds live in your browser's IndexedDB, in a database named `lorewright`. Nothing leaves your machine. Clearing site data for the app deletes your worlds. JSON backup and restore arrive in stage 6.
+All worlds live in your browser's IndexedDB, in a database named `worldledger`. Nothing leaves your machine. Clearing site data for the app deletes your worlds. JSON backup and restore arrive in stage 6.
 
 ## How to add a new language
 
@@ -205,7 +205,7 @@ docs/PLAN.md       Architecture and roadmap
 
 Future modules such as *NPC Personality Lab*, *Playtest Feedback Hub* and *Store Page Studio* plug in the same way:
 
-1. Create `src/modules/<name>/manifest.tsx` exporting a `LorewrightModule`, which declares its routes under `/w/:worldId/<basePath>`.
+1. Create `src/modules/<name>/manifest.tsx` exporting a `WorldledgerModule`, which declares its routes under `/w/:worldId/<basePath>`.
 2. Add it to `src/modules/registry.ts`.
 3. Read lore through `src/core/lore/api.ts`, for example `getPages(worldId, { builtIn: 'character' })` or `getLinkedPages(id)`.
 4. If the module needs its own tables, add namespaced stores in a new Dexie version in `src/core/db/db.ts`.

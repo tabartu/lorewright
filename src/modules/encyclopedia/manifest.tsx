@@ -1,5 +1,5 @@
 import { BookOpen } from 'lucide-react'
-import type { LorewrightModule } from '../types'
+import type { WorldledgerModule } from '../types'
 
 /** The editor pulls in CodeMirror, so it loads on demand. */
 const timeline = { lazy: async () => ({ Component: (await import('./screens/Timeline')).Timeline }) }
@@ -13,7 +13,7 @@ import { ChaptersManage } from './screens/ChaptersManage'
 import { PageReader } from './screens/PageReader'
 import { WorldHome } from './screens/WorldHome'
 
-export const encyclopediaModule: LorewrightModule = {
+export const encyclopediaModule: WorldledgerModule = {
   id: 'encyclopedia',
   nameKey: 'encyclopedia:module.name',
   icon: BookOpen,

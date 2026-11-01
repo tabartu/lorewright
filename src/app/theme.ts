@@ -1,7 +1,7 @@
 import { useCallback, useSyncExternalStore } from 'react'
 
 export type ThemePref = 'system' | 'light' | 'dark'
-const KEY = 'lorewright.theme'
+const KEY = 'worldledger.theme'
 const listeners = new Set<() => void>()
 
 function read(): ThemePref {

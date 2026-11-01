@@ -54,7 +54,7 @@
   },
   "panel": {
     "notConfigured": "Henüz bir yapay zekâ sağlayıcısı kurulmadı. Ayarlar'dan ekle: kendi anahtarınla bir bulut servisi ya da Ollama veya LM Studio ile ücretsiz yerel bir model.",
-    "optional": "Yapay zekâ isteğe bağlı. Lorewright'ın geri kalanı onsuz da çalışır.",
+    "optional": "Yapay zekâ isteğe bağlı. Worldledger'ın geri kalanı onsuz da çalışır.",
     "openSettings": "Yapay zekâ ayarlarını aç",
     "using": "Kullanılan: {{target}}",
     "languageNote": "{{language}} yazar",
@@ -142,7 +142,7 @@
     "taskModel": "{{task}} için model",
     "taskModelPlaceholder": "Sağlayıcının modeli",
     "proxyTitle": "Tarayıcıları engelleyen servisler için yerel proxy",
-    "proxyHelp": "Bazı servisler web sayfalarından gelen istekleri reddeder. Lorewright ile gelen küçük proxy'yi bilgisayarında çalıştır, sonra o sağlayıcı için “Yerel proxy kullan”ı işaretle. Yalnızca senin bilgisayarında dinler ve hiçbir şey saklamaz.",
+    "proxyHelp": "Bazı servisler web sayfalarından gelen istekleri reddeder. Worldledger ile gelen küçük proxy'yi bilgisayarında çalıştır, sonra o sağlayıcı için “Yerel proxy kullan”ı işaretle. Yalnızca senin bilgisayarında dinler ve hiçbir şey saklamaz.",
     "proxyUrl": "Proxy adresi",
     "proxyCommand": "npm run proxy"
   }

@@ -2,98 +2,174 @@
   min-block-size: 50vh;
 }
 
-/* ---------- shelf of covers ---------- */
-.shelf {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
-  gap: var(--s-5);
+/* ---------- the bookcase ---------- */
+.bookcase {
+  /* A cabinet: posts at the sides, a back panel, one plank under every row. */
+  --row: 20rem;
+  --plank: 0.85rem;
   margin-block-start: var(--s-6);
+  padding-inline: var(--s-3);
+  padding-block: 0;
+  border-inline: 0.75rem solid var(--shelf);
+  border-block-start: 0.75rem solid var(--shelf);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(var(--row) - var(--plank)),
+      var(--shelf-edge) calc(var(--row) - var(--plank)),
+      var(--shelf) calc(var(--row) - var(--plank) + 3px),
+      var(--shelf) var(--row)
+    ),
+    var(--shelf-back);
+  /* planks are measured from the first row, not from the cabinet's top edge */
+  background-origin: content-box, padding-box;
+  box-shadow: inset 0 12px 18px -12px oklch(0.1 0.02 60 / 0.5);
 }
-.cover,
-.newSlot {
+.shelf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0 0.3rem;
+}
+.slot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  block-size: calc(var(--row) - var(--plank));
+  margin-block-end: var(--plank);
+}
+.spine {
+  position: relative;
   display: flex;
   flex-direction: column;
-  aspect-ratio: 3 / 4;
-  padding: var(--s-4);
-  border-radius: 1px 3px 3px 1px;
-  text-decoration: none;
-}
-.cover {
-  position: relative;
-  background: var(--cover);
+  align-items: center;
+  justify-content: space-between;
+  inline-size: var(--spine-w, 4rem);
+  block-size: var(--spine-h, 14rem);
+  padding-block: var(--s-3);
+  border-radius: 2px 2px 1px 1px;
+  background:
+    linear-gradient(90deg, oklch(0 0 0 / 0.2), transparent 18%, transparent 80%, oklch(0 0 0 / 0.24)),
+    var(--cover);
   color: var(--on-cover);
-  box-shadow: 0 1px 1px oklch(0.2 0.03 260 / 0.25), 0 8px 18px -10px oklch(0.2 0.03 260 / 0.45);
+  text-decoration: none;
+  transform: rotate(var(--tilt, 0deg));
+  transform-origin: bottom left;
+  box-shadow: 2px 0 3px oklch(0.1 0.02 60 / 0.35);
   transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
 }
-.cover::before {
-  /* the spine hinge */
-  content: '';
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0.6rem;
-  inline-size: 1px;
-  background: color-mix(in oklab, var(--on-cover) 22%, transparent);
+.spine:hover,
+.spine:focus-visible {
+  transform: translateY(-0.6rem) rotate(0deg);
+  box-shadow: 3px 6px 10px oklch(0.1 0.02 60 / 0.4);
 }
-.cover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 1px 1px oklch(0.2 0.03 260 / 0.25), 0 16px 28px -12px oklch(0.2 0.03 260 / 0.5);
+.spine:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
 }
-.coverTop {
-  padding-inline-start: var(--s-3);
-  font-size: var(--fs-2xs);
-  font-weight: 700;
-  font-stretch: var(--stretch-semi);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--on-cover-2);
+.spineBand {
+  /* bookbinding bands near the head and tail */
+  inline-size: 70%;
+  block-size: 5px;
+  border-block: 1px solid var(--on-cover-2);
+  opacity: 0.8;
+  flex: none;
+}
+.spineTitle {
+  flex: 1;
+  min-block-size: 0;
+  margin-block: var(--s-2);
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.coverTitle {
-  margin-block-start: auto;
-  padding-inline-start: var(--s-3);
-  font-size: var(--fs-2xl);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: var(--spine-font, 1.25rem);
   font-weight: 800;
   font-stretch: var(--stretch-condensed);
-  line-height: 0.98;
+  letter-spacing: 0.03em;
+  line-height: 1.02;
   text-transform: uppercase;
+  text-align: center;
   overflow-wrap: anywhere;
-  hyphens: auto;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
-.coverRule {
-  margin-block: var(--s-3);
-  margin-inline-start: var(--s-3);
-  block-size: 3px;
-  border-block: 1px solid var(--on-cover-2);
-}
-.coverFoot {
-  padding-inline-start: var(--s-3);
+.label {
+  /* what the book is, shown when you reach for it */
+  position: absolute;
+  inset-block-end: calc(100% + 0.2rem);
+  inset-inline-start: 0;
+  z-index: 2;
+  display: grid;
+  inline-size: max-content;
+  max-inline-size: 15rem;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--paper);
   font-size: var(--fs-xs);
-  color: var(--on-cover-2);
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
 }
-.newSlot {
+.labelTitle {
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  font-stretch: var(--stretch-condensed);
+  text-transform: uppercase;
+}
+.labelMeta {
+  font-weight: 600;
+}
+.slot:hover .label,
+.slot:focus-within .label {
+  opacity: 1;
+  transform: translateY(-0.6rem);
+}
+.newSpine {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--s-2);
-  border: 1.5px dashed var(--rule-strong);
+  inline-size: 4rem;
+  block-size: 13.5rem;
+  border: 1.5px dashed var(--ink-3);
+  border-block-end: 0;
+  border-radius: 2px 2px 0 0;
   color: var(--ink-2);
+  text-decoration: none;
+}
+.newSpine svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  flex: none;
+}
+.newSpineText {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
   font-size: var(--fs-sm);
-  font-weight: 600;
-  text-align: center;
+  font-weight: 700;
+  white-space: nowrap;
 }
-.newSlot svg {
-  inline-size: 2rem;
-  block-size: 2rem;
-}
-.newSlot:hover {
+.newSpine:hover {
   border-color: var(--ink-2);
   color: var(--ink);
-  background: var(--paper-2);
+  background: color-mix(in oklab, var(--paper) 60%, transparent);
+}
+@media (max-width: 40rem) {
+  .bookcase {
+    --row: 16rem;
+    border-inline-width: 0.5rem;
+    padding-inline: var(--s-2);
+  }
+  .spine {
+    block-size: calc(var(--spine-h, 14rem) * 0.8);
+    inline-size: calc(var(--spine-w, 4rem) * 0.85);
+  }
+  .newSpine {
+    block-size: 11rem;
+  }
 }
 
 /* ---------- empty shelf ---------- */

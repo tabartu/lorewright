@@ -1,8 +1,8 @@
-# Lorewright
+# Worldledger
 
 *[English README](README.md)*
 
-Lorewright, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönettiği, veriyi kendi cihazında tutan bir wiki uygulamasıdır. Herhangi bir oyun türüne ya da oyun motoruna bağlı değildir.
+Worldledger, oyun geliştiricilerin oyun dünyalarının lore'unu yazıp yönettiği, veriyi kendi cihazında tutan bir wiki uygulamasıdır. Herhangi bir oyun türüne ya da oyun motoruna bağlı değildir.
 
 İlk modül **Lore Ansiklopedisi**, dünyayı bir kaynak kitap gibi tutar: kategoriler bölüm, sayfalar maddedir ve her madde diğerlerine bağlantı verebilir. Her şey tarayıcında saklanır; sunucu yok, hesap gerekmez.
 
@@ -113,7 +113,7 @@ Birden fazla sağlayıcı kaydedip birini varsayılan yapabilirsin. **İşe gör
 | LM Studio (yerel, ücretsiz) | `http://localhost:1234/v1` | LM Studio'da: Developer sekmesi → sunucuyu başlat → **CORS**'u aç. |
 | Özel (OpenAI uyumlu) | servisin `/v1` adresi | Groq, Mistral, DeepSeek, Together… yerel proxy gerektirebilir. |
 
-**Anahtarların nereye gider?** API anahtarları yalnızca tarayıcında, `lorewright-secrets` adlı ayrı bir IndexedDB veritabanında saklanır. Dışa aktarmalara, yedeklere ya da depoya asla girmez; yalnızca ayarladığın sağlayıcıya gönderilir.
+**Anahtarların nereye gider?** API anahtarları yalnızca tarayıcında, `worldledger-secrets` adlı ayrı bir IndexedDB veritabanında saklanır. Dışa aktarmalara, yedeklere ya da depoya asla girmez; yalnızca ayarladığın sağlayıcıya gönderilir.
 
 ### Ollama
 
@@ -133,7 +133,7 @@ Yayındaki uygulamayı (GitHub Pages) kullanıyorsan `OLLAMA_ORIGINS` değerine 
 
 Bazı servisler doğrudan bir web sayfasından gelen istekleri (CORS) reddeder. **Bağlantıyı test et** isteğin engellendiğini söylerse:
 
-1. Lorewright ile gelen küçük proxy'yi çalıştır. Bağımlılığı yoktur, yalnızca `127.0.0.1:8787` üzerinde dinler ve hiçbir şey saklamaz:
+1. Worldledger ile gelen küçük proxy'yi çalıştır. Bağımlılığı yoktur, yalnızca `127.0.0.1:8787` üzerinde dinler ve hiçbir şey saklamaz:
    ```bash
    npm run proxy
    ```
@@ -156,7 +156,7 @@ Safari, https üzerinden sunulan sayfaların `http://localhost`'a istek atmasın
 
 ## Verilerin
 
-Tüm dünyalar tarayıcının IndexedDB'sinde, `lorewright` adlı veritabanında durur. Hiçbir şey bilgisayarından çıkmaz. Uygulamanın site verilerini silersen dünyaların da silinir. JSON yedekleme ve geri yükleme 6. aşamada geliyor.
+Tüm dünyalar tarayıcının IndexedDB'sinde, `worldledger` adlı veritabanında durur. Hiçbir şey bilgisayarından çıkmaz. Uygulamanın site verilerini silersen dünyaların da silinir. JSON yedekleme ve geri yükleme 6. aşamada geliyor.
 
 ## Yeni bir dil nasıl eklenir
 
@@ -205,7 +205,7 @@ docs/PLAN.md       Mimari ve yol haritası
 
 İleride gelecek *NPC Personality Lab*, *Playtest Feedback Hub* ve *Store Page Studio* gibi modüller aynı şekilde eklenir:
 
-1. `src/modules/<ad>/manifest.tsx` dosyasında bir `LorewrightModule` dışa aktar. Bu dosya modülün `/w/:worldId/<basePath>` altındaki yönlendirmelerini tanımlar.
+1. `src/modules/<ad>/manifest.tsx` dosyasında bir `WorldledgerModule` dışa aktar. Bu dosya modülün `/w/:worldId/<basePath>` altındaki yönlendirmelerini tanımlar.
 2. Modülü `src/modules/registry.ts` dosyasına ekle.
 3. Lore'u `src/core/lore/api.ts` üzerinden oku; örneğin `getPages(worldId, { builtIn: 'character' })` ya da `getLinkedPages(id)`.
 4. Modülün kendi tablolarına ihtiyacı varsa, `src/core/db/db.ts` dosyasında yeni bir Dexie sürümüyle ad alanlı tablolar ekle.

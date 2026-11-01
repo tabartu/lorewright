@@ -1,5 +1,5 @@
 import { BookPlus } from 'lucide-react'
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
 import { useFormat } from '../../core/i18n/format'
@@ -86,30 +86,41 @@ export function WorldsShelf() {
                 </ButtonLink>
               </div>
             </header>
-            <ul role="list" className={styles.shelf}>
-              {worlds.map((w) => (
-                <li key={w.id}>
-                  <Link to={`/w/${w.id}`} className={styles.cover} data-cover={w.cover}>
-                    <span className={styles.coverTop} lang={w.contentLanguage}>
-                      {[w.genre, fmt.languageName(w.contentLanguage)].filter(Boolean).join(' · ')}
-                    </span>
-                    <span className={styles.coverTitle} lang={w.contentLanguage}>
-                      {w.name}
-                    </span>
-                    <span className={styles.coverRule} aria-hidden="true" />
-                    <span className={styles.coverFoot}>
-                      {t('onboarding:shelf.updated', { when: fmt.relative(w.updatedAt) })}
-                    </span>
+            <div className={styles.bookcase}>
+              <ul role="list" className={styles.shelf}>
+                {worlds.map((w) => {
+                  const { height, width, tilt, font } = spineShape(w.id, w.name)
+                  return (
+                    <li key={w.id} className={styles.slot}>
+                      <Link
+                        to={`/w/${w.id}`}
+                        className={styles.spine}
+                        data-cover={w.cover}
+                        style={{ '--spine-h': `${height}rem`, '--spine-w': `${width}rem`, '--tilt': `${tilt}deg`, '--spine-font': `${font}rem` } as CSSProperties}
+                      >
+                        <span className={styles.spineBand} aria-hidden="true" />
+                        <span className={styles.spineTitle} lang={w.contentLanguage}>{w.name}</span>
+                        <span className={styles.spineBand} aria-hidden="true" />
+                        <span className="visually-hidden">
+                          {[w.genre, fmt.languageName(w.contentLanguage), t('onboarding:shelf.updated', { when: fmt.relative(w.updatedAt) })].filter(Boolean).join(', ')}
+                        </span>
+                      </Link>
+                      <span className={styles.label} aria-hidden="true">
+                        <span className={styles.labelTitle} lang={w.contentLanguage}>{w.name}</span>
+                        <span className={styles.labelMeta}>{[w.genre, fmt.languageName(w.contentLanguage)].filter(Boolean).join(' · ')}</span>
+                        <span>{t('onboarding:shelf.updated', { when: fmt.relative(w.updatedAt) })}</span>
+                      </span>
+                    </li>
+                  )
+                })}
+                <li className={styles.slot}>
+                  <Link to="/worlds/new" className={styles.newSpine} title={t('onboarding:shelf.newSlot')}>
+                    <BookPlus aria-hidden="true" strokeWidth={1.5} />
+                    <span className={styles.newSpineText}>{t('onboarding:shelf.newSlot')}</span>
                   </Link>
                 </li>
-              ))}
-              <li>
-                <Link to="/worlds/new" className={styles.newSlot}>
-                  <BookPlus aria-hidden="true" strokeWidth={1.5} />
-                  <span>{t('onboarding:shelf.newSlot')}</span>
-                </Link>
-              </li>
-            </ul>
+              </ul>
+            </div>
             <section className={layout.section}>
               <h2 className={layout.sectionTitle}>{t('onboarding:shelf.samplesTitle')}</h2>
               <div className={layout.actions}>
@@ -121,4 +132,17 @@ export function WorldsShelf() {
       </main>
     </>
   )
+}
+
+/** Stable, slightly varied book proportions per world, like a real shelf. */
+function spineShape(id: string, name: string) {
+  let h = 0
+  for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0
+  const len = [...name].length
+  // Long titles get a taller, thicker book and smaller type, wrapping onto a second line.
+  const height = Math.min(17.5, 13 + (h % 9) * 0.35 + (len > 14 ? 1.5 : 0))
+  const width = len > 16 ? 4.6 : len > 10 ? 4 : 3.5
+  const font = len > 22 ? 0.95 : len > 14 ? 1.05 : len > 9 ? 1.15 : 1.25
+  const tilt = h % 7 === 0 ? -3 : 0 // the odd book leans
+  return { height, width, tilt, font }
 }

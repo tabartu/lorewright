@@ -16,20 +16,20 @@ Solo developers and small indie game teams (roughly 1–5 people), where the sam
 
 ## Product Purpose
 
-Lorewright is a lore workspace built specifically for game developers, not general writers. It holds a game's whole world, uses AI that knows that world to keep it consistent, and turns lore into material that ships with the game.
+Worldledger is a lore workspace built specifically for game developers, not general writers. It holds a game's whole world, uses AI that knows that world to keep it consistent, and turns lore into material that ships with the game.
 
 Success: a developer's lore stays coherent as the world grows, contradictions are caught before they reach the game, and lore moves into the game and its other production work without rewriting.
 
 ## Positioning
 
-- **Built for game development.** General worldbuilding and note tools (World Anvil, Notion, Obsidian, Campfire) treat lore as documentation. In Lorewright, lore is the source that later production work draws from.
+- **Built for game development.** General worldbuilding and note tools (World Anvil, Notion, Obsidian, Campfire) treat lore as documentation. In Worldledger, lore is the source that later production work draws from.
 - **AI that knows the whole world.** It keeps lore consistent, catches contradictions, and expands pages in the world's own voice.
 - **Connected lore.** Entities and the relationships between them come first. Visualizing those connections is a core capability.
 - **No lock-in.** Works with any AI provider, including free local models, and with any game engine. Local-first, no account needed.
 
 ## Operating Context
 
-- Used by people already working in a game engine and production tools. Lorewright is not a replacement for either.
+- Used by people already working in a game engine and production tools. Worldledger is not a replacement for either.
 - The first module is the **Lore Encyclopedia** (a wiki of the world). Lore feeds later modules inside the same application:
   - **NPC Personality Lab** (uses character pages)
   - **Playtest Feedback Hub**
@@ -59,7 +59,7 @@ Open decisions (not yet decided, do not assume):
 
 ## Brand Commitments
 
-- Product name: **Lorewright**.
+- Product name: **Worldledger**.
 - Module names: **Lore Encyclopedia**, **NPC Personality Lab**, **Playtest Feedback Hub**, **Store Page Studio**.
 - No open-source license: all rights reserved.
 - Promises the product must keep: local-first, no account needed, any AI provider, any engine.

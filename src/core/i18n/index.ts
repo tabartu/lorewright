@@ -17,7 +17,15 @@ export interface LocaleMeta {
 export const NAMESPACES = ['common', 'encyclopedia', 'settings', 'onboarding', 'errors', 'ai'] as const
 export const DEFAULT_NS = 'common'
 export const FALLBACK_LANGUAGE = 'en'
-export const LANGUAGE_STORAGE_KEY = 'lorewright.language'
+export const LANGUAGE_STORAGE_KEY = 'worldledger.language'
+
+// Keep the language chosen under the app's former name (Lorewright).
+try {
+  const old = localStorage.getItem('lorewright.language')
+  if (old && !localStorage.getItem(LANGUAGE_STORAGE_KEY)) localStorage.setItem(LANGUAGE_STORAGE_KEY, old)
+} catch {
+  /* storage unavailable */
+}
 
 const files = import.meta.glob<{ default: Record<string, unknown> }>('../../locales/*/*.json', { eager: true })
 

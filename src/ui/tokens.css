@@ -1,5 +1,5 @@
 /*
- * Lorewright design tokens — "The Sourcebook".
+ * Worldledger design tokens — "The Sourcebook".
  * Bright cool sheet + near-black ink in light; deep cover-navy + bone ink in dark.
  * Each world sets a cover ink ([data-cover]); each chapter sets a chapter ink ([data-ink]).
  */
@@ -67,6 +67,11 @@
   --s-7: 3rem;
   --s-8: 4.5rem;
 
+  /* bookcase */
+  --shelf: oklch(0.36 0.045 55);
+  --shelf-edge: oklch(0.5 0.05 60);
+  --shelf-back: oklch(0.93 0.008 70);
+
   --measure: 68ch;
   /* Height of the sticky masthead band plus the chapter tabs. */
   --masthead-h: 6.3rem;
@@ -111,6 +116,9 @@
     --ink-cyan: oklch(0.80 0.08 215);
     --ink-graphite: oklch(0.80 0.012 260);
     --shadow-pop: 0 12px 32px -6px oklch(0.05 0.02 262 / 0.6), 0 2px 6px oklch(0.05 0.02 262 / 0.4);
+    --shelf: oklch(0.3 0.035 55);
+    --shelf-edge: oklch(0.42 0.04 60);
+    --shelf-back: oklch(0.16 0.025 262);
   }
 }
 
@@ -140,6 +148,9 @@
   --ink-cyan: oklch(0.80 0.08 215);
   --ink-graphite: oklch(0.80 0.012 260);
   --shadow-pop: 0 12px 32px -6px oklch(0.05 0.02 262 / 0.6), 0 2px 6px oklch(0.05 0.02 262 / 0.4);
+  --shelf: oklch(0.3 0.035 55);
+  --shelf-edge: oklch(0.42 0.04 60);
+  --shelf-back: oklch(0.16 0.025 262);
 }
 
 /* Chapter ink selection */

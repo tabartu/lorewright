@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * Lorewright local AI proxy (optional, zero dependencies).
+ * Worldledger local AI proxy (optional, zero dependencies).
  *
  * Some AI services refuse requests made directly from a web page (CORS).
  * Run this on your own computer and turn on "Use local proxy" for that
- * provider in Lorewright's settings. Requests then go:
+ * provider in Worldledger's settings. Requests then go:
  *
  *   browser → http://localhost:8787/https://api.example.com/v1/... → service
  *
@@ -72,5 +72,5 @@ const server = http.createServer(async (req, res) => {
 })
 
 server.listen(PORT, '127.0.0.1', () => {
-  console.log(`Lorewright AI proxy on http://localhost:${PORT}${ALLOW.length ? ` (allowed: ${ALLOW.join(', ')})` : ''}`)
+  console.log(`Worldledger AI proxy on http://localhost:${PORT}${ALLOW.length ? ` (allowed: ${ALLOW.join(', ')})` : ''}`)
 })

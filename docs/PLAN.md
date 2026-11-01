@@ -1,4 +1,4 @@
-# Lorewright — Build Plan (v1: Lore Encyclopedia)
+# Worldledger — Build Plan (v1: Lore Encyclopedia)
 
 Status: **approved.** Visual direction **B (The Sourcebook)**. License: none (all rights reserved). Stages 1–5 done.
 
@@ -82,7 +82,7 @@ Additions borrowed from the other dealt directions (their discipline, not their 
 
 A tabletop-RPG sourcebook: two-column spreads on wide screens, stat-block infoboxes, sidebars, chapter openers, and an index at the back.
 
-**Honest risk:** this is the most familiar look in the category, close to what many lore tools and fan wikis already do. It is easy to read but hard to make feel like Lorewright's own.
+**Honest risk:** this is the most familiar look in the category, close to what many lore tools and fan wikis already do. It is easy to read but hard to make feel like Worldledger's own.
 
 ### C. Standard wiki (the safe exit)
 
@@ -120,7 +120,7 @@ A left sidebar tree, the infobox on the right, neutral greys and blue links, pla
 ## 4. Folder structure
 
 ```
-lorewright/
+worldledger/
 ├─ .github/workflows/deploy.yml     # stage 6: build + deploy to GitHub Pages
 ├─ docs/PLAN.md
 ├─ proxy/                           # optional zero-dependency local CORS proxy (stage 5)
@@ -186,7 +186,7 @@ So NPC Personality Lab can attach a personality profile to a character page by `
 
 ## 5. Data model (IndexedDB via Dexie)
 
-Database `lorewright` (exported and backed up):
+Database `worldledger` (exported and backed up):
 
 ```ts
 World {
@@ -257,7 +257,7 @@ Built-in infobox fields (editable and extendable per world):
 - **Creature:** classification, habitat → Locations, danger level
 - **Concept:** type (magic system, religion, technology…), related → pages
 
-Database `lorewright-secrets` (**never exported, never committed**):
+Database `worldledger-secrets` (**never exported, never committed**):
 
 ```ts
 ProviderProfile { id; type; label; baseUrl?; apiKey?; defaultModel? }
@@ -362,10 +362,10 @@ interface AIProvider {
 
 ## 9. Export and deploy (stage 6)
 
-- **JSON backup:** the whole `lorewright` DB for one world, including map images as base64. It never contains the secrets DB. Restore validates the version and either merges or replaces.
+- **JSON backup:** the whole `worldledger` DB for one world, including map images as base64. It never contains the secrets DB. Restore validates the version and either merges or replaces.
 - **Markdown zip:** `category/Page Title.md` with YAML front-matter for the infobox. Map images are included.
 - **Single HTML:** one self-contained, readable file with a table of contents and working internal anchors.
-- **GitHub Pages:** an Actions workflow builds on every push to `main` and deploys. Vite `base` is `/lorewright/`.
+- **GitHub Pages:** an Actions workflow builds on every push to `main` and deploys. Vite `base` is `/worldledger/`.
 
 ---
 

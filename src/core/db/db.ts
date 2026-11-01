@@ -2,7 +2,7 @@ import Dexie, { type EntityTable } from 'dexie'
 import type { Category, Era, Link, MapDoc, MapImage, Marker, Page, PageBody, World } from '../lore/types'
 
 /**
- * The main Lorewright database. Everything here belongs to the user's worlds
+ * The main Worldledger database. Everything here belongs to the user's worlds
  * and is included in backups. Secrets (AI keys) live in a separate database
  * that is never exported.
  *
@@ -10,7 +10,7 @@ import type { Category, Era, Link, MapDoc, MapImage, Marker, Page, PageBody, Wor
  * stores (e.g. `npc_profiles`). Never rename or drop a core store without a
  * migration in `.upgrade()`.
  */
-export class LorewrightDB extends Dexie {
+export class WorldledgerDB extends Dexie {
   worlds!: EntityTable<World, 'id'>
   categories!: EntityTable<Category, 'id'>
   pages!: EntityTable<Page, 'id'>
@@ -21,7 +21,7 @@ export class LorewrightDB extends Dexie {
   mapImages!: EntityTable<MapImage, 'id'>
   markers!: EntityTable<Marker, 'id'>
 
-  constructor(name = 'lorewright') {
+  constructor(name = 'worldledger') {
     super(name)
     this.version(1).stores({
       worlds: 'id, updatedAt',
@@ -40,4 +40,4 @@ export class LorewrightDB extends Dexie {
   }
 }
 
-export const db = new LorewrightDB()
+export const db = new WorldledgerDB()

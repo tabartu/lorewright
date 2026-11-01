@@ -16,7 +16,7 @@ class SecretsDB extends Dexie {
   profiles!: EntityTable<ProviderProfile, 'id'>
   settings!: EntityTable<SettingRow, 'key'>
   constructor() {
-    super('lorewright-secrets')
+    super('worldledger-secrets')
     this.version(1).stores({ profiles: 'id', settings: 'key' })
   }
 }

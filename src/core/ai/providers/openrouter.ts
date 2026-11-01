@@ -6,5 +6,5 @@ export default openAICompatible({
   defaultBaseUrl: 'https://openrouter.ai/api/v1',
   needsKey: true,
   browserFriendly: true,
-  headers: () => ({ 'HTTP-Referer': location.origin, 'X-Title': 'Lorewright' }),
+  headers: () => ({ 'HTTP-Referer': location.origin, 'X-Title': 'Worldledger' }),
 })

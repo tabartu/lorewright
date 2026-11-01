@@ -7,7 +7,7 @@ import { PreferencesMenu } from './PreferencesMenu'
 
 interface MastheadProps {
   cover?: CoverInk
-  /** Title shown after the Lorewright mark (world name). */
+  /** Title shown after the Worldledger mark (world name). */
   title?: ReactNode
   titleTo?: string
   titleLang?: string
@@ -24,8 +24,9 @@ export function Masthead({ cover, title, titleTo, titleLang, actions, children }
         <div className={styles.inner}>
           <Link to="/" className={styles.mark} aria-label={t('common:nav.shelf')} title={t('common:nav.shelf')}>
             <svg viewBox="0 0 32 32" aria-hidden="true" className={styles.glyph}>
-              <path d="M7 5h4.5v17H25v4H7z" fill="currentColor" />
-              <path d="M17 5h4.5v12.5H17z" fill="currentColor" opacity="0.55" />
+              <path d="M6 5h4v22H6z" fill="currentColor" />
+              <path d="M12 5h14v22H12z" fill="currentColor" opacity="0.35" />
+              <path d="M15 10h8M15 14h8M15 18h8M15 22h5" stroke="currentColor" strokeWidth="2" />
             </svg>
             {!title && <span className={styles.wordmark} lang="en">{t('common:appName')}</span>}
           </Link>

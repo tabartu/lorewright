@@ -1,7 +1,7 @@
 {
   "shelf": {
     "emptyTitle": "Bind your first volume",
-    "emptyLede": "Lorewright keeps your game's world as a sourcebook: chapters for characters, places and factions, entries that link to each other, and every fact one search away.",
+    "emptyLede": "Worldledger keeps your game's world as a sourcebook: chapters for characters, places and factions, entries that link to each other, and every fact one search away.",
     "step1": "Create a world and choose the language its lore is written in.",
     "step2": "Write entries in Markdown. Type [[ to link another entry.",
     "step3": "Follow red links to fill in what your world is missing.",
