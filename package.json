@@ -11,7 +11,8 @@
     "test": "vitest run",
     "i18n:check": "node scripts/check-i18n.mjs",
     "css:check": "node scripts/check-logical-css.mjs",
-    "check": "tsc -b && npm run lint && npm run test && npm run i18n:check && npm run css:check"
+    "check": "tsc -b && npm run lint && npm run test && npm run i18n:check && npm run css:check",
+    "proxy": "node proxy/server.mjs"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.4",
