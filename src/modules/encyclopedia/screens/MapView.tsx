@@ -91,7 +91,13 @@ function MapScreen({ mapId }: { mapId: string }) {
         setAdding(false)
       })
     })
-    const ro = new ResizeObserver(() => lm.invalidateSize())
+    // Refit while the user hasn't moved the map yet (the container settles after first paint).
+    let touched = false
+    lm.on('zoomstart movestart', (e) => { if ((e as L.LeafletEvent & { hard?: boolean }).hard === undefined && lm.getContainer().matches(':hover')) touched = true })
+    const ro = new ResizeObserver(() => {
+      lm.invalidateSize()
+      if (!touched) lm.fitBounds(bounds)
+    })
     ro.observe(host.current)
     leaflet.current = lm
     return () => {

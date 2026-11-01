@@ -2,7 +2,7 @@
   min-block-size: 60vh;
 }
 .page {
-  max-inline-size: calc(var(--page-max) + 10rem);
+  max-inline-size: var(--page-max);
   margin-inline: auto;
   padding-inline: var(--gutter);
   padding-block: var(--s-5) var(--s-7);
