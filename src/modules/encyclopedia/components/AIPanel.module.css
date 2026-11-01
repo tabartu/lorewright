@@ -303,3 +303,33 @@
     inline-size: 100vw;
   }
 }
+
+.checking {
+  display: grid;
+  gap: var(--s-1);
+}
+.checkingTitle {
+  font-family: var(--font-read);
+  font-size: var(--fs-body);
+}
+.stoppedMark {
+  display: inline-block;
+  margin-block-end: var(--s-3);
+  padding-inline: var(--s-2);
+  border: 1px dashed var(--ink-3);
+  border-radius: 1px;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-5);
+  border-block-start: 2px solid var(--danger);
+  background: color-mix(in oklab, var(--danger) 7%, var(--paper));
+  font-weight: 600;
+}

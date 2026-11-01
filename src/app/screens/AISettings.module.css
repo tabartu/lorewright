@@ -222,3 +222,12 @@
 .proxy[open] > * + * {
   margin-block-start: var(--s-3);
 }
+
+.rawDetail {
+  display: block;
+  margin-block-start: 0.15rem;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  color: var(--ink-3);
+}

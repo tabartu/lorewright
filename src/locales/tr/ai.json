@@ -49,7 +49,8 @@
     "draftNeedsTitle": "Önce sayfaya bir başlık ver",
     "appendAccept": "Sayfaya ekle",
     "createAccept": "Sayfayı oluştur",
-    "insertAccept": "Düzenleyiciye ekle"
+    "insertAccept": "Düzenleyiciye ekle",
+    "draftShort": "Taslak"
   },
   "panel": {
     "notConfigured": "Henüz bir yapay zekâ sağlayıcısı kurulmadı. Ayarlar'dan ekle: kendi anahtarınla bir bulut servisi ya da Ollama veya LM Studio ile ücretsiz yerel bir model.",
@@ -69,7 +70,17 @@
     "appended": "Yapay zekâ metni sayfaya eklendi. İnceltmek için sayfayı düzenle.",
     "created": "Sayfa yapay zekâ taslağından oluşturuldu ve “Yazılıyor” olarak işaretlendi.",
     "noFindings": "Bu sayfa ve çevresindeki sayfalar arasında çelişki bulunamadı.",
-    "unparsed": "Yanıt beklenen biçimde değildi; metin olarak aşağıda."
+    "unparsed": "Yanıt beklenen biçimde değildi; metin olarak aşağıda.",
+    "checking_one": "{{count}} sayfa birbiriyle karşılaştırılıyor…",
+    "checking_other": "{{count}} sayfa birbiriyle karşılaştırılıyor…",
+    "checkingWhat": "Tarihler, ölümler, yerler, fraksiyonlar ve bilgi kutularının metinle uyumu.",
+    "foundSoFar_one": "Şimdiye kadar {{count}} olası sorun",
+    "foundSoFar_other": "Şimdiye kadar {{count}} olası sorun",
+    "checkStopped": "Kontrol bitmeden durduruldu. Tam sonucu almak için yeniden dene.",
+    "stoppedPartial": "Durduruldu: bu metin eksik.",
+    "discardEdits": "Bu metinde yaptığın değişiklikler atılsın mı?",
+    "keepEditing": "Düzenlemeye devam et",
+    "discardConfirm": "Değişiklikleri at"
   },
   "severity": {
     "high": "Ciddi",

@@ -186,7 +186,7 @@ function ProfileForm({ initial, proxyUrl, onDone }: { initial?: ProviderProfile;
         <Button onClick={() => void runTest()} busy={test.state === 'running'}>{t('ai:settings.test')}</Button>
         <p className={styles.testResult} role="status" data-state={test.state}>
           {test.state === 'ok' && (<><CheckCircle2 aria-hidden="true" />{t('ai:settings.testOk')}</>)}
-          {test.state === 'error' && (<><XCircle aria-hidden="true" />{t(`errors:ai.${test.code}`)}{test.detail && <span className={styles.detail}> — {test.detail}</span>}</>)}
+          {test.state === 'error' && (<><XCircle aria-hidden="true" /><span>{t(`errors:ai.${test.code}`)}<span className={styles.detail}> {t(`ai:hint.${test.code}`, { defaultValue: '' })}</span>{test.detail && <span className={styles.rawDetail}>{test.detail}</span>}</span></>)}
         </p>
       </div>
 

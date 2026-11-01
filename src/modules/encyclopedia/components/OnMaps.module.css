@@ -27,3 +27,7 @@
   block-size: 0.95rem;
   color: var(--chapter, var(--ink-3));
 }
+.meta {
+  font-weight: 400;
+  color: var(--ink-3);
+}

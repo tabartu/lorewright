@@ -309,7 +309,7 @@ function EditorForm({ page, initial }: { page?: Page; initial: Draft }) {
           {isNew && (
             <Button size="sm" variant="quiet" icon={<Sparkles aria-hidden="true" />} disabled={!draft.title.trim()}
               title={draft.title.trim() ? undefined : t('ai:action.draftNeedsTitle')}
-              onClick={() => setAi({ task: 'fillMissing', title: draft.title.trim(), categoryId: draft.categoryId })}>
+              onClick={() => setAi({ task: 'fillMissing', title: draft.title.trim(), categoryId: draft.categoryId, categoryLocked: true })}>
               {t('ai:action.draft')}
             </Button>
           )}

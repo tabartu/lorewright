@@ -20,6 +20,7 @@ export function OnMaps({ worldId, keys }: { worldId: string; keys: string[] }) {
             <Link to={`/w/${worldId}/maps/${m.mapId}?marker=${m.id}`} className={styles.link}>
               <MapPin aria-hidden="true" className={styles.icon} />
               {byId.get(m.mapId)?.name}
+              {m.label && <span className={styles.meta}> · {m.label}</span>}
             </Link>
           </li>
         ))}

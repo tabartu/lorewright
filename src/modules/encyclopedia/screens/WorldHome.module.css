@@ -248,10 +248,13 @@
 }
 
 .draftButton {
-  display: grid;
-  place-items: center;
-  inline-size: 1.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
   block-size: 1.9rem;
+  padding-inline: var(--s-2);
+  font-size: var(--fs-xs);
+  font-weight: 600;
   border: 1px solid var(--rule);
   border-radius: var(--radius);
   background: none;

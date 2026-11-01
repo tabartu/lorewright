@@ -10,6 +10,7 @@ import { useDocumentTitle } from '../../../app/shell/useDocumentTitle'
 import { contentCollator } from '../../../core/i18n/format'
 import { usePageTitles, useResolveKeys } from '../../../core/lore/api'
 import { categoryName } from '../../../core/lore/categories'
+import { db } from '../../../core/db/db'
 import { addMarker, deleteMap, deleteMarker, renameMap, updateMarker, useMap, useMapImage, useMarkers } from '../../../core/lore/maps'
 import { foldKey } from '../../../core/lore/normalize'
 import type { Marker } from '../../../core/lore/types'
@@ -47,6 +48,7 @@ function MapScreen({ mapId }: { mapId: string }) {
   const [name, setName] = useState(map?.name ?? '')
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [showLabels, setShowLabels] = useState(true)
+  const [removed, setRemoved] = useState<Marker | null>(null)
   const host = useRef<HTMLDivElement>(null)
   const leaflet = useRef<L.Map | null>(null)
   const layer = useRef<L.LayerGroup | null>(null)
@@ -96,6 +98,7 @@ function MapScreen({ mapId }: { mapId: string }) {
     lm.on('zoomstart movestart', (e) => { if ((e as L.LeafletEvent & { hard?: boolean }).hard === undefined && lm.getContainer().matches(':hover')) touched = true })
     const ro = new ResizeObserver(() => {
       lm.invalidateSize()
+      lm.setMinZoom(lm.getBoundsZoom(bounds) - 1)
       if (!touched) lm.fitBounds(bounds)
     })
     ro.observe(host.current)
@@ -117,7 +120,8 @@ function MapScreen({ mapId }: { mapId: string }) {
       const target = m.pageTitle ? resolved?.get(foldKey(m.pageTitle)) : undefined
       const ink = target ? (byCat.get(pageCat.get(target.id) ?? '')?.ink ?? 'graphite') : 'graphite'
       const missing = !!m.pageTitle && !target
-      const label = m.pageTitle || m.label || t('encyclopedia:maps.untitledMarker')
+      const name = m.pageTitle || m.label || t('encyclopedia:maps.untitledMarker')
+      const label = missing ? `${name} (${t('encyclopedia:link.missingA11y')})` : name
       const icon = L.divIcon({
         className: 'lw-pin-wrap',
         html: `<span class="lw-pin" data-ink="${ink}" ${missing ? 'data-missing' : ''} ${m.id === selected ? 'data-selected' : ''}></span>`,
@@ -125,7 +129,7 @@ function MapScreen({ mapId }: { mapId: string }) {
         iconAnchor: [13, 32],
       })
       const marker = L.marker(toLatLng(m.x, m.y, map.height), { icon, draggable: true, keyboard: true, title: label, alt: label, riseOnHover: true })
-      if (showLabels) marker.bindTooltip(escapeHtml(label), { permanent: true, direction: 'bottom', offset: [0, 4], className: 'lw-pin-label' })
+      if (showLabels) marker.bindTooltip(escapeHtml(name) + (missing ? ' <span class="lw-missing">+</span>' : ''), { permanent: true, direction: 'bottom', offset: [0, 4], className: 'lw-pin-label' })
       marker.on('click', () => setSelected(m.id))
       marker.on('keypress', (e: L.LeafletKeyboardEvent) => {
         if (e.originalEvent.key === 'Enter') setSelected(m.id)
@@ -137,6 +141,24 @@ function MapScreen({ mapId }: { mapId: string }) {
       marker.addTo(group)
     }
   }, [markers, resolved, byCat, pageCat, selected, showLabels, map, t])
+
+  // A marker left without a page or label is removed when the editor closes.
+  const previous = useRef<string | null>(null)
+  useEffect(() => {
+    const prev = previous.current
+    previous.current = selected
+    if (!prev || prev === selected) return
+    void db.markers.get(prev).then((m) => {
+      if (m && !m.pageTitle?.trim() && !m.label?.trim()) void deleteMarker(m.id)
+    })
+  }, [selected])
+
+  // On narrow screens the editor sits below the map: bring it into view.
+  useEffect(() => {
+    if (selected && matchMedia('(max-width: 56rem)').matches) {
+      setTimeout(() => document.getElementById('marker-editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
+    }
+  }, [selected])
 
   // Selecting from the list (or ?marker=) centres the map on that marker.
   useEffect(() => {
@@ -181,6 +203,19 @@ function MapScreen({ mapId }: { mapId: string }) {
           <Button variant={adding ? 'primary' : 'secondary'} icon={<Crosshair aria-hidden="true" />} aria-pressed={adding} onClick={() => setAdding((a) => !a)}>
             {adding ? t('encyclopedia:maps.addingMarker') : t('encyclopedia:maps.addMarker')}
           </Button>
+          {adding && (
+            <Button variant="quiet" size="sm" onClick={() => {
+              const lm = leaflet.current
+              if (!lm) return
+              const { x, y } = fromLatLng(lm.getCenter(), map.height)
+              void addMarker({ worldId: world.id, mapId: map.id, x: clamp(x, 0, map.width), y: clamp(y, 0, map.height), pageTitle: '' }).then((m) => {
+                setSelected(m.id)
+                setAdding(false)
+              })
+            }}>
+              {t('encyclopedia:maps.placeAtCentre')}
+            </Button>
+          )}
           <label className={styles.switch}>
             <input type="checkbox" checked={showLabels} onChange={(e) => setShowLabels(e.target.checked)} />
             {t('encyclopedia:maps.showLabels')}
@@ -190,6 +225,16 @@ function MapScreen({ mapId }: { mapId: string }) {
         </div>
       </header>
       {adding && <p className={styles.addHint} role="status">{t('encyclopedia:maps.addHint')}</p>}
+      {removed && (
+        <p className={styles.addHint} role="status">
+          {t('encyclopedia:maps.removed', { name: removed.pageTitle || removed.label || t('encyclopedia:maps.untitledMarker') })}{' '}
+          <button type="button" className={styles.undo} onClick={() => {
+            void db.markers.put(removed)
+            setSelected(removed.id)
+            setRemoved(null)
+          }}>{t('encyclopedia:maps.undo')}</button>
+        </p>
+      )}
 
       <div className={styles.layout}>
         <div className={styles.stage} data-adding={adding || undefined}>
@@ -207,6 +252,10 @@ function MapScreen({ mapId }: { mapId: string }) {
               target={current.pageTitle ? resolved?.get(foldKey(current.pageTitle)) : undefined}
               onClose={() => setSelected(null)}
               onOpen={(id) => navigate(`${base}/p/${id}`)}
+              onRemove={(m) => {
+                void deleteMarker(m.id)
+                setRemoved(m)
+              }}
             />
           ) : null}
           <section aria-labelledby="markers-title">
@@ -263,6 +312,7 @@ function MarkerEditor({
   target,
   onClose,
   onOpen,
+  onRemove,
 }: {
   marker: Marker
   worldId: string
@@ -271,6 +321,7 @@ function MarkerEditor({
   target?: { id: string; title: string }
   onClose: () => void
   onOpen: (id: string) => void
+  onRemove: (m: Marker) => void
 }) {
   const { t } = useTranslation()
   const [pageTitle, setPageTitle] = useState(marker.pageTitle ?? '')
@@ -280,8 +331,9 @@ function MarkerEditor({
     if (!marker.pageTitle && !marker.label) input.current?.focus()
   }, [marker.pageTitle, marker.label])
   const save = () => void updateMarker(marker.id, { pageTitle: pageTitle.trim(), label: label.trim() || undefined })
+  const nudge = (axis: 'x' | 'y', value: number) => void updateMarker(marker.id, { [axis]: Math.max(0, Math.round(value)) })
   return (
-    <section className={styles.editor} aria-labelledby="marker-title">
+    <section id="marker-editor" className={styles.editor} aria-labelledby="marker-title">
       <div className={styles.editorHead}>
         <h2 id="marker-title" className={styles.sideTitle}>{t('encyclopedia:maps.marker')}</h2>
         <button type="button" className={styles.close} onClick={onClose} aria-label={t('common:action.close')}>
@@ -299,6 +351,17 @@ function MarkerEditor({
           <span>{t('encyclopedia:maps.label')}</span>
           <input value={label} lang={lang} placeholder={t('encyclopedia:maps.labelPlaceholder')} onChange={(e) => setLabel(e.target.value)} onBlur={save} />
         </label>
+        <fieldset className={styles.position}>
+          <legend>{t('encyclopedia:maps.position')}</legend>
+          <label>
+            <span>{t('encyclopedia:maps.x')}</span>
+            <input type="number" min={0} value={marker.x} onChange={(e) => nudge('x', Number(e.target.value))} />
+          </label>
+          <label>
+            <span>{t('encyclopedia:maps.y')}</span>
+            <input type="number" min={0} value={marker.y} onChange={(e) => nudge('y', Number(e.target.value))} />
+          </label>
+        </fieldset>
         {marker.pageTitle && (
           <p className={styles.linkLine}>
             <WikiRef title={marker.pageTitle} worldId={worldId} target={target} />
@@ -307,7 +370,7 @@ function MarkerEditor({
         <div className={styles.editorActions}>
           <Button type="submit" size="sm" variant="primary">{t('common:action.save')}</Button>
           {target && <Button size="sm" onClick={() => onOpen(target.id)}>{t('encyclopedia:graph.open')}</Button>}
-          <Button size="sm" variant="danger" icon={<Trash2 aria-hidden="true" />} onClick={() => { void deleteMarker(marker.id); onClose() }}>
+          <Button size="sm" variant="danger" icon={<Trash2 aria-hidden="true" />} onClick={() => { onRemove(marker); onClose() }}>
             {t('encyclopedia:maps.deleteMarker')}
           </Button>
         </div>

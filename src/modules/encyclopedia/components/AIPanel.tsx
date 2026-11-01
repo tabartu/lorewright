@@ -1,4 +1,4 @@
-import { AlertTriangle, Eye, PenLine, RotateCcw, Sparkles, Square, X } from 'lucide-react'
+import { AlertTriangle, Eye, PenLine, RotateCcw, ScanSearch, Sparkles, Square, X } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
@@ -24,6 +24,8 @@ export interface AIRequest {
   pageId?: string
   /** Default chapter when drafting a missing page. */
   categoryId?: string
+  /** The caller already chooses the chapter (e.g. the editor), so the panel doesn't ask. */
+  categoryLocked?: boolean
 }
 
 interface AIPanelProps {
@@ -36,7 +38,7 @@ interface AIPanelProps {
   acceptLabel?: string
 }
 
-type Status = 'idle' | 'running' | 'done' | 'error'
+type Status = 'idle' | 'running' | 'done' | 'stopped' | 'error'
 
 /** Streams an AI answer, then lets the user edit, accept or discard it. Never saves on its own. */
 export function AIPanel({ request, world, categories, onClose, onAccept, acceptLabel }: AIPanelProps) {
@@ -44,12 +46,17 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
   const settings = useAISettings()
   const dialog = useRef<HTMLDialogElement>(null)
   const abort = useRef<AbortController | null>(null)
+  const partial = useRef('')
   const [status, setStatus] = useState<Status>('idle')
   const [text, setText] = useState('')
   const [error, setError] = useState<AIError | null>(null)
   const [view, setView] = useState<'edit' | 'preview'>('edit')
   const [categoryId, setCategoryId] = useState<string | undefined>(request?.categoryId)
   const [saving, setSaving] = useState(false)
+  /** The last text the model produced, to tell whether the user has edited it. */
+  const [generated, setGenerated] = useState('')
+  const [contextCount, setContextCount] = useState(0)
+  const [confirming, setConfirming] = useState<null | 'retry' | 'close'>(null)
   const open = !!request
 
   useEffect(() => {
@@ -65,13 +72,16 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
     const ctrl = new AbortController()
     abort.current = ctrl
     setText('')
+    setGenerated('')
     setError(null)
+    setConfirming(null)
     setStatus('running')
     setView('edit')
     try {
       const ctx = await buildContext(world, request.pageId ? { pageId: request.pageId } : { title: request.title }, {
         rings: request.task === 'consistency' ? 2 : 1,
       })
+      setContextCount(ctx.titles.length)
       const prompt =
         request.task === 'expand'
           ? expandPrompt(request.title, ctx.text)
@@ -79,6 +89,7 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
             ? fillMissingPrompt(request.title, ctx.text)
             : consistencyPrompt(request.title, ctx.text)
       let acc = ''
+      partial.current = ''
       for await (const piece of runTask(settings, request.task, {
         system: systemPrompt(world),
         messages: [{ role: 'user', content: prompt }],
@@ -86,13 +97,18 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
         temperature: request.task === 'consistency' ? 0.2 : 0.8,
       }, ctrl.signal)) {
         acc += piece
+        partial.current = acc
         setText(acc)
       }
       setText(acc.trim())
+      setGenerated(acc.trim())
       setStatus('done')
     } catch (err) {
       if (ctrl.signal.aborted) {
-        setStatus((s) => (s === 'running' ? 'done' : s))
+        // Keep what arrived, clearly marked as partial.
+        setText(partial.current.trim())
+        setGenerated(partial.current.trim())
+        setStatus((s) => (s === 'running' ? 'stopped' : s))
         return
       }
       setError(err instanceof AIError ? err : new AIError('unknown', String(err)))
@@ -118,9 +134,22 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
   }, [request, settings, start, categories])
 
   const stop = () => abort.current?.abort()
-  const close = () => {
+  const edited = text.trim() !== generated.trim() && (status === 'done' || status === 'stopped')
+  const close = (force = false) => {
+    if (edited && !force) {
+      setConfirming('close')
+      return
+    }
     abort.current?.abort()
+    setConfirming(null)
     onClose()
+  }
+  const retry = (force = false) => {
+    if (edited && !force) {
+      setConfirming('retry')
+      return
+    }
+    void start()
   }
 
   const findings = useMemo(() => (request?.task === 'consistency' && status === 'done' ? parseFindings(text) : null), [request, status, text])
@@ -128,16 +157,16 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
   const configured = !!settings?.profiles.length
 
   return (
-    <dialog ref={dialog} className={styles.panel} onCancel={(e) => { e.preventDefault(); close() }} aria-labelledby="ai-panel-title">
+    <dialog ref={dialog} className={styles.panel} onCancel={(e) => { e.preventDefault(); close() }} aria-labelledby="ai-panel-title" data-task={request?.task}>
       {request && (
         <div className={styles.inner}>
           <header className={styles.head}>
-            <Sparkles aria-hidden="true" className={styles.headIcon} />
+            {request.task === 'consistency' ? <ScanSearch aria-hidden="true" className={styles.headIcon} /> : <Sparkles aria-hidden="true" className={styles.headIcon} />}
             <div className={styles.headText}>
               <h2 id="ai-panel-title" className={styles.title}>{t(`ai:task.${request.task}.name`)}</h2>
               <p className={styles.subject} lang={world.contentLanguage}>{request.title}</p>
             </div>
-            <button type="button" className={styles.close} onClick={close} aria-label={t('common:action.close')}>
+            <button type="button" className={styles.close} onClick={() => close()} aria-label={t('common:action.close')}>
               <X aria-hidden="true" />
             </button>
           </header>
@@ -146,7 +175,7 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
             <div className={styles.body}>
               <p className={styles.message}>{t('ai:panel.notConfigured')}</p>
               <p className={styles.note}>{t('ai:panel.optional')}</p>
-              <Link to="/settings#ai" className={styles.settingsLink} onClick={close}>{t('ai:panel.openSettings')}</Link>
+              <Link to="/settings#ai" className={styles.settingsLink} onClick={() => close(true)}>{t('ai:panel.openSettings')}</Link>
             </div>
           ) : (
             <>
@@ -164,12 +193,20 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
                       <p className={styles.errorTitle}>{t(`errors:ai.${error.code}`)}</p>
                       <p className={styles.errorHint}>{t(`ai:hint.${error.code}`, { defaultValue: '' })}</p>
                       {error.detail && <p className={styles.errorDetail}>{error.detail}</p>}
-                      <Link to="/settings#ai" onClick={close}>{t('ai:panel.openSettings')}</Link>
+                      <Link to="/settings#ai" onClick={() => close(true)}>{t('ai:panel.openSettings')}</Link>
                     </div>
                   </div>
                 )}
 
-                {request.task === 'consistency' && status === 'done' ? (
+                {request.task === 'consistency' && status === 'running' ? (
+                  <div className={styles.checking}>
+                    <p className={styles.checkingTitle}>{t('ai:panel.checking', { count: contextCount })}</p>
+                    <p className={styles.note}>{t('ai:panel.checkingWhat')}</p>
+                    <p className={styles.note}>{t('ai:panel.foundSoFar', { count: (text.match(/"explanation"/g) ?? []).length })}</p>
+                  </div>
+                ) : request.task === 'consistency' && status === 'stopped' ? (
+                  <p className={styles.message}>{t('ai:panel.checkStopped')}</p>
+                ) : request.task === 'consistency' && status === 'done' ? (
                   findings ? (
                     <Findings findings={findings} world={world} />
                   ) : (
@@ -183,8 +220,9 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
                     {text || <span className={styles.waiting}>{t('ai:panel.thinking')}</span>}
                     <span className={styles.caret} aria-hidden="true" />
                   </div>
-                ) : status === 'done' ? (
+                ) : status === 'done' || status === 'stopped' ? (
                   <>
+                    {status === 'stopped' && <p className={styles.stoppedMark}>{t('ai:panel.stoppedPartial')}</p>}
                     <div className={styles.viewSwitch} role="group" aria-label={t('encyclopedia:editor.viewMode')}>
                       <button type="button" aria-pressed={view === 'edit'} onClick={() => setView('edit')}><PenLine aria-hidden="true" />{t('ai:panel.edit')}</button>
                       <button type="button" aria-pressed={view === 'preview'} onClick={() => setView('preview')}><Eye aria-hidden="true" />{t('encyclopedia:editor.preview')}</button>
@@ -198,11 +236,22 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
                     <p className={styles.note}>{t('ai:panel.reviewNote')}</p>
                   </>
                 ) : null}
-                <p className="visually-hidden" role="status">{status === 'done' ? t('ai:panel.finished') : status === 'running' ? t('ai:panel.thinking') : ''}</p>
+                <p className="visually-hidden" role="status">
+                  {status === 'done' ? t('ai:panel.finished') : status === 'stopped' ? t('ai:panel.stoppedPartial') : status === 'running' ? t('ai:panel.thinking') : ''}
+                </p>
               </div>
 
+              {confirming && (
+                <div className={styles.confirm} role="alertdialog" aria-labelledby="ai-confirm">
+                  <p id="ai-confirm">{t('ai:panel.discardEdits')}</p>
+                  <div className={styles.actions}>
+                    <Button size="sm" onClick={() => setConfirming(null)} autoFocus>{t('ai:panel.keepEditing')}</Button>
+                    <Button size="sm" variant="danger" onClick={() => (confirming === 'close' ? close(true) : retry(true))}>{t('ai:panel.discardConfirm')}</Button>
+                  </div>
+                </div>
+              )}
               <footer className={styles.foot}>
-                {request.task === 'fillMissing' && status === 'done' && onAccept && (
+                {request.task === 'fillMissing' && (status === 'done' || status === 'stopped') && onAccept && !request.categoryLocked && (
                   <label className={styles.category}>
                     <span>{t('encyclopedia:page.category')}</span>
                     <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
@@ -212,10 +261,10 @@ export function AIPanel({ request, world, categories, onClose, onAccept, acceptL
                 )}
                 <div className={styles.actions}>
                   {status === 'running' && <Button icon={<Square aria-hidden="true" />} onClick={stop}>{t('ai:panel.stop')}</Button>}
-                  {(status === 'done' || status === 'error') && <Button icon={<RotateCcw aria-hidden="true" />} onClick={() => void start()}>{t('ai:panel.regenerate')}</Button>}
-                  <Button onClick={close}>{request.task === 'consistency' ? t('common:action.close') : t('ai:panel.discard')}</Button>
+                  {(status === 'done' || status === 'stopped' || status === 'error') && <Button icon={<RotateCcw aria-hidden="true" />} onClick={() => retry()}>{t('ai:panel.regenerate')}</Button>}
+                  <Button onClick={() => close()}>{request.task === 'consistency' ? t('common:action.close') : t('ai:panel.discard')}</Button>
                   {request.task !== 'consistency' && onAccept && (
-                    <Button variant="primary" disabled={status !== 'done' || !text.trim()} busy={saving}
+                    <Button variant="primary" disabled={(status !== 'done' && status !== 'stopped') || !text.trim()} busy={saving}
                       onClick={async () => {
                         setSaving(true)
                         try {

@@ -388,7 +388,7 @@
     "title": "Haritalar",
     "lede": "Kendi harita görsellerini yükle, üzerine yerler işaretle ve her işareti bir sayfaya bağla.",
     "emptyTitle": "Henüz harita yok",
-    "emptyBody": "Bir dünya haritası, bölge haritası ya da zindan planı yükle. PNG, JPG ya da WebP olur; görsel bu tarayıcıda kalır.",
+    "emptyBody": "Bir dünya haritası, bölge haritası ya da zindan planı yükle. PNG, JPG, WebP ya da GIF olur; görsel bu tarayıcıda kalır.",
     "addTitle": "Başka bir harita ekle",
     "dropHere": "Görseli buraya bırak",
     "chooseButton": "Görsel seç",
@@ -419,6 +419,12 @@
     "labelPlaceholder": "Bağlı sayfa yoksa gösterilir",
     "untitledMarker": "Adsız işaret",
     "deleteMarker": "Kaldır",
-    "onMaps": "Haritada"
+    "onMaps": "Haritada",
+    "placeAtCentre": "Haritanın ortasına koy",
+    "position": "Konum (piksel)",
+    "x": "X",
+    "y": "Y",
+    "removed": "“{{name}}” işareti kaldırıldı.",
+    "undo": "Geri al"
   }
 }

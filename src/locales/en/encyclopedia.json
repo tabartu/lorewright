@@ -388,7 +388,7 @@
     "title": "Maps",
     "lede": "Upload your own map images, pin places on them and link each pin to a page.",
     "emptyTitle": "No maps yet",
-    "emptyBody": "Upload a world map, a region or a dungeon plan. Any PNG, JPG or WebP works; it stays in this browser.",
+    "emptyBody": "Upload a world map, a region or a dungeon plan. Any PNG, JPG, WebP or GIF works; it stays in this browser.",
     "addTitle": "Add another map",
     "dropHere": "Drop an image here",
     "chooseButton": "Choose image",
@@ -419,6 +419,12 @@
     "labelPlaceholder": "Shown when no page is linked",
     "untitledMarker": "Untitled marker",
     "deleteMarker": "Remove",
-    "onMaps": "On the map"
+    "onMaps": "On the map",
+    "placeAtCentre": "Place at map centre",
+    "position": "Position (pixels)",
+    "x": "X",
+    "y": "Y",
+    "removed": "Removed marker “{{name}}”.",
+    "undo": "Undo"
   }
 }

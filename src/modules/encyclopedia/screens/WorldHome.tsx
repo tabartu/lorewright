@@ -158,6 +158,7 @@ export function WorldHome() {
                         title={t('ai:action.draftFor', { title: w.title })}
                       >
                         <Sparkles aria-hidden="true" />
+                        <span>{t('ai:action.draftShort')}</span>
                       </button>
                     </li>
                   ))}
