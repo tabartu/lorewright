@@ -4,6 +4,8 @@ import type { LorewrightModule } from '../types'
 /** The editor pulls in CodeMirror, so it loads on demand. */
 const timeline = { lazy: async () => ({ Component: (await import('./screens/Timeline')).Timeline }) }
 const graph = { lazy: async () => ({ Component: (await import('./screens/Graph')).Graph }) }
+const maps = { lazy: async () => ({ Component: (await import('./screens/Maps')).Maps }) }
+const mapView = { lazy: async () => ({ Component: (await import('./screens/MapView')).MapView }) }
 const editor = { lazy: async () => ({ Component: (await import('./screens/PageEditor')).PageEditor }) }
 import { CategoryIndex } from './screens/CategoryIndex'
 import { ChapterFields } from './screens/ChapterFields'
@@ -24,6 +26,8 @@ export const encyclopediaModule: LorewrightModule = {
     { path: 'new', ...editor },
     { path: 'timeline', ...timeline },
     { path: 'graph', ...graph },
+    { path: 'maps', ...maps },
+    { path: 'maps/:mapId', ...mapView },
     { path: 'chapters', element: <ChaptersManage /> },
     { path: 'chapters/:categoryId', element: <ChapterFields /> },
   ],

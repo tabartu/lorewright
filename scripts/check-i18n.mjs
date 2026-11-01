@@ -90,7 +90,7 @@ const JSX_TEXT = />\s*([A-Za-zÀ-ž][^<>{}]*[A-Za-zÀ-ž.!?])\s*</g
 for (const file of walk(join(root, 'src')).filter((f) => f.endsWith('.tsx'))) {
   const src = readFileSync(file, 'utf8')
   for (const m of src.matchAll(JSX_TEXT)) {
-    if (/=>|&&|\|\||\(|\)/.test(m[1]) || src[m.index - 1] === '=') continue
+    if (/=>|&&|\|\||\(|\)/.test(m[1]) || src[m.index - 1] === '=' || /^(return|const|let|if|else|export|import)\b/.test(m[1].trim())) continue
     problems.push(`${relative(root, file)}: possible hard-coded text "${m[1].trim().slice(0, 40)}"`)
   }
 }

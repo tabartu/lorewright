@@ -11,6 +11,7 @@ import { categoryName } from '../../../core/lore/categories'
 import { ButtonLink } from '../../../ui/Button'
 import { Backlinks } from '../components/Backlinks'
 import { Infobox } from '../components/Infobox'
+import { OnMaps } from '../components/OnMaps'
 import { MarkdownView } from '../components/MarkdownView'
 import { StatusMark } from '../components/StatusMark'
 import styles from './PageReader.module.css'
@@ -110,7 +111,10 @@ export function PageReader() {
             </p>
           </div>
 
-          <Infobox page={page} category={category} world={world} />
+          <div className={styles.aside}>
+            <Infobox page={page} category={category} world={world} />
+            <OnMaps worldId={world.id} keys={page.keys} />
+          </div>
         </div>
 
         {(folio.prev || folio.next) && (

@@ -5,7 +5,8 @@
   "nav": {
     "chapters": "Chapters",
     "manageChapters": "Edit chapters",
-    "graph": "Graph"
+    "graph": "Graph",
+    "maps": "Maps"
   },
   "category": {
     "character": {
@@ -382,5 +383,42 @@
     "fixErrors_one": "Fix {{count}} era before saving.",
     "fixErrors_other": "Fix {{count}} eras before saving.",
     "leaveBody": "Your changes to the calendar and eras will be lost."
+  },
+  "maps": {
+    "title": "Maps",
+    "lede": "Upload your own map images, pin places on them and link each pin to a page.",
+    "emptyTitle": "No maps yet",
+    "emptyBody": "Upload a world map, a region or a dungeon plan. Any PNG, JPG or WebP works; it stays in this browser.",
+    "addTitle": "Add another map",
+    "dropHere": "Drop an image here",
+    "chooseButton": "Choose image",
+    "hint": "PNG, JPG, WebP or GIF, up to 40 MB. Large maps stay sharp when you zoom in.",
+    "name": "Map name",
+    "namePlaceholder": "e.g. The Reach",
+    "upload": "Add map",
+    "chooseFile": "Choose an image first.",
+    "notImage": "That file isn't an image.",
+    "tooLarge": "That image is larger than {{mb}} MB.",
+    "readFailed": "The image couldn't be read. Try PNG or JPG.",
+    "addMarker": "Add marker",
+    "addingMarker": "Click the map…",
+    "addHint": "Click a spot on the map to place a marker. Press Esc to cancel.",
+    "showLabels": "Labels",
+    "delete": "Delete map",
+    "deleteConfirm": "Delete the map “{{name}}”?",
+    "deleteBody_one": "The image and its {{count}} marker will be removed. Pages stay.",
+    "deleteBody_other": "The image and its {{count}} markers will be removed. Pages stay.",
+    "canvasLabel_one": "Map {{name}} with {{count}} marker. The marker list beside it has the same information.",
+    "canvasLabel_other": "Map {{name}} with {{count}} markers. The marker list beside it has the same information.",
+    "markers_one": "{{count}} marker",
+    "markers_other": "{{count}} markers",
+    "noMarkers": "No markers yet. Choose “Add marker”, then click the map.",
+    "marker": "Marker",
+    "linkedPage": "Linked page",
+    "label": "Label (optional)",
+    "labelPlaceholder": "Shown when no page is linked",
+    "untitledMarker": "Untitled marker",
+    "deleteMarker": "Remove",
+    "onMaps": "On the map"
   }
 }

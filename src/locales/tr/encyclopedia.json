@@ -5,7 +5,8 @@
   "nav": {
     "chapters": "Bölümler",
     "manageChapters": "Bölümleri düzenle",
-    "graph": "Ağ"
+    "graph": "Ağ",
+    "maps": "Haritalar"
   },
   "category": {
     "character": {
@@ -382,5 +383,42 @@
     "fixErrors_one": "Kaydetmeden önce {{count}} çağı düzelt.",
     "fixErrors_other": "Kaydetmeden önce {{count}} çağı düzelt.",
     "leaveBody": "Takvim ve çağlarda yaptığın değişiklikler kaybolacak."
+  },
+  "maps": {
+    "title": "Haritalar",
+    "lede": "Kendi harita görsellerini yükle, üzerine yerler işaretle ve her işareti bir sayfaya bağla.",
+    "emptyTitle": "Henüz harita yok",
+    "emptyBody": "Bir dünya haritası, bölge haritası ya da zindan planı yükle. PNG, JPG ya da WebP olur; görsel bu tarayıcıda kalır.",
+    "addTitle": "Başka bir harita ekle",
+    "dropHere": "Görseli buraya bırak",
+    "chooseButton": "Görsel seç",
+    "hint": "PNG, JPG, WebP ya da GIF; en fazla 40 MB. Büyük haritalar yakınlaştırınca da net kalır.",
+    "name": "Harita adı",
+    "namePlaceholder": "ör. Kıyı Ülkesi",
+    "upload": "Haritayı ekle",
+    "chooseFile": "Önce bir görsel seç.",
+    "notImage": "Bu dosya bir görsel değil.",
+    "tooLarge": "Bu görsel {{mb}} MB'tan büyük.",
+    "readFailed": "Görsel okunamadı. PNG ya da JPG dene.",
+    "addMarker": "İşaret ekle",
+    "addingMarker": "Haritaya tıkla…",
+    "addHint": "İşaret koymak için haritada bir yere tıkla. Vazgeçmek için Esc'ye bas.",
+    "showLabels": "Etiketler",
+    "delete": "Haritayı sil",
+    "deleteConfirm": "“{{name}}” haritası silinsin mi?",
+    "deleteBody_one": "Görsel ve üzerindeki {{count}} işaret kaldırılacak. Sayfalar kalır.",
+    "deleteBody_other": "Görsel ve üzerindeki {{count}} işaret kaldırılacak. Sayfalar kalır.",
+    "canvasLabel_one": "{{count}} işaretli {{name}} haritası. Yandaki işaret listesi aynı bilgiyi içerir.",
+    "canvasLabel_other": "{{count}} işaretli {{name}} haritası. Yandaki işaret listesi aynı bilgiyi içerir.",
+    "markers_one": "{{count}} işaret",
+    "markers_other": "{{count}} işaret",
+    "noMarkers": "Henüz işaret yok. “İşaret ekle”yi seç, sonra haritaya tıkla.",
+    "marker": "İşaret",
+    "linkedPage": "Bağlı sayfa",
+    "label": "Etiket (isteğe bağlı)",
+    "labelPlaceholder": "Bağlı sayfa yoksa gösterilir",
+    "untitledMarker": "Adsız işaret",
+    "deleteMarker": "Kaldır",
+    "onMaps": "Haritada"
   }
 }

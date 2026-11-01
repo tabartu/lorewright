@@ -1,5 +1,5 @@
 import { Command } from 'cmdk'
-import { BookOpen, CalendarCog, CalendarRange, FilePlus2, Home, Library, Network, Settings, Settings2 } from 'lucide-react'
+import { BookOpen, CalendarCog, CalendarRange, FilePlus2, Home, Library, Map as MapIcon, Network, Settings, Settings2 } from 'lucide-react'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -41,6 +41,7 @@ export function CommandPalette({ open, onOpenChange, world, categories }: Comman
     { id: 'new', icon: <FilePlus2 aria-hidden="true" />, label: t('encyclopedia:page.new'), to: `${base}/new` },
     { id: 'home', icon: <Home aria-hidden="true" />, label: t('encyclopedia:search.worldHome'), to: base },
     { id: 'timeline', icon: <CalendarRange aria-hidden="true" />, label: t('encyclopedia:timeline.title'), to: `${base}/timeline` },
+    { id: 'maps', icon: <MapIcon aria-hidden="true" />, label: t('encyclopedia:maps.title'), to: `${base}/maps` },
     { id: 'graph', icon: <Network aria-hidden="true" />, label: t('encyclopedia:graph.title'), to: `${base}/graph` },
     { id: 'calendar', icon: <CalendarCog aria-hidden="true" />, label: t('encyclopedia:calendar.title'), to: `${base}/settings#calendar` },
     { id: 'chapters', icon: <BookOpen aria-hidden="true" />, label: t('encyclopedia:nav.manageChapters'), to: `${base}/chapters` },

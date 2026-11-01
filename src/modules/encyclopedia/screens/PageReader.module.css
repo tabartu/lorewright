@@ -87,7 +87,7 @@
     grid-template-columns: minmax(0, 1fr);
     gap: var(--s-5);
   }
-  .spread > aside {
+  .spread > .aside {
     order: -1;
   }
 }
@@ -165,4 +165,17 @@
 }
 .folioLink:hover .folioTitle {
   text-decoration: underline;
+}
+
+.aside {
+  display: grid;
+  gap: var(--s-4);
+  align-content: start;
+  position: sticky;
+  inset-block-start: calc(var(--masthead-h) + var(--s-5));
+}
+@media (max-width: 56rem) {
+  .aside {
+    position: static;
+  }
 }
