@@ -9,6 +9,7 @@ import { Button, ButtonLink } from '../../ui/Button'
 import layout from '../../ui/layout.module.css'
 import { Masthead } from '../shell/Masthead'
 import { useDocumentTitle } from '../shell/useDocumentTitle'
+import { Intro } from './Intro'
 import { RestoreBackup } from './RestoreBackup'
 import styles from './WorldsShelf.module.css'
 
@@ -48,33 +49,7 @@ export function WorldsShelf() {
         {worlds === undefined ? (
           <div aria-busy="true" className={styles.placeholder} />
         ) : worlds.length === 0 ? (
-          <section className={styles.empty} aria-labelledby="shelf-empty-title">
-            <div className={styles.emptyCopy}>
-              <h1 id="shelf-empty-title" className={styles.emptyTitle}>
-                {t('onboarding:shelf.emptyTitle')}
-              </h1>
-              <p className={styles.emptyLede}>{t('onboarding:shelf.emptyLede')}</p>
-              <ol className={styles.steps}>
-                <li>{t('onboarding:shelf.step1')}</li>
-                <li>{t('onboarding:shelf.step2')}</li>
-                <li>{t('onboarding:shelf.step3')}</li>
-              </ol>
-              <div className={layout.actions}>
-                <ButtonLink to="/worlds/new" variant="primary" icon={<BookPlus aria-hidden="true" />}>
-                  {t('onboarding:shelf.create')}
-                </ButtonLink>
-                {sampleButtons}
-                <RestoreBackup />
-              </div>
-              <p className={styles.emptyNote}>{t('onboarding:shelf.localNote')}</p>
-            </div>
-            <div className={styles.emptyShelf} aria-hidden="true">
-              <span className={styles.ghostCover} data-cover="lapis" />
-              <span className={styles.ghostCover} data-cover="oxblood" />
-              <span className={styles.ghostCover} data-cover="ochre" />
-              <span className={styles.ghostSlot} />
-            </div>
-          </section>
+          <Intro />
         ) : (
           <>
             <header className={layout.header}>
@@ -83,6 +58,9 @@ export function WorldsShelf() {
                 <p className={layout.lede}>{t('onboarding:shelf.lede', { count: worlds.length })}</p>
               </div>
               <div className={layout.actions}>
+                <ButtonLink to="/about" variant="quiet">
+                  {t('onboarding:intro.aboutLink')}
+                </ButtonLink>
                 <ButtonLink to="/worlds/new" variant="primary" icon={<BookPlus aria-hidden="true" />}>
                   {t('onboarding:shelf.create')}
                 </ButtonLink>

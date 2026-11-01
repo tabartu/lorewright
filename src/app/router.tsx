@@ -2,6 +2,7 @@ import { createHashRouter, type RouteObject } from 'react-router'
 import { MODULES } from '../modules/registry'
 import { AppFrame } from './shell/AppFrame'
 import { WorldLayout } from './shell/WorldLayout'
+import { About } from './screens/About'
 import { AppSettings } from './screens/AppSettings'
 import { NotFound } from './screens/NotFound'
 import { WorldCreate } from './screens/WorldCreate'
@@ -24,6 +25,7 @@ export const router = createHashRouter([
       { index: true, element: <WorldsShelf /> },
       { path: 'worlds/new', element: <WorldCreate /> },
       { path: 'settings', element: <AppSettings /> },
+      { path: 'about', element: <About /> },
       {
         path: 'w/:worldId',
         element: <WorldLayout />,

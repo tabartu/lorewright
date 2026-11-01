@@ -26,5 +26,105 @@
     "step3Body": "Click a red link to create that page. Your world fills in where it's thinnest.",
     "firstCharacter": "Write the first character",
     "firstLocation": "Write the first place"
+  },
+  "intro": {
+    "aboutLink": "About Worldledger",
+    "title": "Your game's world, bound in one book",
+    "lede": "Worldledger is a lore wiki for game developers. Write characters, places, factions and events as linked entries, see them on a timeline, a map and a graph, and let an AI that has read your world help you keep it consistent.",
+    "openSample": "Open a sample world",
+    "specimenLabel": "Example: {{what}}",
+    "fromSample": "From the sample world.",
+    "spines": {
+      "0": "The Drowned Crown",
+      "1": "Neon Requiem",
+      "2": "Hollowmere",
+      "3": "Kesh",
+      "4": "Ashfall"
+    },
+    "pages": {
+      "title": "Linked pages",
+      "short": "Markdown entries that link with [[ ]]",
+      "body": "Write each entry in Markdown and link it with [[Page name]]. Links to pages you haven't written yet show as dashed red invitations; click one to write it. Rename a page and every link follows."
+    },
+    "facts": {
+      "title": "Stat blocks",
+      "short": "Born, faction, home: facts you can scan",
+      "body": "Every chapter has its own fields: birth and death for characters, leader and headquarters for factions, your own fields for anything else. Links in a stat block count like any other link."
+    },
+    "search": {
+      "title": "Search everything",
+      "short": "Ctrl/⌘ K, in any language",
+      "body": "Press Ctrl/⌘+K to find any page by title, alias or text. Accents and Turkish dotted and dotless i don't get in the way."
+    },
+    "timeline": {
+      "title": "Timeline",
+      "short": "Your calendar, your eras",
+      "body": "Give events a date in your world's own calendar and they line up by era. Births, deaths and foundings from stat blocks can join them."
+    },
+    "map": {
+      "title": "Maps",
+      "short": "Pin pages to your own map",
+      "body": "Upload your map, zoom in, and pin places to their pages. Pages that don't exist yet show as hollow pins, ready to be written."
+    },
+    "graph": {
+      "title": "Relationship graph",
+      "short": "Who is connected to whom",
+      "body": "See every link as a network, coloured and shaped by chapter. Filter it, click a page to see its neighbours, or read the same connections as a list."
+    },
+    "ai": {
+      "title": "AI that knows your world",
+      "short": "Expand, draft, check, with any provider",
+      "body": "Expand a page, draft a missing one, or check a page and its neighbours for contradictions. Use Claude, GPT, Gemini, OpenRouter or a free local model. Only the relevant pages are sent, it writes in your world's language, and nothing is saved until you accept it."
+    },
+    "export": {
+      "title": "Backup and export",
+      "short": "JSON, Markdown, HTML",
+      "body": "Download a full backup, a Markdown folder for Obsidian, or one readable HTML page to share or print. Restore a backup on any device."
+    },
+    "promisesTitle": "Our promises",
+    "promise": {
+      "local": {
+        "title": "Your data stays here",
+        "body": "Everything is saved in this browser. No server ever sees your lore."
+      },
+      "account": {
+        "title": "No account",
+        "body": "Open the page and start writing. Nothing to sign up for."
+      },
+      "ai": {
+        "title": "Any AI, or none",
+        "body": "Bring your own provider and key, run a local model, or skip AI entirely."
+      },
+      "engine": {
+        "title": "Any engine, any genre",
+        "body": "Worldledger doesn't care whether you ship in Unity, Godot, Unreal or your own engine."
+      }
+    },
+    "closeTitle": "Start your first volume",
+    "demo": {
+      "world": "The Drowned Crown",
+      "hero": "Queen Maelis Varn",
+      "pagePre": "The last crowned ruler of the Reach, she rules from",
+      "linkLive": "Varnhold",
+      "pageMid": "and has not forgotten her brother,",
+      "linkMissing": "Prince Edric Varn",
+      "pageEnd": ".",
+      "born": "289 AF",
+      "faction": "House Varn",
+      "query": "saltsp",
+      "hit1": "Saltspire",
+      "hit2": "Siege of Saltspire",
+      "era1": "Age of Water",
+      "era1Range": "212 – 308 AF",
+      "ev1Year": "212 AF",
+      "ev1": "The Great Flood",
+      "gap": "97 years later",
+      "era2": "Age of Ash",
+      "era2Range": "309 AF – present",
+      "ev2Year": "309 AF",
+      "ev2": "Siege of Saltspire",
+      "finding": "Prince Edric dies twice",
+      "findingText": "Siege of Saltspire says he fell in 309 AF; Aldric Thorne carries him home in 310 AF."
+    }
   }
 }

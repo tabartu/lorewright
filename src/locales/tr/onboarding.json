@@ -26,5 +26,105 @@
     "step3Body": "O sayfayı oluşturmak için kırmızı bağlantıya tıkla. Dünyan en zayıf olduğu yerden dolar.",
     "firstCharacter": "İlk karakteri yaz",
     "firstLocation": "İlk mekânı yaz"
+  },
+  "intro": {
+    "aboutLink": "Worldledger hakkında",
+    "title": "Oyununun dünyası, tek bir ciltte",
+    "lede": "Worldledger, oyun geliştiricileri için bir lore wikisi. Karakterleri, mekânları, fraksiyonları ve olayları birbirine bağlı maddeler olarak yaz; onları zaman çizelgesinde, haritada ve ilişki ağında gör; dünyanı okumuş bir yapay zekâdan tutarlılığı korumak için yardım al.",
+    "openSample": "Örnek dünyayı aç",
+    "specimenLabel": "Örnek: {{what}}",
+    "fromSample": "Örnek dünyadan.",
+    "spines": {
+      "0": "Kül Denizi",
+      "1": "Neon Ağıt",
+      "2": "Sisli Göl",
+      "3": "Keş",
+      "4": "Kül Yağmuru"
+    },
+    "pages": {
+      "title": "Bağlı sayfalar",
+      "short": "[[ ]] ile bağlanan Markdown maddeleri",
+      "body": "Her maddeyi Markdown ile yaz, [[Sayfa adı]] ile bağla. Henüz yazmadığın sayfalara giden bağlantılar kesik çizgili kırmızı davetler olarak görünür; tıklayınca o sayfayı yazarsın. Bir sayfanın adını değiştirirsen tüm bağlantılar onu izler."
+    },
+    "facts": {
+      "title": "Bilgi kutuları",
+      "short": "Doğum, fraksiyon, yurt: göz atılabilir bilgiler",
+      "body": "Her bölümün kendi alanları var: karakterler için doğum ve ölüm, fraksiyonlar için lider ve merkez, geri kalan her şey için kendi alanların. Bilgi kutusundaki bağlantılar da diğerleri gibi sayılır."
+    },
+    "search": {
+      "title": "Her şeyde ara",
+      "short": "Ctrl/⌘ K, her dilde",
+      "body": "Ctrl/⌘+K ile herhangi bir sayfayı başlığından, takma adından ya da metninden bul. Aksanlar ve Türkçe noktalı/noktasız i engel olmaz."
+    },
+    "timeline": {
+      "title": "Zaman çizelgesi",
+      "short": "Senin takvimin, senin çağların",
+      "body": "Olaylara dünyanın kendi takviminde tarih ver, çağlara göre sıralansınlar. Bilgi kutularındaki doğum, ölüm ve kuruluş tarihleri de onlara katılabilir."
+    },
+    "map": {
+      "title": "Haritalar",
+      "short": "Sayfaları kendi haritana iğnele",
+      "body": "Haritanı yükle, yakınlaştır ve yerleri sayfalarına iğnele. Henüz olmayan sayfalar, yazılmayı bekleyen boş iğneler olarak görünür."
+    },
+    "graph": {
+      "title": "İlişki ağı",
+      "short": "Kim kime bağlı",
+      "body": "Tüm bağlantıları bölüme göre renklendirilmiş ve şekillendirilmiş bir ağ olarak gör. Süz, bir sayfaya tıklayıp komşularını gör ya da aynı bağlantıları liste olarak oku."
+    },
+    "ai": {
+      "title": "Dünyanı bilen yapay zekâ",
+      "short": "Genişlet, taslak yaz, kontrol et; istediğin sağlayıcıyla",
+      "body": "Bir sayfayı genişlet, eksik bir sayfanın taslağını yaz ya da bir sayfayı ve komşularını çelişkilere karşı kontrol et. Claude, GPT, Gemini, OpenRouter ya da ücretsiz yerel bir model kullan. Yalnızca ilgili sayfalar gönderilir, dünyanın dilinde yazar ve sen onaylamadan hiçbir şey kaydedilmez."
+    },
+    "export": {
+      "title": "Yedekleme ve dışa aktarma",
+      "short": "JSON, Markdown, HTML",
+      "body": "Tam bir yedek, Obsidian için bir Markdown klasörü ya da paylaşmak veya yazdırmak için okunabilir tek bir HTML sayfası indir. Yedeği herhangi bir cihazda geri yükle."
+    },
+    "promisesTitle": "Sözlerimiz",
+    "promise": {
+      "local": {
+        "title": "Verilerin burada kalır",
+        "body": "Her şey bu tarayıcıda saklanır. Lore'unu hiçbir sunucu görmez."
+      },
+      "account": {
+        "title": "Hesap yok",
+        "body": "Sayfayı aç ve yazmaya başla. Üye olacak bir şey yok."
+      },
+      "ai": {
+        "title": "İstediğin yapay zekâ, ya da hiçbiri",
+        "body": "Kendi sağlayıcını ve anahtarını getir, yerel bir model çalıştır ya da yapay zekâyı hiç kullanma."
+      },
+      "engine": {
+        "title": "Her motor, her tür",
+        "body": "Unity, Godot, Unreal ya da kendi motorun; Worldledger için fark etmez."
+      }
+    },
+    "closeTitle": "İlk cildine başla",
+    "demo": {
+      "world": "Kül Denizi",
+      "hero": "İskender Han",
+      "pagePre": "Kül denizinin en tanınmış kaptanı;",
+      "linkLive": "Işıklı Liman",
+      "pageMid": "limanından yola çıkar ve hâlâ",
+      "linkMissing": "Kül Rahipleri",
+      "pageEnd": " ile olan borcunu öder.",
+      "born": "92 YS",
+      "faction": "Gölge Loncası",
+      "query": "isikli",
+      "hit1": "Işıklı Liman",
+      "hit2": "İskender Han",
+      "era1": "Eski Deniz Çağı",
+      "era1Range": "400 YÖ – 1 YÖ",
+      "ev1Year": "1 YÖ",
+      "ev1": "Son su seferi",
+      "gap": "1 yıl sonra",
+      "era2": "Kül Çağı",
+      "era2Range": "0 YS – günümüz",
+      "ev2Year": "0 YS",
+      "ev2": "Büyük Yangın",
+      "finding": "İskender iki kez doğuyor",
+      "findingText": "İskender Han sayfası 92 YS diyor; Gölge Loncası kayıtları onu 80 YS'de kaptan olarak anıyor."
+    }
   }
 }
